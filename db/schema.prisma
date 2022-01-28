@@ -20,6 +20,7 @@ model User {
   email          String   @unique
   hashedPassword String?
   role           String   @default("USER")
+  googleId       String?  @unique
 
   tokens   Token[]
   sessions Session[]

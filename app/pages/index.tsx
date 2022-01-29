@@ -56,7 +56,7 @@ const UserInfo = () => {
 
 const Home: BlitzPage = () => {
   return (
-    <div className="container font-content">
+    <div className="container font-sans">
       <main>
         <div className="logo">
           <Image src={logo} alt="blitzjs" />
@@ -70,7 +70,7 @@ const Home: BlitzPage = () => {
             <UserInfo />
           </Suspense>
         </div>
-        <p className="font-content text-regular font-bold">
+        <p className="font-sans text-regular font-bold">
           ยินดีต้อนรับ ! To add a new model to your แอพ, <br />
           run the following in your terminal:
         </p>

@@ -32,8 +32,8 @@ module.exports = {
       yellow: "FFC700",
     },
     fontFamily: {
-      title: ["Cantata One", "serif"],
-      content: ["DM Sans", "IBM Plex Sans Thai", "sans-serif"],
+      serif: ["Cantata One", "serif"],
+      sans: ["DM Sans", "IBM Plex Sans Thai", "sans-serif"],
     },
     fontSize: {
       tiny: ".75rem",

@@ -4,25 +4,25 @@
 
 @layer base {
   p {
-    @apply font-content text-regular leading-normal font-regular;
+    @apply font-sans text-regular leading-normal font-regular;
   }
 
   button,
   a {
-    @apply font-content text-regular leading-none font-medium;
+    @apply font-sans text-regular leading-none font-medium;
   }
 }
 
 @layer components {
   .title1 {
-    @apply font-title text-title1 leading-14;
+    @apply font-serif text-title1 leading-14;
   }
 
   .title2 {
-    @apply font-title text-title2 leading-9;
+    @apply font-serif text-title2 leading-9;
   }
 
   .title3 {
-    @apply font-title text-title3 leading-8;
+    @apply font-serif text-title3 leading-8;
   }
 }

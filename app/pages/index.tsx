@@ -4,6 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
+import { FiShoppingBag } from "react-icons/fi"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -61,6 +62,9 @@ const Home: BlitzPage = () => {
           <Image src={logo} alt="blitzjs" />
         </div>
         <h1 className="title3">Congrats! Your app is ready, including user sign-up and log-in.</h1>
+
+        <FiShoppingBag className="text-error text-title1" />
+
         <div className="buttons" style={{ marginTop: "1rem", marginBottom: "1rem" }}>
           <Suspense fallback="Loading...">
             <UserInfo />

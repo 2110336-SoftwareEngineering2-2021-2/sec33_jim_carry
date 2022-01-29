@@ -29,7 +29,7 @@ module.exports = {
       },
       success: "#23C180",
       error: "#E94F3A",
-      yellow: "FFC700",
+      yellow: "#FFC700",
     },
     fontFamily: {
       serif: ["Cantata One", "serif"],

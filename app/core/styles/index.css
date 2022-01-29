@@ -2,18 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .hero {
-    @apply w-full text-[#333];
+@layer base {
+  p {
+    @apply font-content text-regular leading-normal font-regular;
+  }
+
+  button,
+  a {
+    @apply font-content text-regular leading-none font-medium;
   }
 }
 
-.title {
-  @apply m-0 w-full pt-20;
-  font-size: 48px;
-}
+@layer components {
+  .title1 {
+    @apply font-title text-title1 leading-14;
+  }
 
-.title,
-.description {
-  @apply text-center;
+  .title2 {
+    @apply font-title text-title2 leading-9;
+  }
+
+  .title3 {
+    @apply font-title text-title3 leading-8;
+  }
 }

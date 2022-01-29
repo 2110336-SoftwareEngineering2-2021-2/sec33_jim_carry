@@ -55,29 +55,27 @@ const UserInfo = () => {
 
 const Home: BlitzPage = () => {
   return (
-    <div className="container">
+    <div className="container font-content">
       <main>
         <div className="logo">
           <Image src={logo} alt="blitzjs" />
         </div>
-        <p>
-          <strong>Congrats!</strong> Your app is ready, including user sign-up and log-in.
-        </p>
+        <h1 className="title3">Congrats! Your app is ready, including user sign-up and log-in.</h1>
         <div className="buttons" style={{ marginTop: "1rem", marginBottom: "1rem" }}>
           <Suspense fallback="Loading...">
             <UserInfo />
           </Suspense>
         </div>
-        <p>
-          <strong>
-            To add a new model to your app, <br />
-            run the following in your terminal:
-          </strong>
+        <p className="font-content text-regular font-bold">
+          ยินดีต้อนรับ ! To add a new model to your แอพ, <br />
+          run the following in your terminal:
         </p>
         <pre>
           <code>blitz generate all project name:string</code>
         </pre>
-        <div style={{ marginBottom: "1rem" }}>(And select Yes to run prisma migrate)</div>
+        <div style={{ marginBottom: "1rem" }}>
+          (แล้วก็ select Yes to run prisma migrate ได้เลยจ้า)
+        </div>
         <div>
           <p>
             Then <strong>restart the server</strong>
@@ -136,14 +134,6 @@ const Home: BlitzPage = () => {
       <style jsx global>{`
         @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;700&display=swap");
 
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: "Libre Franklin", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-            Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-        }
-
         * {
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
@@ -164,10 +154,6 @@ const Home: BlitzPage = () => {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-        }
-
-        main p {
-          font-size: 1.2rem;
         }
 
         p {
@@ -209,7 +195,6 @@ const Home: BlitzPage = () => {
           grid-gap: 0.5rem;
         }
         .button {
-          font-size: 1rem;
           background-color: #6700eb;
           padding: 1rem 2rem;
           color: #f4f4f4;

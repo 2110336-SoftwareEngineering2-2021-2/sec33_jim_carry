@@ -1,3 +1,4 @@
+import { SecondaryPageLayout } from "app/core/layouts/SecondaryPageLayout"
 import { useRouter, BlitzPage } from "blitz"
 
 import Image from "next/image"
@@ -8,7 +9,7 @@ const LoginPage: BlitzPage = () => {
   const loginUrl = `/api/auth/google?redirectUrl=${encodeURIComponent(next)}`
 
   return (
-    <div className="max-w-[428px] m-auto p-6 pt-16">
+    <div className="p-6 pt-16">
       <Image src="/images/logo_vertical.svg" width={106} height={96} alt="MayDay" />
       <div className="py-3 gap-2">
         <h3 className="title3">Welcome to MayDay</h3>
@@ -19,10 +20,13 @@ const LoginPage: BlitzPage = () => {
       <div className="py-3">
         <a
           className="
-        h-12 px-[52px] rounded-lg border border-sky-light
-        flex items-center justify-center relative
-        font-sans text-regular leading-none font-medium text-ink-darkest
-        "
+            h-12 px-[52px] rounded-lg ring-1 ring-inset ring-sky-light
+            flex items-center justify-center relative
+            font-sans text-regular leading-none font-medium text-ink-darkest
+            transition
+            hover:ring-sky-base
+            active:scale-95
+          "
           href={loginUrl}
         >
           <span className="h-5 absolute left-4">
@@ -36,5 +40,6 @@ const LoginPage: BlitzPage = () => {
 }
 
 LoginPage.redirectAuthenticatedTo = "/"
+LoginPage.getLayout = (page) => <SecondaryPageLayout>{page}</SecondaryPageLayout>
 
 export default LoginPage

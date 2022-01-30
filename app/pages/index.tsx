@@ -1,10 +1,11 @@
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 import { Image, Link, BlitzPage, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
 import { FiShoppingBag } from "react-icons/fi"
+import { SegmentedControl, SegmentedControlItem } from "app/core/components/SegmentedControl"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -54,10 +55,23 @@ const UserInfo = () => {
   }
 }
 
+export function SegmentedControlDemo() {
+  const [value, setValue] = useState(1)
+  return (
+    <SegmentedControl value={value} onChange={(newValue) => setValue(newValue)}>
+      <SegmentedControlItem value={1}>Segment 1</SegmentedControlItem>
+      <SegmentedControlItem value={2}>Segment 2</SegmentedControlItem>
+      <SegmentedControlItem value={3}>Segment 3</SegmentedControlItem>
+      <SegmentedControlItem value={4}>Segment 4</SegmentedControlItem>
+    </SegmentedControl>
+  )
+}
+
 const Home: BlitzPage = () => {
   return (
     <div className="container font-sans">
       <main>
+        <SegmentedControlDemo />
         <div className="logo">
           <Image src={logo} alt="blitzjs" />
         </div>

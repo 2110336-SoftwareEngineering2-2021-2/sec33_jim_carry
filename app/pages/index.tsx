@@ -6,6 +6,7 @@ import logout from "app/auth/mutations/logout"
 import logo from "public/logo.png"
 import { FiShoppingBag } from "react-icons/fi"
 import { SegmentedControl, SegmentedControlItem } from "app/core/components/SegmentedControl"
+import { Button } from "app/core/components/Button"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -55,7 +56,7 @@ const UserInfo = () => {
   }
 }
 
-export function SegmentedControlDemo() {
+function SegmentedControlDemo() {
   const [value, setValue] = useState(1)
   return (
     <SegmentedControl value={value} onChange={(newValue) => setValue(newValue)}>
@@ -67,11 +68,37 @@ export function SegmentedControlDemo() {
   )
 }
 
+function ButtonsDemo() {
+  return (
+    <div className="m-3 flex flex-col gap-3">
+      <div className="flex gap-3">
+        <Button>Primary</Button>
+        <Button buttonType="secondary">Secondary</Button>
+        <Button buttonType="outline">Outline</Button>
+        <Button buttonType="transparent">Transparent</Button>
+      </div>
+      <div className="flex gap-3">
+        <Button disabled>Primary</Button>
+        <Button buttonType="secondary" disabled>
+          Secondary
+        </Button>
+        <Button buttonType="outline" disabled>
+          Outline
+        </Button>
+        <Button buttonType="transparent" disabled>
+          Transparent
+        </Button>
+      </div>
+    </div>
+  )
+}
+
 const Home: BlitzPage = () => {
   return (
     <div className="container font-sans">
       <main>
         <SegmentedControlDemo />
+        <ButtonsDemo />
         <div className="logo">
           <Image src={logo} alt="blitzjs" />
         </div>

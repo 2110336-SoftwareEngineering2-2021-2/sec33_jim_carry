@@ -1,3 +1,4 @@
+import { SecondaryPageLayout } from "app/core/layouts/SecondaryPageLayout"
 import { useParam } from "blitz"
 import { FiHeart } from "react-icons/fi"
 import Description from "./components/Description"
@@ -26,4 +27,7 @@ const ProductDetail = () => {
     </div>
   )
 }
+
+ProductDetail.getLayout = (page) => <SecondaryPageLayout>{page}</SecondaryPageLayout>
+
 export default ProductDetail

@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  db:
+    restart: unless-stopped
+    image: postgres:14.1
+    environment:
+      - POSTGRES_USER=mayday
+      - POSTGRES_PASSWORD=mayday
+      - POSTGRES_DB=mayday
+    volumes:
+      - mayday-db:/var/lib/postgresql/data
+    ports:
+      - "7064:5432"
+
+volumes:
+  mayday-db:
+    name: mayday-db

@@ -1,3 +1,4 @@
+import { Button } from "app/core/components/Button"
 import { FiHeart } from "react-icons/fi"
 
 const ProductTitle = (props) => {
@@ -8,7 +9,9 @@ const ProductTitle = (props) => {
         <p className="text-large leading-normal font-medium text-primary-dark">
           {"฿" + props.price}
         </p>
-        <FiHeart className="mx-3 my-3 stroke-primary-base" />
+        <Button buttonType="transparent" size="small" iconOnly>
+          <FiHeart />
+        </Button>
       </div>
     </div>
   )

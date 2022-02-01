@@ -1,15 +1,28 @@
 import { SecondaryPageLayout } from "app/core/layouts/SecondaryPageLayout"
 import { useParam } from "blitz"
-import { FiHeart } from "react-icons/fi"
-import Description from "./components/Description"
-import ProductTitle from "./components/ProductTitle"
-import Seller from "./components/Seller"
+import { Description } from "./components/Description"
+import { ProductTitle } from "./components/ProductTitle"
+import { Seller } from "./components/Seller"
+
+interface Seller {
+  name: string
+  rating: number
+  amount: number
+}
+
+interface Product {
+  seller: Seller
+  name: string
+  price: number
+  tags: string[]
+  description: string
+}
 
 const ProductDetail = () => {
   const pid = useParam("pid")
-  const product = {
+  const product: Product = {
     name: "(ของแท้ 100%) Adidas รองเท้า สีฟ้า Size 38",
-    price: "1500",
+    price: 1500,
     seller: { name: "nogntent_shopping", rating: 4.8, amount: 2543 },
     tags: ["Adidas", "Shoes"],
     description:
@@ -21,7 +34,11 @@ const ProductDetail = () => {
       <div style={{ height: 249, backgroundColor: "grey" }}></div>
       <div className="flex flex-col divide-y divide-sky-lighter">
         <ProductTitle name={product.name} price={product.price} />
-        <Seller seller={product.seller} />
+        <Seller
+          name={product.seller.name}
+          rating={product.seller.rating}
+          amount={product.seller.amount}
+        />
         <Description tags={product.tags} description={product.description} />
       </div>
     </div>

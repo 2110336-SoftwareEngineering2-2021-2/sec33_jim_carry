@@ -1,7 +1,12 @@
-import Star from "./Star"
+import { Star } from "./Star"
 
-const Seller = (props) => {
-  const seller = props.seller
+export interface SellerProps {
+  name: string
+  rating: number
+  amount: number
+}
+
+export function Seller({ name, rating, amount }: SellerProps) {
   const shorten_amount = (amount: number): string => {
     if (amount < 1000) {
       return `${amount}`
@@ -19,15 +24,12 @@ const Seller = (props) => {
         style={{ backgroundColor: "grey", width: "44px", height: "44px", borderRadius: "50%" }}
       ></div>
       <div className="flex flex-col">
-        <p className="text-ink-light">{seller.name}</p>
+        <p className="text-ink-light">{name}</p>
         <div className="flex flex-row items-center space-x-1">
-          <Star rating={seller.rating} />
-          <p className="text-tiny text-ink-light">{`${seller.rating} · ${shorten_amount(
-            seller.amount
-          )} sold`}</p>
+          <Star rating={rating} />
+          <p className="text-tiny text-ink-light">{`${rating} · ${shorten_amount(amount)} sold`}</p>
         </div>
       </div>
     </div>
   )
 }
-export default Seller

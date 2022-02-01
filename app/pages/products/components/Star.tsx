@@ -1,10 +1,14 @@
 import { FiStar } from "react-icons/fi"
 
-const Star = (props) => {
+export interface StarProps {
+  rating: number
+}
+
+export function Star({ rating }: StarProps) {
   let stars: boolean[] = [true, true, true, true, true]
   const update = () => {
     for (let i = 0; i < 5; i++) {
-      stars[i] = i + 1 <= props.rating
+      stars[i] = i + 1 <= rating
     }
   }
   update()
@@ -13,5 +17,3 @@ const Star = (props) => {
   ))
   return <div className="flex flex-row">{starsElement}</div>
 }
-
-export default Star

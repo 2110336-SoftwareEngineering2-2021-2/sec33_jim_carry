@@ -1,8 +1,8 @@
 import { SecondaryPageLayout } from "app/core/layouts/SecondaryPageLayout"
 import { useParam } from "blitz"
-import { Description } from "./components/Description"
-import { ProductTitle } from "./components/ProductTitle"
-import { Seller } from "./components/Seller"
+import { Description } from "app/product/components/Description"
+import { ProductTitle } from "app/product/components/ProductTitle"
+import { Seller } from "app/product/components/Seller"
 
 interface Seller {
   name: string

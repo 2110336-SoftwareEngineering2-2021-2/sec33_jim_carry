@@ -1,6 +1,7 @@
 import { passportAuth } from "blitz"
 import { Strategy as GoogleStrategy } from "passport-google-oauth20"
 import db from "db"
+import { appOrigin, googleClientId, googleClientSecret } from "app/core/environment"
 
 export default passportAuth({
   successRedirectUrl: "/",
@@ -12,9 +13,9 @@ export default passportAuth({
       },
       strategy: new GoogleStrategy(
         {
-          clientID: process.env.GOOGLE_CLIENT_ID as string,
-          clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-          callbackURL: "http://localhost:3000/api/auth/google/callback",
+          clientID: googleClientId,
+          clientSecret: googleClientSecret,
+          callbackURL: `${appOrigin}/api/auth/google/callback`,
         },
         async function (accessToken, refreshToken, profile, cb) {
           if (!profile.emails || !profile.emails[0]) {

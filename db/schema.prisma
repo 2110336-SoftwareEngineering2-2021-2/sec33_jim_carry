@@ -13,17 +13,94 @@ generator client {
 // --------------------------------------
 
 model User {
-  id             Int      @id @default(autoincrement())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id             Int       @id @default(autoincrement())
   name           String?
-  email          String   @unique
+  email          String    @unique
   hashedPassword String?
-  role           String   @default("USER")
-  googleId       String?  @unique
+  googleId       String?   @unique
+  bio            String?
+  birthday       DateTime?
+  gender         Gender    @default(NOT_SPECIFIED)
+  phone          String?
+  profileImage   String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  role           Role      @default(USER)
 
-  tokens   Token[]
-  sessions Session[]
+  seller       Seller?
+  addresses    Address[]
+  wishlist     Product[] @relation(name: "wishlist")
+  shoppingCart Product[] @relation(name: "shoppingCart")
+  following    Seller[]  @relation(name: "follow")
+  tokens       Token[]
+  sessions     Session[]
+}
+
+model Seller {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+
+  shopName  String
+  rating    Float?
+  totalSale Int
+
+  products  Product[]
+  followers User[]    @relation(name: "follow")
+}
+
+model Address {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  name         String
+  receiverName String
+  address      String
+  phoneNo      String
+  note         String?
+}
+
+model Product {
+  id       Int    @id @default(autoincrement())
+  seller   Seller @relation(fields: [sellerId], references: [id])
+  sellerId Int
+
+  name        String
+  description String?
+  price       Decimal
+  soldPrice   Decimal?
+  stock       Int
+  hidden      Boolean
+
+  categories   Category[]
+  hashtags     Hashtag[]
+  wishlistedBy User[]     @relation(name: "wishlist")
+  selectedBy   User[]     @relation(name: "shoppingCart")
+}
+
+model CategoryGroup {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  categories Category[]
+}
+
+model Category {
+  id      Int           @id @default(autoincrement())
+  group   CategoryGroup @relation(fields: [groupId], references: [id])
+  groupId Int
+
+  name String
+
+  products Product[]
+}
+
+model Hashtag {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  products Product[]
 }
 
 model Session {
@@ -58,4 +135,16 @@ model Token {
 
 enum TokenType {
   RESET_PASSWORD
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  NOT_SPECIFIED
+}
+
+enum Role {
+  USER
+  ADMIN
 }

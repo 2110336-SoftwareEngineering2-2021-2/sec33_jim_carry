@@ -1,4 +1,5 @@
 import { polymorphic } from "app/core/utils/polymorphic"
+import { variant } from "app/core/utils/variant"
 import { ReactNode } from "react"
 
 export type ButtonType = "primary" | "secondary" | "outline" | "transparent"
@@ -94,8 +95,4 @@ export const Button = polymorphic<ButtonProps, "button">("button", function Butt
 function wrapIcon(icon: ReactNode | undefined, size: ButtonSize): ReactNode | undefined {
   if (!icon) return undefined
   return <span className={size === "large" ? `text-[24px]` : `text-[16px]`}>{icon}</span>
-}
-
-function variant(condition: boolean, classNames: string): string {
-  return condition ? classNames : ""
 }

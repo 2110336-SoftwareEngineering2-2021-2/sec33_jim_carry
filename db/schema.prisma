@@ -13,34 +13,32 @@ generator client {
 // --------------------------------------
 
 model User {
-  id             Int       @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   name           String?
-  email          String    @unique
+  email          String   @unique
   hashedPassword String?
-  googleId       String?   @unique
-  bio            String?
-  birthday       DateTime?
-  gender         Gender    @default(NOT_SPECIFIED)
-  phone          String?
+  googleId       String?  @unique
   profileImage   String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  role           Role      @default(USER)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  role           Role     @default(USER)
 
-  seller       Seller?
+  shop         Shop?
   addresses    Address[]
   wishlist     Product[] @relation(name: "wishlist")
   shoppingCart Product[] @relation(name: "shoppingCart")
-  following    Seller[]  @relation(name: "follow")
+  following    Shop[]    @relation(name: "follow")
   tokens       Token[]
   sessions     Session[]
 }
 
-model Seller {
+model Shop {
   id     Int  @id @default(autoincrement())
   user   User @relation(fields: [userId], references: [id])
   userId Int  @unique
 
+  bio       String?
+  phoneNo   String?
   shopName  String
   rating    Float?
   totalSale Int
@@ -62,9 +60,9 @@ model Address {
 }
 
 model Product {
-  id       Int    @id @default(autoincrement())
-  seller   Seller @relation(fields: [sellerId], references: [id])
-  sellerId Int
+  id     Int  @id @default(autoincrement())
+  shop   Shop @relation(fields: [shopId], references: [id])
+  shopId Int
 
   name        String
   description String?
@@ -135,13 +133,6 @@ model Token {
 
 enum TokenType {
   RESET_PASSWORD
-}
-
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
-  NOT_SPECIFIED
 }
 
 enum Role {

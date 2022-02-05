@@ -39,7 +39,8 @@ model Shop {
 
   bio       String?
   phoneNo   String?
-  shopName  String
+  name      String
+  image     String?
   rating    Float?
   totalSale Int
 

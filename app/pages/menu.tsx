@@ -10,12 +10,18 @@ interface MenuProps {
 }
 
 const Menu: BlitzPage<MenuProps> = ({ user }) => {
-  const { name, email } = user!
+  const { name, email, profileImage } = user!
   const [logoutMutation] = useMutation(logout)
   return (
     <div className="py-6 flex flex-col gap-[10px]">
       <div className="h-16 px-6 flex items-center gap-4">
-        <span className="w-16 h-16 rounded-full bg-sky-base" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className="w-16 h-16 rounded-full bg-sky-base"
+          src={profileImage ?? ""}
+          alt=""
+          referrerPolicy="no-referrer"
+        />
         <div className="flex-1">
           <div className="w-full h-7 relative">
             <h3 className="absolute inset-0 title3 text-ink-darkest whitespace-nowrap overflow-hidden text-ellipsis">

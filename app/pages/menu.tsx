@@ -3,7 +3,14 @@ import { MenuListItem } from "app/core/components/MenuListItem"
 import { MainPageLayout } from "app/core/layouts/MainPageLayout"
 import { setupAuthRedirect } from "app/core/utils/setupAuthRedirect"
 import getCurrentUser from "app/users/queries/getCurrentUser"
-import { BlitzPage, GetServerSideProps, invokeWithMiddleware, useMutation } from "blitz"
+import {
+  BlitzPage,
+  GetServerSideProps,
+  invokeWithMiddleware,
+  Link,
+  Routes,
+  useMutation,
+} from "blitz"
 import { FiHelpCircle, FiMapPin } from "react-icons/fi"
 
 interface MenuProps {
@@ -33,7 +40,9 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
         </div>
       </div>
       <div>
-        <MenuListItem icon={<FiMapPin />} title="Addresses" />
+        <Link href={Routes.AddressesPage().pathname} passHref>
+          <MenuListItem as="a" icon={<FiMapPin />} title="Addresses" />
+        </Link>
         <MenuListItem icon={<FiHelpCircle />} title="Help" />
       </div>
       <div className="px-6">

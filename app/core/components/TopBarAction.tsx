@@ -1,6 +1,6 @@
 import { polymorphic } from "app/core/utils/polymorphic"
 
-export const TopBarAction = polymorphic<{}, "button">("button", function TopBarAction(Box, props) {
+export const TopBarAction = polymorphic("button")(function TopBarAction(Box, props) {
   const { className, ...restProps } = props
   return (
     <Box

@@ -16,7 +16,7 @@ export interface ButtonProps {
   sideIcon?: ReactNode
 }
 
-export const Button = polymorphic<ButtonProps, "button">("button", function Button(Box, props) {
+export const Button = polymorphic("button")<ButtonProps>(function Button(Box, props) {
   const {
     className,
     children,

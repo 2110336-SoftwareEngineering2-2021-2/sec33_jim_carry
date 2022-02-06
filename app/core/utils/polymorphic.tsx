@@ -19,13 +19,25 @@ export type PolymorphicComponent<P, D extends ElementType = "div"> = <E extends 
   props: P & BoxProps<E>
 ) => ReactElement | null
 
+export type PolymorphicComponentBuilder<D extends ElementType = "div"> = <P>(
+  render: RenderFunc<P, D>
+) => PolymorphicComponent<P, D>
+
 type RenderFunc<P, D extends ElementType> = (
   Box: BoxElement<D>,
   props: Omit<PolymorphicComponentProps<D, P>, "as">,
   ref: Ref<D>
 ) => ReactElement<any, any> | null
 
-export function polymorphic<P, D extends ElementType>(
+export function polymorphic<D extends ElementType>(
+  defaultComponent: D
+): PolymorphicComponentBuilder<D> {
+  return function builder<P>(render: RenderFunc<P, D>) {
+    return buildPolymorphicComponent(defaultComponent, render)
+  }
+}
+
+function buildPolymorphicComponent<P, D extends ElementType>(
   defaultComponent: D,
   render: RenderFunc<P, D>
 ): PolymorphicComponent<P, D> {

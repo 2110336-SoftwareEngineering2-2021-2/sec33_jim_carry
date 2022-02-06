@@ -22,12 +22,10 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
           alt=""
           referrerPolicy="no-referrer"
         />
-        <div className="flex-1">
-          <div className="w-full h-7 relative">
-            <h3 className="absolute inset-0 title3 text-ink-darkest whitespace-nowrap overflow-hidden text-ellipsis">
-              {name}
-            </h3>
-          </div>
+        <div className="w-[calc(100%-80px)]">
+          <h3 className="title3 text-ink-darkest whitespace-nowrap overflow-hidden text-ellipsis">
+            {name}
+          </h3>
           <span className="mt-1 text-regular leading-normal font-regular text-ink-darkest">
             {email}
           </span>

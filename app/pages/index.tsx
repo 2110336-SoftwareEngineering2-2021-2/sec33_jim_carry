@@ -6,6 +6,7 @@ import logout from "app/auth/mutations/logout"
 import { SegmentedControl, SegmentedControlItem } from "app/core/components/SegmentedControl"
 import { Button } from "app/core/components/Button"
 import { MainPageLayout } from "app/core/layouts/MainPageLayout"
+import { setupAuthRedirect } from "app/core/utils/setupAuthRedirect"
 
 const Home: BlitzPage = () => {
   return (
@@ -86,10 +87,7 @@ function ButtonsDemo() {
   )
 }
 
-Home.authenticate = {
-  redirectTo: "/login",
-}
-Home.suppressFirstRenderFlicker = true
+setupAuthRedirect(Home)
 Home.getLayout = (page) => <MainPageLayout title="Home">{page}</MainPageLayout>
 
 export default Home

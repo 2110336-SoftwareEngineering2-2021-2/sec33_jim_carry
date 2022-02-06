@@ -1,9 +1,9 @@
-import { SecondaryPageLayout } from "app/core/layouts/SecondaryPageLayout"
-import { useParam } from "blitz"
+import { BlitzPage, useParam } from "blitz"
 import { Description } from "app/product/components/Description"
 import { ProductTitle } from "app/product/components/ProductTitle"
 import { Seller } from "app/product/components/Seller"
 import { FooterButton } from "app/product/components/FooterButton"
+import { setupLayout } from "app/core/utils/setupLayout"
 
 interface Seller {
   name: string
@@ -20,7 +20,7 @@ interface Product {
   isWish: boolean
 }
 
-const ProductDetail = () => {
+const ProductDetail: BlitzPage = () => {
   const pid = useParam("pid")
   const product: Product = {
     name: "(ของแท้ 100%) Adidas รองเท้า สีฟ้า Size 38",
@@ -51,6 +51,6 @@ const ProductDetail = () => {
   )
 }
 
-ProductDetail.getLayout = (page) => <SecondaryPageLayout>{page}</SecondaryPageLayout>
+setupLayout(ProductDetail)
 
 export default ProductDetail

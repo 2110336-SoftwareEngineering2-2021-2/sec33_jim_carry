@@ -1,6 +1,7 @@
 import logout from "app/auth/mutations/logout"
 import { MenuListItem } from "app/core/components/MenuListItem"
 import { MainPageLayout } from "app/core/layouts/MainPageLayout"
+import { setupAuthRedirect } from "app/core/utils/setupAuthRedirect"
 import getCurrentUser from "app/users/queries/getCurrentUser"
 import { BlitzPage, GetServerSideProps, invokeWithMiddleware, useMutation } from "blitz"
 import { FiHelpCircle, FiMapPin } from "react-icons/fi"
@@ -50,10 +51,7 @@ export const getServerSideProps: GetServerSideProps<MenuProps> = async (context)
   }
 }
 
-Menu.authenticate = {
-  redirectTo: "/login",
-}
-Menu.suppressFirstRenderFlicker = true
+setupAuthRedirect(Menu)
 Menu.getLayout = (page) => <MainPageLayout title="Menu">{page}</MainPageLayout>
 
 export default Menu

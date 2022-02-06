@@ -1,4 +1,4 @@
-import { SecondaryPageLayout } from "app/core/layouts/SecondaryPageLayout"
+import { setupLayout } from "app/core/utils/setupLayout"
 import { useRouter, BlitzPage } from "blitz"
 
 import Image from "next/image"
@@ -40,6 +40,6 @@ const LoginPage: BlitzPage = () => {
 }
 
 LoginPage.redirectAuthenticatedTo = "/"
-LoginPage.getLayout = (page) => <SecondaryPageLayout>{page}</SecondaryPageLayout>
+setupLayout(LoginPage)
 
 export default LoginPage

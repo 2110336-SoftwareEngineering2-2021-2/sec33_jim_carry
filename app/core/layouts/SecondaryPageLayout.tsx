@@ -1,5 +1,6 @@
 import { BlitzLayout } from "blitz"
+import { Container } from "../components/Container"
 
 export const SecondaryPageLayout: BlitzLayout = ({ children }) => {
-  return <div className="max-w-[428px] m-auto overflow-x-clip">{children}</div>
+  return <Container>{children}</Container>
 }

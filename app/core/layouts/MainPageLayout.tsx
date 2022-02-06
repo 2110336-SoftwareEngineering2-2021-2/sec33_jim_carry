@@ -1,6 +1,7 @@
 import { Head, BlitzLayout, Routes } from "blitz"
 import Image from "next/image"
 import { FiBell, FiHeart, FiHome, FiMenu, FiMessageCircle, FiShoppingBag } from "react-icons/fi"
+import { Container } from "../components/Container"
 import { NavBarTarget } from "../components/NavBarTarget"
 import { TopBarAction } from "../components/TopBarAction"
 import { SecondaryPageLayout } from "./SecondaryPageLayout"
@@ -17,8 +18,8 @@ export const MainPageLayout: BlitzLayout<MainPageLayoutProps> = ({ title, childr
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <SecondaryPageLayout>
-        <div className="sticky top-0 w-full h-[112px] shadow">
+      <div className="sticky top-0 w-full h-[112px] shadow">
+        <Container>
           <div className="w-full h-14 px-6 pl-[22px] flex items-center">
             <Image src="/images/logo_horizontal.svg" width={102} height={28} alt="MayDay" />
             <span className="flex-1" />
@@ -33,9 +34,9 @@ export const MainPageLayout: BlitzLayout<MainPageLayoutProps> = ({ title, childr
             <NavBarTarget to={Routes.Notifications()} title="Notifications" icon={<FiBell />} />
             <NavBarTarget to={Routes.Menu()} title="Menu" icon={<FiMenu />} />
           </div>
-        </div>
-        {children}
-      </SecondaryPageLayout>
+        </Container>
+      </div>
+      <Container>{children}</Container>
     </>
   )
 }

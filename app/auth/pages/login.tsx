@@ -1,7 +1,7 @@
-import { setupLayout } from "app/core/utils/setupLayout"
 import { useRouter, BlitzPage } from "blitz"
-
 import Image from "next/image"
+
+import { setupLayout } from "app/core/utils/setupLayout"
 
 const LoginPage: BlitzPage = () => {
   const router = useRouter()

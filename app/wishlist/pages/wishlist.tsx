@@ -1,5 +1,6 @@
-import { MainPageLayout } from "app/core/layouts/MainPageLayout"
 import { BlitzPage } from "blitz"
+
+import { MainPageLayout } from "app/core/layouts/MainPageLayout"
 
 const Wishlist: BlitzPage = () => {
   return <div>Wishlist</div>

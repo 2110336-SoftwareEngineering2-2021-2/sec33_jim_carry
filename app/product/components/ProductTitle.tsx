@@ -1,6 +1,7 @@
-import { Button } from "app/core/components/Button"
 import { useState } from "react"
 import { FiHeart } from "react-icons/fi"
+
+import { Button } from "app/core/components/Button"
 
 export interface ProductTitleProps {
   name: string

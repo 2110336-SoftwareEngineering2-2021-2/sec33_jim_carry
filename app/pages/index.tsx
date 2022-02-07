@@ -1,10 +1,10 @@
-import { Suspense, useState } from "react"
 import { BlitzPage, useMutation } from "blitz"
+import { Suspense, useState } from "react"
 
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
-import { SegmentedControl, SegmentedControlItem } from "app/core/components/SegmentedControl"
 import { Button } from "app/core/components/Button"
+import { SegmentedControl, SegmentedControlItem } from "app/core/components/SegmentedControl"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { MainPageLayout } from "app/core/layouts/MainPageLayout"
 import { setupAuthRedirect } from "app/core/utils/setupAuthRedirect"
 

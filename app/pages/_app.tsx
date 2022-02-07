@@ -7,8 +7,8 @@ import {
   ErrorFallbackProps,
   useQueryErrorResetBoundary,
 } from "blitz"
-import LoginPage from "app/auth/pages/login"
 
+import LoginPage from "app/auth/pages/login"
 import "app/core/styles/index.css"
 
 export default function App({ Component, pageProps }: AppProps) {

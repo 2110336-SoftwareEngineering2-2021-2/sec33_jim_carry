@@ -1,6 +1,7 @@
+import { ReactNode } from "react"
+
 import { polymorphic } from "app/core/utils/polymorphic"
 import { variant } from "app/core/utils/variant"
-import { ReactNode } from "react"
 
 export type ButtonType = "primary" | "secondary" | "outline" | "transparent"
 export type ButtonSize = "large" | "small"

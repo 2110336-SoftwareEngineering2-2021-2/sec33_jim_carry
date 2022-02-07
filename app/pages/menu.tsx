@@ -1,8 +1,3 @@
-import logout from "app/auth/mutations/logout"
-import { MenuListItem } from "app/core/components/MenuListItem"
-import { MainPageLayout } from "app/core/layouts/MainPageLayout"
-import { setupAuthRedirect } from "app/core/utils/setupAuthRedirect"
-import getCurrentUser from "app/users/queries/getCurrentUser"
 import {
   BlitzPage,
   GetServerSideProps,
@@ -12,6 +7,12 @@ import {
   useMutation,
 } from "blitz"
 import { FiHelpCircle, FiMapPin } from "react-icons/fi"
+
+import logout from "app/auth/mutations/logout"
+import { MenuListItem } from "app/core/components/MenuListItem"
+import { MainPageLayout } from "app/core/layouts/MainPageLayout"
+import { setupAuthRedirect } from "app/core/utils/setupAuthRedirect"
+import getCurrentUser from "app/users/queries/getCurrentUser"
 
 interface MenuProps {
   user: Awaited<ReturnType<typeof getCurrentUser>>

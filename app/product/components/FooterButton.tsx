@@ -1,6 +1,7 @@
-import { Button } from "app/core/components/Button"
 import { useState } from "react"
 import { FiCheck, FiMessageCircle, FiShoppingBag } from "react-icons/fi"
+
+import { Button } from "app/core/components/Button"
 
 export function FooterButton() {
   const [inBag, setInBag] = useState(false)

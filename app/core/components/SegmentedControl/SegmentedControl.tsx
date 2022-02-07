@@ -1,6 +1,7 @@
-import { Children, cloneElement, useState } from "react"
 import { useSpring, animated } from "@react-spring/web"
 import { useDrag } from "@use-gesture/react"
+import { Children, cloneElement, useState } from "react"
+
 import { SegmentedControlChildrenProps, SegmentedControlProps, Value } from "./types"
 
 export function SegmentedControl<T extends Value>({

@@ -1,6 +1,8 @@
-import { EmptyState } from "app/core/components/EmptyState"
 import { useMutation, useQuery } from "blitz"
 import { FiMapPin } from "react-icons/fi"
+
+import { EmptyState } from "app/core/components/EmptyState"
+
 import deleteAddress from "../mutations/deleteAddress"
 import getAddresses from "../queries/getAddresses"
 

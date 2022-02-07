@@ -1,10 +1,10 @@
 import { Head, BlitzLayout, Routes } from "blitz"
 import Image from "next/image"
 import { FiBell, FiHeart, FiHome, FiMenu, FiMessageCircle, FiShoppingBag } from "react-icons/fi"
+
 import { Container } from "../components/Container"
 import { NavBarTarget } from "../components/NavBarTarget"
 import { TopBarAction } from "../components/TopBarAction"
-import { SecondaryPageLayout } from "./SecondaryPageLayout"
 
 interface MainPageLayoutProps {
   title: string

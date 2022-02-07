@@ -15,10 +15,6 @@
   "prisma": {
     "schema": "db/schema.prisma"
   },
-  "prettier": {
-    "semi": false,
-    "printWidth": 100
-  },
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "eslint --fix"
@@ -44,6 +40,7 @@
     "zod": "3.11.6"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "3.2.0",
     "@types/react": "17.0.38",
     "eslint": "7.32.0",
     "husky": "7.0.4",

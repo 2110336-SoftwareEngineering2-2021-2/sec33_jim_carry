@@ -1,3 +1,6 @@
+import { BlitzPage, Routes, useMutation } from "blitz"
+import { z } from "zod"
+
 import Form, { FORM_ERROR } from "app/core/components/Form"
 import LabeledTextField from "app/core/components/LabeledTextField"
 import { TopBar } from "app/core/components/TopBar"
@@ -6,8 +9,6 @@ import { setupAuthRedirect } from "app/core/utils/setupAuthRedirect"
 import { setupLayout } from "app/core/utils/setupLayout"
 import createAddress from "app/users/mutations/createAddress"
 import { CreateAddress } from "app/users/validations"
-import { BlitzPage, Routes, useMutation } from "blitz"
-import { z } from "zod"
 
 const CreateAddressPage: BlitzPage = () => {
   const [createAddressMutation] = useMutation(createAddress)

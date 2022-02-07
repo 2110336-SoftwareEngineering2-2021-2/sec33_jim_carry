@@ -1,9 +1,10 @@
 import { BlitzPage, useParam } from "blitz"
+
+import { setupLayout } from "app/core/utils/setupLayout"
 import { Description } from "app/product/components/Description"
+import { FooterButton } from "app/product/components/FooterButton"
 import { ProductTitle } from "app/product/components/ProductTitle"
 import { Seller } from "app/product/components/Seller"
-import { FooterButton } from "app/product/components/FooterButton"
-import { setupLayout } from "app/core/utils/setupLayout"
 
 interface Seller {
   name: string

@@ -1,6 +1,7 @@
 import { passportAuth } from "blitz"
-import { Strategy as GoogleStrategy } from "passport-google-oauth20"
 import db from "db"
+import { Strategy as GoogleStrategy } from "passport-google-oauth20"
+
 import { appOrigin, googleClientId, googleClientSecret } from "app/core/environment"
 
 export default passportAuth({

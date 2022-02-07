@@ -1,4 +1,5 @@
 import { BlitzApiHandler, invokeWithMiddleware } from "blitz"
+
 import getCurrentUser from "app/users/queries/getCurrentUser"
 
 const handler: BlitzApiHandler = async (req, res) => {

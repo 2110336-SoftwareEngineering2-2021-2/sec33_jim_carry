@@ -1,8 +1,9 @@
+import { Image } from "blitz"
 import { ReactNode } from "react"
 import { FiChevronLeft } from "react-icons/fi"
+
 import { BackButton } from "./BackButton"
 import { TopBarAction } from "./TopBarAction"
-import { Image } from "blitz"
 
 export type TopBarProps = {
   actions?: ReactNode

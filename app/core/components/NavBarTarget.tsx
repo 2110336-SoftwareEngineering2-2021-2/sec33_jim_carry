@@ -1,6 +1,7 @@
-import { variant } from "app/core/utils/variant"
 import { RouteUrlObject, useRouter } from "blitz"
 import Link from "next/link"
+
+import { variant } from "app/core/utils/variant"
 
 export interface NavBarTargetProps {
   to: RouteUrlObject

@@ -1,5 +1,4 @@
 import { FiArrowRight } from "react-icons/fi"
-import { Image } from "blitz"
 import { ImageFrame } from "./ImageFrame"
 interface Frame {
   // path of image for now

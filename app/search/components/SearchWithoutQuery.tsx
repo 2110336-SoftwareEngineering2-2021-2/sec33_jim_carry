@@ -1,10 +1,6 @@
-import { SecondaryPageLayout } from "app/core/layouts/SecondaryPageLayout"
-import React, { Component } from "react"
-import { BlitzPage, Image } from "blitz"
-import { SearchBar } from "app/search/components/SearchBar"
-import { SearchRecommendationCateogry } from "../components/SearchRecommendationCategory"
+import { SearchRecommendationCateogry } from "./SearchRecommendationCategory"
 
-const search: BlitzPage = () => {
+export const SearchWithoutQuery = () => {
   const imgUrlTest = "/images/search/mock_imageframe.png"
   const FrameTest = [
     {
@@ -39,18 +35,11 @@ const search: BlitzPage = () => {
     },
   ]
   return (
-    <SecondaryPageLayout>
-      <SearchBar />
+    <div>
       <SearchRecommendationCateogry name="Woman's wear" frames={FrameTest} />
       <SearchRecommendationCateogry name="Man's wear" frames={FrameTest} />
       <SearchRecommendationCateogry name="Bags & Accessories" frames={FrameTest} />
       <SearchRecommendationCateogry name="Shoes" frames={FrameTest} />
-    </SecondaryPageLayout>
+    </div>
   )
 }
-
-{
-  /* // search.getLayout = (page) => <SecondaryPageLayout>{page}</SecondaryPageLayout> */
-}
-
-export default search

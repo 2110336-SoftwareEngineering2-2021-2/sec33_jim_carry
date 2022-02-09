@@ -1,6 +1,6 @@
 import { FiMic, FiSearch } from "react-icons/fi"
 
-export const SearchBar = () => {
+export const SearchBar = ({ setText }) => {
   return (
     <div
       className="
@@ -16,6 +16,8 @@ export const SearchBar = () => {
           text-ink-darkest placeholder:text-ink-light
         "
         placeholder="Search"
+        // value = {}
+        onChange={(e) => setText(e.target.value)}
       />
       <FiMic />
     </div>

@@ -3,6 +3,7 @@ import { BlitzPage, useParam } from "blitz"
 import { setupLayout } from "app/core/utils/setupLayout"
 import { Description } from "app/product/components/Description"
 import { FooterButton } from "app/product/components/FooterButton"
+import { ProductPicture } from "app/product/components/ProductPicture"
 import { ProductTitle } from "app/product/components/ProductTitle"
 import { Seller } from "app/product/components/Seller"
 
@@ -37,7 +38,16 @@ const ProductDetail: BlitzPage = () => {
   return (
     <div>
       {/* Product Id: {pid} */}
-      <div style={{ height: 249, backgroundColor: "grey" }}></div>
+      {/* <div style={{ height: 249, backgroundColor: "grey" }}></div> */}
+      <ProductPicture
+        imgSrc={[
+          "https://i.pinimg.com/736x/e6/94/24/e69424dbee0c631d16e9388cd7c872a6--running-shoes-sale-nike-free-shoes.jpg",
+          "https://i.pinimg.com/736x/e6/94/24/e69424dbee0c631d16e9388cd7c872a6--running-shoes-sale-nike-free-shoes.jpg",
+          "https://i.pinimg.com/736x/e6/94/24/e69424dbee0c631d16e9388cd7c872a6--running-shoes-sale-nike-free-shoes.jpg",
+          "https://i.pinimg.com/736x/e6/94/24/e69424dbee0c631d16e9388cd7c872a6--running-shoes-sale-nike-free-shoes.jpg",
+          "https://i.pinimg.com/736x/e6/94/24/e69424dbee0c631d16e9388cd7c872a6--running-shoes-sale-nike-free-shoes.jpg",
+        ]}
+      />
       <div className="flex flex-col divide-y divide-sky-lighter">
         <ProductTitle name={product.name} price={product.price} isWish={product.isWish} />
         <Seller

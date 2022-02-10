@@ -13,9 +13,10 @@ export default resolver.pipe(
   async ({ id }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const product = await db.product.findFirst({ where: { id } })
-
     if (!product) throw new NotFoundError()
+    const shop = await db.shop.findUnique({ where: { id: product.shopId } })
+    if (!shop) throw new NotFoundError()
 
-    return product
+    return { product, shop }
   }
 )

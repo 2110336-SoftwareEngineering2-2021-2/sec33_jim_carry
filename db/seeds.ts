@@ -18,21 +18,21 @@ const lorem =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 
 const seed = async () => {
-  let user = await db.user.findUnique({ where: { email: 'dummy@example.com' } })
-  if (!user) {
-    user = await db.user.create({ data: { email: 'dummy@example.com' } })
-  }
-  let shop = await db.shop.findUnique({ where: { userId: user.id } })
-  if (!shop) {
-    shop = await db.shop.create({
-      data: { userId: user.id, name: 'nongtent', totalSale: 0 },
-    })
-  }
+  const { id: userId } = await db.user.upsert({
+    where: { email: 'dummy@example.com' },
+    create: { email: 'dummy@example.com' },
+    update: { email: 'dummy@example.com' },
+  })
+  const { id: shopId } = await db.shop.upsert({
+    where: { userId },
+    create: { userId, name: 'nongtent', totalSale: 0 },
+    update: { userId, name: 'nongtent', totalSale: 0 },
+  })
 
   for (let i = 1; i <= 10; i++) {
     await db.product.create({
       data: {
-        shopId: shop.id,
+        shopId,
         name: `Mock Product ${i}`,
         description: lorem,
         price: 100 * i,

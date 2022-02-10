@@ -36,7 +36,7 @@ export function AddressList() {
           "
         >
           <p className="text-regular leading-tight font-regular text-ink-darkest">{address.name}</p>
-          <p className="text-small leading-tight font-regular text-ink-lighter whitespace-nowrap overflow-hidden text-ellipsis">
+          <p className="text-small leading-tight font-regular text-ink-lighter">
             {address.address}
           </p>
         </div>

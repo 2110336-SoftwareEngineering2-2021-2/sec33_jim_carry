@@ -38,6 +38,7 @@ export function TopBar({ onBack, backHref, title, largeTitle, actions }: TopBarP
       <FiChevronLeft />
     </TopBarAction>
   )
+  const actionsContainer = <span className="h-full flex items-center">{actions}</span>
 
   return (
     <div>
@@ -57,9 +58,14 @@ export function TopBar({ onBack, backHref, title, largeTitle, actions }: TopBarP
           </span>
         ) : null}
         {backButton}
-        <span className="h-full flex items-center">{actions}</span>
+        {!largeTitle ? actionsContainer : null}
       </div>
-      {largeTitle ? <h3 className="px-6 pt-1 pb-3 title2 text-ink-darkest">{title}</h3> : null}
+      {largeTitle ? (
+        <div className="flex px-6 pt-1 pb-3 items-center justify-between">
+          <h3 className="title2 text-ink-darkest">{title}</h3>
+          {actionsContainer}
+        </div>
+      ) : null}
     </div>
   )
 }

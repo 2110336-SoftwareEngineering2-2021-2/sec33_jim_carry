@@ -42,7 +42,7 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
       </div>
       <div>
         <Link href={Routes.AddressesPage().pathname} passHref>
-          <MenuListItem as="a" icon={<FiMapPin />} title="Addresses" />
+          <MenuListItem as="a" icon={<FiMapPin />} title="My addresses" />
         </Link>
         <MenuListItem icon={<FiHelpCircle />} title="Help" />
       </div>

@@ -36,7 +36,7 @@ export const Button = polymorphic("button")<ButtonProps>(function Button(Box, pr
         flex items-center transition
         text-regular leading-none font-medium font-sans
         active:scale-95 disabled:active:scale-100
-        ${variant(fullWidth, "w-full")}
+        ${variant(fullWidth, "w-full justify-center")}
         ${variant(
           size === "large",
           `

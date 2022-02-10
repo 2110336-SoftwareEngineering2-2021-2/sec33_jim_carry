@@ -1,8 +1,10 @@
-import { ComponentProps, ElementType, forwardRef, ReactElement, Ref } from "react"
+import { ComponentProps, ComponentPropsWithRef, ElementType, forwardRef, ReactElement } from "react"
 
 const restProps = Symbol()
 
 type RestProps = { [restProps]: {} }
+
+type Ref<D extends ElementType> = ComponentPropsWithRef<D>["ref"]
 
 export type BoxOwnProps<E extends ElementType = ElementType> = {
   as?: E

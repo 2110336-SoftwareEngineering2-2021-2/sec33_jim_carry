@@ -4,6 +4,7 @@ import { Suspense, useState } from "react"
 import logout from "app/auth/mutations/logout"
 import { Button } from "app/core/components/Button"
 import { SegmentedControl, SegmentedControlItem } from "app/core/components/SegmentedControl"
+import { TextField } from "app/core/components/TextField"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { MainPageLayout } from "app/core/layouts/MainPageLayout"
 import { setupAuthRedirect } from "app/core/utils/setupAuthRedirect"
@@ -19,6 +20,11 @@ const Home: BlitzPage = () => {
         <h1 className="title2 my-4">Component demo</h1>
         <SegmentedControlDemo />
         <ButtonsDemo />
+        <div className="flex flex-col gap-4">
+          <TextField placeholder="Text Field" />
+          <TextField placeholder="Disabled Text Field" disabled />
+          <TextField placeholder="Error" hasError />
+        </div>
       </main>
     </div>
   )

@@ -3,6 +3,7 @@ import { z } from "zod"
 
 import Form, { FORM_ERROR } from "app/core/components/Form"
 import LabeledTextField from "app/core/components/LabeledTextField"
+import { TextField } from "app/core/components/TextField"
 import { TopBar } from "app/core/components/TopBar"
 import { useGoBack } from "app/core/hooks/useGoBack"
 import { setupAuthRedirect } from "app/core/utils/setupAuthRedirect"
@@ -18,6 +19,7 @@ const CreateAddressPage: BlitzPage = () => {
     <div>
       <TopBar backHref={Routes.AddressesPage().pathname} title="Add Address" />
       <Form
+        className="py-3 px-6 flex flex-col gap-6"
         submitText="Save"
         schema={CreateAddress}
         onSubmit={async (values: z.infer<typeof CreateAddress>) => {
@@ -30,7 +32,7 @@ const CreateAddressPage: BlitzPage = () => {
         }}
       >
         <LabeledTextField name="name" label="Name" />
-        <LabeledTextField name="address" label="Address" />
+        <LabeledTextField name="address" label="Address" asTextArea style={{ height: 112 }} />
         <LabeledTextField name="note" label="Note" />
         <LabeledTextField name="receiverName" label="Contact Name" />
         <LabeledTextField name="phoneNo" label="Contact Number" />

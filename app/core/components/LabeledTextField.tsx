@@ -1,6 +1,8 @@
 import { forwardRef, PropsWithoutRef, ComponentPropsWithoutRef } from "react"
 import { useFormContext } from "react-hook-form"
 
+import { ErrorMessage, FloatingLabel, TextField } from "./TextField"
+
 export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
   /** Field name. */
   name: string
@@ -10,10 +12,11 @@ export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElem
   type?: "text" | "password" | "email" | "number"
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
   labelProps?: ComponentPropsWithoutRef<"label">
+  asTextArea?: boolean
 }
 
 export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldProps>(
-  ({ label, outerProps, labelProps, name, ...props }, ref) => {
+  ({ label, outerProps, labelProps, name, asTextArea, ...props }, ref) => {
     const {
       register,
       formState: { isSubmitting, errors },
@@ -21,36 +24,27 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
     const error = Array.isArray(errors[name])
       ? errors[name].join(", ")
       : errors[name]?.message || errors[name]
+    const as = asTextArea ? "textarea" : "input"
 
     return (
       <div {...outerProps}>
-        <label {...labelProps}>
-          {label}
-          <input disabled={isSubmitting} {...register(name)} {...props} />
-        </label>
+        <div className="relative">
+          <TextField
+            as={as}
+            placeholder={label}
+            disabled={isSubmitting}
+            {...register(name)}
+            fullWidth
+            floatingLabel
+            hasError={!!error}
+            {...props}
+          />
+          <FloatingLabel htmlFor={name} {...labelProps}>
+            {label}
+          </FloatingLabel>
+        </div>
 
-        {error && (
-          <div role="alert" style={{ color: "red" }}>
-            {error}
-          </div>
-        )}
-
-        <style jsx>{`
-          label {
-            display: flex;
-            flex-direction: column;
-            align-items: start;
-            font-size: 1rem;
-          }
-          input {
-            font-size: 1rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 3px;
-            border: 1px solid purple;
-            appearance: none;
-            margin-top: 0.5rem;
-          }
-        `}</style>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
       </div>
     )
   }

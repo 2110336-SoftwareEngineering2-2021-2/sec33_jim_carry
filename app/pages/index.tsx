@@ -1,5 +1,7 @@
 import { BlitzPage, useMutation } from 'blitz'
 import { Suspense, useState } from 'react'
+import { FiMessageCircle } from 'react-icons/fi'
+import { RiHeartLine, RiHeartFill } from 'react-icons/ri'
 
 import logout from 'app/auth/mutations/logout'
 import { Button } from 'app/core/components/Button'
@@ -9,6 +11,7 @@ import {
 } from 'app/core/components/SegmentedControl'
 import { TextField } from 'app/core/components/TextField'
 import { useCurrentUser } from 'app/core/hooks/useCurrentUser'
+import { useProducts } from 'app/core/hooks/useProducts'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 
@@ -16,9 +19,10 @@ const Home: BlitzPage = () => {
   return (
     <div className="container font-sans">
       <main>
-        <h1 className="title2 my-4">User info</h1>
+        {/* <h1 className="title2 my-4">User info</h1> */}
         <Suspense fallback="Loading...">
-          <UserInfo />
+          {/* <UserInfo /> */}
+          <Products />
         </Suspense>
         <h1 className="title2 my-4">Component demo</h1>
         <SegmentedControlDemo />
@@ -33,6 +37,44 @@ const Home: BlitzPage = () => {
   )
 }
 
+function Products() {
+  const { products } = useProducts()
+  return (
+    <div className="p-6 flex-col space-y-6">
+      <TextField placeholder="Search" className="w-full" />
+      {products.map((product) => (
+        <Product product={product} key={product.id} />
+      ))}
+    </div>
+  )
+}
+
+function Product({ product }) {
+  const liked = true
+  return (
+    <a className="flex-col space-y-3">
+      {/* Note: you can override to different aspect-ratio */}
+      <div className="w-full aspect-video bg-gradient-to-r from-cyan-500 to-blue-500"></div>
+      <div className="flex-col">
+        <span className="bold">{product.name}</span>
+        <div className="flex justify-between items-center">
+          <span className="title3 font-sans text-primary-dark">{`฿${product.price}`}</span>
+          <div className="flex">
+            <Button iconOnly buttonType="transparent">
+              <FiMessageCircle />
+            </Button>
+            <Button iconOnly buttonType="transparent">
+              {liked ? <RiHeartFill /> : <RiHeartLine />}
+            </Button>
+          </div>
+        </div>
+        <span className="font-regular text-tiny text-ink-light">
+          {`1h ago · by ${product.shop.name}`}
+        </span>
+      </div>
+    </a>
+  )
+}
 function UserInfo() {
   const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)

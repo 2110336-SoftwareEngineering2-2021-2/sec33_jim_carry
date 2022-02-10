@@ -1,4 +1,4 @@
-// import db from "./index"
+import db from './index'
 
 /*
  * This seed function is executed when you run `blitz db seed`.
@@ -8,9 +8,29 @@
  * realistic data.
  */
 const seed = async () => {
-  // for (let i = 0; i < 5; i++) {
-  //   await db.project.create({ data: { name: "Project " + i } })
-  // }
+  let user = await db.user.findUnique({ where: { email: 'dummy@example.com' } })
+  if (!user) {
+    user = await db.user.create({ data: { email: 'dummy@example.com' } })
+  }
+  let shop = await db.shop.findUnique({ where: { userId: user.id } })
+  if (!shop) {
+    shop = await db.shop.create({
+      data: { userId: user.id, name: 'nongtent', totalSale: 0 },
+    })
+  }
+
+  for (let i = 1; i <= 10; i++) {
+    await db.product.create({
+      data: {
+        shopId: shop.id,
+        name: `Product ${i}`,
+        description: `Product number ${i}`,
+        price: 100 * i,
+        stock: i,
+        hidden: false,
+      },
+    })
+  }
 }
 
 export default seed

@@ -71,6 +71,7 @@ model Product {
   soldPrice   Decimal?
   stock       Int
   hidden      Boolean
+  image       String?
 
   categories   Category[]
   hashtags     Hashtag[]

@@ -6,27 +6,49 @@ This is a [Blitz.js](https://github.com/blitz-js/blitz) app.
 
 ## Getting Started
 
+Install your app.
+
+```
+yarn
+```
+
 Run your app in the development mode.
 
 ```
-blitz dev
+yarn dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Environment Variables
 
 Ensure the `.env.local` file has required environment variables:
 
 ```
-DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/mayday
+GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID"
+GOOGLE_CLIENT_SECRET="YOUR_GOOGLE_CLIENT_SECRET"
 ```
 
-Ensure the `.env.test.local` file has required environment variables:
+Note: `DATABASE_URL` for development and production should already be set up.
+
+<!-- ```
+DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/mayday
+``` -->
+
+<!-- Ensure the `.env.test.local` file has required environment variables:
 
 ```
 DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/mayday_test
+``` -->
+
+## Database Migration
+
+Ensure that you run this everytime when the schema is changed:
+
 ```
+yarn blitz prisma generate
+yarn blitz prisma migrate dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Tests
 

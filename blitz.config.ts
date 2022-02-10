@@ -1,9 +1,9 @@
-import { BlitzConfig, sessionMiddleware, simpleRolesIsAuthorized } from "blitz"
+import { BlitzConfig, sessionMiddleware, simpleRolesIsAuthorized } from 'blitz'
 
 const config: BlitzConfig = {
   middleware: [
     sessionMiddleware({
-      cookiePrefix: "mayday",
+      cookiePrefix: 'mayday',
       isAuthorized: simpleRolesIsAuthorized,
     }),
   ],
@@ -19,5 +19,8 @@ const config: BlitzConfig = {
     return config
   },
   */
+  images: {
+    domains: ['images.unsplash.com'],
+  },
 }
 module.exports = config

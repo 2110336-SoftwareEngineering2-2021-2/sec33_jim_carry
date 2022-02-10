@@ -1,4 +1,4 @@
-import { BlitzPage, useMutation } from 'blitz'
+import { BlitzPage, Image, useMutation } from 'blitz'
 import { Suspense, useState } from 'react'
 import { FiMessageCircle } from 'react-icons/fi'
 import { RiHeartLine, RiHeartFill } from 'react-icons/ri'
@@ -40,7 +40,7 @@ const Home: BlitzPage = () => {
 function Products() {
   const { products } = useProducts()
   return (
-    <div className="p-6 flex-col space-y-6">
+    <div className="p-6 flex flex-col space-y-6">
       <TextField placeholder="Search" className="w-full" />
       {products.map((product) => (
         <Product product={product} key={product.id} />
@@ -54,7 +54,14 @@ function Product({ product }) {
   return (
     <a className="flex-col space-y-3">
       {/* Note: you can override to different aspect-ratio */}
-      <div className="w-full aspect-video bg-gradient-to-r from-cyan-500 to-blue-500"></div>
+      <div className="w-full relative aspect-video bg-gradient-to-r from-cyan-500 to-blue-500">
+        <Image
+          src={product.image}
+          alt={product.name}
+          layout="fill"
+          objectFit="cover"
+        />
+      </div>
       <div className="flex-col">
         <span className="bold">{product.name}</span>
         <div className="flex justify-between items-center">
@@ -69,6 +76,7 @@ function Product({ product }) {
           </div>
         </div>
         <span className="font-regular text-tiny text-ink-light">
+          {/* {JSON.stringify(product)} */}
           {/* {`1h ago · by ${product.shop}`} */}
         </span>
       </div>

@@ -39,7 +39,13 @@ DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/mayday
 DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/mayday_test
 ``` -->
 
-## Database Migration
+## Database
+
+Run your database via docker:
+
+```
+docker compose up
+```
 
 Ensure that you run this everytime when the schema is changed:
 

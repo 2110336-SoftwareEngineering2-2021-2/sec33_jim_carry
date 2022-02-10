@@ -25,19 +25,8 @@ export default resolver.pipe(
         db.product.findMany({ ...paginateArgs, where, orderBy }),
     })
 
-    let shops: Shop[] = []
-
-    products.forEach(async (product) => {
-      const shop = await db.shop.findUnique({ where: { id: product.shopId } })
-      if (!shop) {
-        throw new NotFoundError()
-      }
-      shops.push(shop)
-    })
-
     return {
       products,
-      shops,
       nextPage,
       hasMore,
       count,

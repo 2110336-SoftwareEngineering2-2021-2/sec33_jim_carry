@@ -44,8 +44,7 @@ docker compose up
 Ensure that you run this everytime when the schema is changed:
 
 ```
-yarn blitz prisma generate
-yarn blitz prisma migrate dev
+yarn migrate
 ```
 
 Run your app in the development mode.

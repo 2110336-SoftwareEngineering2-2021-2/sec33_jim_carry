@@ -1,6 +1,7 @@
 {
   "semi": false,
-  "printWidth": 100,
   "importOrder": ["^app/(.*)$", "^[./]"],
-  "importOrderSeparation": true
+  "importOrderSeparation": true,
+  "singleQuote": true,
+  "trailingComma": "es5"
 }

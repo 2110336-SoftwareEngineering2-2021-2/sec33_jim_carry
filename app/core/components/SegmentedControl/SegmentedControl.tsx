@@ -1,8 +1,12 @@
-import { useSpring, animated } from "@react-spring/web"
-import { useDrag } from "@use-gesture/react"
-import { Children, cloneElement, useState } from "react"
+import { useSpring, animated } from '@react-spring/web'
+import { useDrag } from '@use-gesture/react'
+import { Children, cloneElement, useState } from 'react'
 
-import { SegmentedControlChildrenProps, SegmentedControlProps, Value } from "./types"
+import {
+  SegmentedControlChildrenProps,
+  SegmentedControlProps,
+  Value,
+} from './types'
 
 export function SegmentedControl<T extends Value>({
   value,
@@ -12,7 +16,9 @@ export function SegmentedControl<T extends Value>({
   const childrenArray = Children.map(childrenProp, (child) => child)
   const count = childrenArray.length
 
-  const finalSelectedIndex = childrenArray.findIndex((child) => child.props.value === value)
+  const finalSelectedIndex = childrenArray.findIndex(
+    (child) => child.props.value === value
+  )
   const { animatedIndex } = useSpring({ animatedIndex: finalSelectedIndex })
   const position = animatedIndex.to((idx) => idx / (count - 1))
 
@@ -48,7 +54,8 @@ export function SegmentedControl<T extends Value>({
             `}
             style={{
               transformOrigin: position.to(
-                (position) => `calc(${position * 100}% + ${14 - 28 * position}px) center`
+                (position) =>
+                  `calc(${position * 100}% + ${14 - 28 * position}px) center`
               ),
             }}
           />

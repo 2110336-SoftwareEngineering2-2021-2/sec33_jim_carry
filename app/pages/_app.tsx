@@ -6,10 +6,10 @@ import {
   AuthorizationError,
   ErrorFallbackProps,
   useQueryErrorResetBoundary,
-} from "blitz"
+} from 'blitz'
 
-import LoginPage from "app/auth/pages/login"
-import "app/core/styles/index.css"
+import LoginPage from 'app/auth/pages/login'
+import 'app/core/styles/index.css'
 
 export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
@@ -36,7 +36,10 @@ function RootErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
     )
   } else {
     return (
-      <ErrorComponent statusCode={error.statusCode || 400} title={error.message || error.name} />
+      <ErrorComponent
+        statusCode={error.statusCode || 400}
+        title={error.message || error.name}
+      />
     )
   }
 }

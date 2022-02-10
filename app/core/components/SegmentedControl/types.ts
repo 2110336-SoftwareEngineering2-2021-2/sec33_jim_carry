@@ -1,11 +1,13 @@
-import { PropsWithChildren, ReactElement } from "react"
+import { PropsWithChildren, ReactElement } from 'react'
 
 export type Value = string | number
 
 export type SegmentedControlProps<T extends Value> = {
   value: T
   onChange: (value: T) => void
-  children: ReactElement<SegmentedControlItemProps> | ReactElement<SegmentedControlItemProps>[]
+  children:
+    | ReactElement<SegmentedControlItemProps>
+    | ReactElement<SegmentedControlItemProps>[]
 }
 
 export type SegmentedControlChildrenProps = {

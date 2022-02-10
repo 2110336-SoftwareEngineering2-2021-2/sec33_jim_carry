@@ -5,14 +5,14 @@ import {
   Link,
   Routes,
   useMutation,
-} from "blitz"
-import { FiHelpCircle, FiMapPin } from "react-icons/fi"
+} from 'blitz'
+import { FiHelpCircle, FiMapPin } from 'react-icons/fi'
 
-import logout from "app/auth/mutations/logout"
-import { MenuListItem } from "app/core/components/MenuListItem"
-import { MainPageLayout } from "app/core/layouts/MainPageLayout"
-import { setupAuthRedirect } from "app/core/utils/setupAuthRedirect"
-import getCurrentUser from "app/users/queries/getCurrentUser"
+import logout from 'app/auth/mutations/logout'
+import { MenuListItem } from 'app/core/components/MenuListItem'
+import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
+import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
+import getCurrentUser from 'app/users/queries/getCurrentUser'
 
 interface MenuProps {
   user: Awaited<ReturnType<typeof getCurrentUser>>
@@ -27,7 +27,7 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="w-16 h-16 rounded-full bg-sky-base"
-          src={profileImage ?? ""}
+          src={profileImage ?? ''}
           alt=""
           referrerPolicy="no-referrer"
         />
@@ -49,12 +49,17 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
       <div className="px-6">
         <span className="block w-full h-[1px] bg-sky-lighter" />
       </div>
-      <MenuListItem onClick={async () => await logoutMutation()} title="Logout" />
+      <MenuListItem
+        onClick={async () => await logoutMutation()}
+        title="Logout"
+      />
     </div>
   )
 }
 
-export const getServerSideProps: GetServerSideProps<MenuProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<MenuProps> = async (
+  context
+) => {
   const user = await invokeWithMiddleware(getCurrentUser, {}, context)
   return {
     props: { user },

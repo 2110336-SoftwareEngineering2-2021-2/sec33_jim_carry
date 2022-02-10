@@ -1,10 +1,10 @@
-import { useMutation, useQuery } from "blitz"
-import { FiMapPin } from "react-icons/fi"
+import { useMutation, useQuery } from 'blitz'
+import { FiMapPin } from 'react-icons/fi'
 
-import { EmptyState } from "app/core/components/EmptyState"
+import { EmptyState } from 'app/core/components/EmptyState'
 
-import deleteAddress from "../mutations/deleteAddress"
-import getAddresses from "../queries/getAddresses"
+import deleteAddress from '../mutations/deleteAddress'
+import getAddresses from '../queries/getAddresses'
 
 export function AddressList() {
   const [addresses, { refetch }] = useQuery(getAddresses, null)
@@ -24,7 +24,8 @@ export function AddressList() {
       {addresses.map((address) => (
         <div
           onClick={async () => {
-            if (!confirm("Are you sure you want to delete this address?")) return
+            if (!confirm('Are you sure you want to delete this address?'))
+              return
             await deleteAddressMutation({ id: address.id })
             await refetch()
           }}
@@ -35,7 +36,9 @@ export function AddressList() {
             hover:bg-sky-light/30 active:bg-sky-light/70
           "
         >
-          <p className="text-regular leading-tight font-regular text-ink-darkest">{address.name}</p>
+          <p className="text-regular leading-tight font-regular text-ink-darkest">
+            {address.name}
+          </p>
           <p className="text-small leading-tight font-regular text-ink-lighter">
             {address.address}
           </p>

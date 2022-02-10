@@ -1,4 +1,4 @@
-import { FiStar } from "react-icons/fi"
+import { FiStar } from 'react-icons/fi'
 
 export interface StarProps {
   rating: number
@@ -13,7 +13,10 @@ export function Star({ rating }: StarProps) {
   }
   update()
   const starsElement = stars.map((value, index) => (
-    <FiStar key={index} className={`${value ? "fill-yellow stroke-yellow " : "stroke-yellow "}`} />
+    <FiStar
+      key={index}
+      className={`${value ? 'fill-yellow stroke-yellow ' : 'stroke-yellow '}`}
+    />
   ))
   return <div className="flex flex-row">{starsElement}</div>
 }

@@ -1,9 +1,9 @@
-import { Image } from "blitz"
-import { ReactNode } from "react"
-import { FiChevronLeft } from "react-icons/fi"
+import { Image } from 'blitz'
+import { ReactNode } from 'react'
+import { FiChevronLeft } from 'react-icons/fi'
 
-import { BackButton } from "./BackButton"
-import { TopBarAction } from "./TopBarAction"
+import { BackButton } from './BackButton'
+import { TopBarAction } from './TopBarAction'
 
 export type TopBarProps = {
   actions?: ReactNode
@@ -28,7 +28,13 @@ type WithBackHref = {
   backHref?: string
 }
 
-export function TopBar({ onBack, backHref, title, largeTitle, actions }: TopBarProps) {
+export function TopBar({
+  onBack,
+  backHref,
+  title,
+  largeTitle,
+  actions,
+}: TopBarProps) {
   const backButton = onBack ? (
     <TopBarAction onClick={onBack}>
       <FiChevronLeft />
@@ -38,7 +44,9 @@ export function TopBar({ onBack, backHref, title, largeTitle, actions }: TopBarP
       <FiChevronLeft />
     </TopBarAction>
   )
-  const actionsContainer = <span className="h-full flex items-center">{actions}</span>
+  const actionsContainer = (
+    <span className="h-full flex items-center">{actions}</span>
+  )
 
   return (
     <div>
@@ -51,9 +59,16 @@ export function TopBar({ onBack, backHref, title, largeTitle, actions }: TopBarP
         {!largeTitle ? (
           <span className="absolute inset-0 pointer-events-none flex items-center justify-center">
             {title ? (
-              <h3 className="text-large leading-none font-regular text-ink-darkest">{title}</h3>
+              <h3 className="text-large leading-none font-regular text-ink-darkest">
+                {title}
+              </h3>
             ) : (
-              <Image src="/images/logo_horizontal.svg" width={102} height={28} alt="" />
+              <Image
+                src="/images/logo_horizontal.svg"
+                width={102}
+                height={28}
+                alt=""
+              />
             )}
           </span>
         ) : null}

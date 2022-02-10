@@ -1,6 +1,6 @@
-import { AuthorizationError, Ctx, NotFoundError, resolver } from "blitz"
-import db from "db"
-import { z } from "zod"
+import { AuthorizationError, Ctx, NotFoundError, resolver } from 'blitz'
+import db from 'db'
+import { z } from 'zod'
 
 const RemoveAddress = z.object({
   id: z.number(),

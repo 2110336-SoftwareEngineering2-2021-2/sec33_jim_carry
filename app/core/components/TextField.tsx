@@ -1,7 +1,7 @@
-import { InputHTMLAttributes, RefAttributes } from "react"
+import { InputHTMLAttributes, RefAttributes } from 'react'
 
-import { polymorphic } from "../utils/polymorphic"
-import { variant } from "../utils/variant"
+import { polymorphic } from '../utils/polymorphic'
+import { variant } from '../utils/variant'
 
 export interface TextFieldProps {
   fullWidth?: boolean
@@ -9,17 +9,19 @@ export interface TextFieldProps {
   hasError?: boolean
 }
 
-export const TextField = polymorphic("input")<TextFieldProps>((Box, props, ref) => {
-  const {
-    className,
-    fullWidth = false,
-    floatingLabel = false,
-    hasError = false,
-    ...restProps
-  } = props
-  const additionalProps: RefAttributes<HTMLInputElement> & InputHTMLAttributes<HTMLInputElement> = {
-    ref,
-    className: `
+export const TextField = polymorphic('input')<TextFieldProps>(
+  (Box, props, ref) => {
+    const {
+      className,
+      fullWidth = false,
+      floatingLabel = false,
+      hasError = false,
+      ...restProps
+    } = props
+    const additionalProps: RefAttributes<HTMLInputElement> &
+      InputHTMLAttributes<HTMLInputElement> = {
+      ref,
+      className: `
       ${className}
       peer
       p-4 h-12 rounded-lg transition
@@ -38,13 +40,17 @@ export const TextField = polymorphic("input")<TextFieldProps>((Box, props, ref) 
       disabled:text-sky-base disabled:placeholder:text-sky-base
       ${variant(fullWidth, `w-full`)}
       ${variant(!floatingLabel, `placeholder:text-ink-lighter`)}
-      ${variant(floatingLabel, `pt-6 placeholder:text-transparent placeholder-shown:pt-4`)}
+      ${variant(
+        floatingLabel,
+        `pt-6 placeholder:text-transparent placeholder-shown:pt-4`
+      )}
     `,
+    }
+    return <Box {...additionalProps} {...restProps} />
   }
-  return <Box {...additionalProps} {...restProps} />
-})
+)
 
-export const FloatingLabel = polymorphic("label")((Box, props) => {
+export const FloatingLabel = polymorphic('label')((Box, props) => {
   const { className, ...restProps } = props
   return (
     <Box
@@ -60,7 +66,7 @@ export const FloatingLabel = polymorphic("label")((Box, props) => {
   )
 })
 
-export const ErrorMessage = polymorphic("div")((Box, props) => {
+export const ErrorMessage = polymorphic('div')((Box, props) => {
   const { className, ...restProps } = props
   return (
     <Box

@@ -1,16 +1,20 @@
-import { passportAuth } from "blitz"
-import db from "db"
-import { Strategy as GoogleStrategy } from "passport-google-oauth20"
+import { passportAuth } from 'blitz'
+import db from 'db'
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 
-import { appOrigin, googleClientId, googleClientSecret } from "app/core/environment"
+import {
+  appOrigin,
+  googleClientId,
+  googleClientSecret,
+} from 'app/core/environment'
 
 export default passportAuth({
-  successRedirectUrl: "/",
-  errorRedirectUrl: "/",
+  successRedirectUrl: '/',
+  errorRedirectUrl: '/',
   strategies: [
     {
       authenticateOptions: {
-        scope: "openid email profile",
+        scope: 'openid email profile',
       },
       strategy: new GoogleStrategy(
         {
@@ -32,12 +36,16 @@ export default passportAuth({
               googleId: profile.id,
               profileImage: picture,
             },
-            update: { name: profile.displayName, googleId: profile.id, profileImage: picture },
+            update: {
+              name: profile.displayName,
+              googleId: profile.id,
+              profileImage: picture,
+            },
           })
           const publicData = {
             userId: user.id,
             roles: [user.role],
-            source: "google",
+            source: 'google',
           }
           return cb(null, { publicData })
         }

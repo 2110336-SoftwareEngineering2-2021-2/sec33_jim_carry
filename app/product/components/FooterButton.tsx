@@ -1,7 +1,7 @@
-import { useState } from "react"
-import { FiCheck, FiMessageCircle, FiShoppingBag } from "react-icons/fi"
+import { useState } from 'react'
+import { FiCheck, FiMessageCircle, FiShoppingBag } from 'react-icons/fi'
 
-import { Button } from "app/core/components/Button"
+import { Button } from 'app/core/components/Button'
 
 export function FooterButton() {
   const [inBag, setInBag] = useState(false)
@@ -14,14 +14,14 @@ export function FooterButton() {
         <FiMessageCircle size={24} />
       </Button>
       <Button
-        buttonType={inBag ? "outline" : "primary"}
+        buttonType={inBag ? 'outline' : 'primary'}
         size="large"
         sideIcon
         className="grow w-14 justify-center"
         onClick={addToBagHandler}
       >
         {inBag ? <FiCheck size={24} /> : <FiShoppingBag size={24} />}
-        {inBag ? "Added to Bag" : "Add to Bag"}
+        {inBag ? 'Added to Bag' : 'Add to Bag'}
       </Button>
     </div>
   )

@@ -1,6 +1,6 @@
-import { resolver } from "blitz"
-import db from "db"
-import { z } from "zod"
+import { resolver } from 'blitz'
+import db from 'db'
+import { z } from 'zod'
 
 const CreateProduct = z.object({
   name: z.string(),
@@ -11,9 +11,13 @@ const CreateProduct = z.object({
   hidden: z.boolean(),
 })
 
-export default resolver.pipe(resolver.zod(CreateProduct), resolver.authorize(), async (input) => {
-  // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  const product = await db.product.create({ data: input })
+export default resolver.pipe(
+  resolver.zod(CreateProduct),
+  resolver.authorize(),
+  async (input) => {
+    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
+    const product = await db.product.create({ data: input })
 
-  return product
-})
+    return product
+  }
+)

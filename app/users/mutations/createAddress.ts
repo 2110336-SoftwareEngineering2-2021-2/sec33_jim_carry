@@ -1,7 +1,7 @@
-import { AuthorizationError, Ctx, resolver } from "blitz"
-import db from "db"
+import { AuthorizationError, Ctx, resolver } from 'blitz'
+import db from 'db'
 
-import { CreateAddress } from "../validations"
+import { CreateAddress } from '../validations'
 
 export default resolver.pipe(
   resolver.zod(CreateAddress),

@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { ReactNode } from 'react'
 
 export interface EmptyStateProps {
   icon?: ReactNode
@@ -11,10 +11,14 @@ export function EmptyState({ icon, title, description }: EmptyStateProps) {
     <div className="flex flex-col items-center text-center gap-3 py-[100px] px-6">
       {icon ? <p className="text-[84px] text-ink-darkest">{icon}</p> : null}
       {title ? (
-        <p className="text-regular leading-none font-medium text-ink-base">{title}</p>
+        <p className="text-regular leading-none font-medium text-ink-base">
+          {title}
+        </p>
       ) : null}
       {description ? (
-        <p className="text-small leading-tight font-regular text-ink-base">{description}</p>
+        <p className="text-small leading-tight font-regular text-ink-base">
+          {description}
+        </p>
       ) : null}
     </div>
   )

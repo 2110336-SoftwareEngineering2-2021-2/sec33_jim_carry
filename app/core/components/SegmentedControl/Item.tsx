@@ -1,4 +1,4 @@
-import { SegmentedControlItemProps } from "./types"
+import { SegmentedControlItemProps } from './types'
 
 export function SegmentedControlItem({
   onClick,
@@ -18,7 +18,9 @@ export function SegmentedControlItem({
       `}
       onClick={onClick}
       style={{
-        transformOrigin: `calc(${position! * 100}% + ${14 - 28 * position!}px) center`,
+        transformOrigin: `calc(${position! * 100}% + ${
+          14 - 28 * position!
+        }px) center`,
       }}
     >
       {children}

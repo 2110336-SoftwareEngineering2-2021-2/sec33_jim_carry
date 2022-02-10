@@ -1,6 +1,6 @@
-import { PropsWithChildren } from "react"
+import { PropsWithChildren } from 'react'
 
-import { useGoBack } from "../hooks/useGoBack"
+import { useGoBack } from '../hooks/useGoBack'
 
 export type BackButtonProps = PropsWithChildren<{
   className?: string

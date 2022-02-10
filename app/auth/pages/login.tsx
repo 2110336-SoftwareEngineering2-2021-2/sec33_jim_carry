@@ -1,16 +1,23 @@
-import { useRouter, BlitzPage } from "blitz"
-import Image from "next/image"
+import { useRouter, BlitzPage } from 'blitz'
+import Image from 'next/image'
 
-import { setupLayout } from "app/core/utils/setupLayout"
+import { setupLayout } from 'app/core/utils/setupLayout'
 
 const LoginPage: BlitzPage = () => {
   const router = useRouter()
-  const next = router.query.next ? decodeURIComponent(router.query.next as string) : "/"
+  const next = router.query.next
+    ? decodeURIComponent(router.query.next as string)
+    : '/'
   const loginUrl = `/api/auth/google?redirectUrl=${encodeURIComponent(next)}`
 
   return (
     <div className="p-6 pt-16">
-      <Image src="/images/logo_vertical.svg" width={106} height={96} alt="MayDay" />
+      <Image
+        src="/images/logo_vertical.svg"
+        width={106}
+        height={96}
+        alt="MayDay"
+      />
       <div className="py-3 gap-2">
         <h3 className="title3">Welcome to MayDay</h3>
         <p className="text-regular leading-normal font-regular text-ink-darkest">
@@ -39,7 +46,7 @@ const LoginPage: BlitzPage = () => {
   )
 }
 
-LoginPage.redirectAuthenticatedTo = "/"
+LoginPage.redirectAuthenticatedTo = '/'
 setupLayout(LoginPage)
 
 export default LoginPage

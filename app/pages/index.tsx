@@ -1,13 +1,16 @@
-import { BlitzPage, useMutation } from "blitz"
-import { Suspense, useState } from "react"
+import { BlitzPage, useMutation } from 'blitz'
+import { Suspense, useState } from 'react'
 
-import logout from "app/auth/mutations/logout"
-import { Button } from "app/core/components/Button"
-import { SegmentedControl, SegmentedControlItem } from "app/core/components/SegmentedControl"
-import { TextField } from "app/core/components/TextField"
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-import { MainPageLayout } from "app/core/layouts/MainPageLayout"
-import { setupAuthRedirect } from "app/core/utils/setupAuthRedirect"
+import logout from 'app/auth/mutations/logout'
+import { Button } from 'app/core/components/Button'
+import {
+  SegmentedControl,
+  SegmentedControlItem,
+} from 'app/core/components/SegmentedControl'
+import { TextField } from 'app/core/components/TextField'
+import { useCurrentUser } from 'app/core/hooks/useCurrentUser'
+import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
+import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 
 const Home: BlitzPage = () => {
   return (

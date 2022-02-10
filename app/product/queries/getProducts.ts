@@ -1,8 +1,11 @@
-import { paginate, resolver } from "blitz"
-import db, { Prisma } from "db"
+import { paginate, resolver } from 'blitz'
+import db, { Prisma } from 'db'
 
 interface GetProductsInput
-  extends Pick<Prisma.ProductFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
+  extends Pick<
+    Prisma.ProductFindManyArgs,
+    'where' | 'orderBy' | 'skip' | 'take'
+  > {}
 
 export default resolver.pipe(
   resolver.authorize(),
@@ -18,7 +21,8 @@ export default resolver.pipe(
       skip,
       take,
       count: () => db.product.count({ where }),
-      query: (paginateArgs) => db.product.findMany({ ...paginateArgs, where, orderBy }),
+      query: (paginateArgs) =>
+        db.product.findMany({ ...paginateArgs, where, orderBy }),
     })
 
     return {

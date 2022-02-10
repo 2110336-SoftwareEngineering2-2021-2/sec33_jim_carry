@@ -1,15 +1,15 @@
-import { BlitzPage, Routes, useMutation } from "blitz"
-import { z } from "zod"
+import { BlitzPage, Routes, useMutation } from 'blitz'
+import { z } from 'zod'
 
-import Form, { FORM_ERROR } from "app/core/components/Form"
-import LabeledTextField from "app/core/components/LabeledTextField"
-import { TextField } from "app/core/components/TextField"
-import { TopBar } from "app/core/components/TopBar"
-import { useGoBack } from "app/core/hooks/useGoBack"
-import { setupAuthRedirect } from "app/core/utils/setupAuthRedirect"
-import { setupLayout } from "app/core/utils/setupLayout"
-import createAddress from "app/users/mutations/createAddress"
-import { CreateAddress } from "app/users/validations"
+import Form, { FORM_ERROR } from 'app/core/components/Form'
+import LabeledTextField from 'app/core/components/LabeledTextField'
+import { TextField } from 'app/core/components/TextField'
+import { TopBar } from 'app/core/components/TopBar'
+import { useGoBack } from 'app/core/hooks/useGoBack'
+import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
+import { setupLayout } from 'app/core/utils/setupLayout'
+import createAddress from 'app/users/mutations/createAddress'
+import { CreateAddress } from 'app/users/validations'
 
 const CreateAddressPage: BlitzPage = () => {
   const [createAddressMutation] = useMutation(createAddress)
@@ -32,7 +32,12 @@ const CreateAddressPage: BlitzPage = () => {
         }}
       >
         <LabeledTextField name="name" label="Name" />
-        <LabeledTextField name="address" label="Address" asTextArea style={{ height: 112 }} />
+        <LabeledTextField
+          name="address"
+          label="Address"
+          asTextArea
+          style={{ height: 112 }}
+        />
         <LabeledTextField name="note" label="Note" />
         <LabeledTextField name="receiverName" label="Contact Name" />
         <LabeledTextField name="phoneNo" label="Contact Number" />

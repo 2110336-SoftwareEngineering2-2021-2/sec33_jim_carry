@@ -58,12 +58,6 @@ const mockProduct2 = {
 const mockProducts = [mockProduct1, mockProduct2]
 
 export function useProducts() {
-  // const [results] = useQuery(getProducts, {})
-  const products = {
-    products: mockProducts,
-    nextPage: null,
-    hasMore: false,
-    count: 0,
-  }
+  const [products] = useQuery(getProducts, {})
   return products
 }

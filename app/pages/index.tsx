@@ -69,7 +69,7 @@ function Product({ product }) {
           </div>
         </div>
         <span className="font-regular text-tiny text-ink-light">
-          {`1h ago · by ${product.shop.name}`}
+          {/* {`1h ago · by ${product.shop}`} */}
         </span>
       </div>
     </a>

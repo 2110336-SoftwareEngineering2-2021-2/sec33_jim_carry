@@ -2,7 +2,7 @@
 
 This is a [Blitz.js](https://github.com/blitz-js/blitz) app.
 
-# **mayday**
+# **MayDay**
 
 ## Getting Started
 
@@ -10,12 +10,6 @@ Install your app.
 
 ```
 yarn
-```
-
-Run your app in the development mode.
-
-```
-yarn dev
 ```
 
 ## Environment Variables
@@ -33,11 +27,11 @@ Note: `DATABASE_URL` for development and production should already be set up.
 DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/mayday
 ``` -->
 
-<!-- Ensure the `.env.test.local` file has required environment variables:
+Ensure the `.env.test.local` file has required environment variables:
 
 ```
-DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/mayday_test
-``` -->
+DATABASE_URL="postgresql://mayday:mayday@localhost:7064/mayday"
+```
 
 ## Database
 
@@ -54,7 +48,15 @@ yarn blitz prisma generate
 yarn blitz prisma migrate dev
 ```
 
+Run your app in the development mode.
+
+```
+yarn dev
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+**Now you should be ready to dev!**
 
 ## Tests
 

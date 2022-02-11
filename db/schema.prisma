@@ -61,9 +61,11 @@ model Address {
 }
 
 model Product {
-  id     Int  @id @default(autoincrement())
-  shop   Shop @relation(fields: [shopId], references: [id])
-  shopId Int
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  shop      Shop     @relation(fields: [shopId], references: [id])
+  shopId    Int
 
   name        String
   description String?

@@ -39,7 +39,7 @@ export function ProductPicture({ imgSrc }: ProductPictureProps) {
     }
   })
   return (
-    <div className="relative">
+    <div className="relative select-none cursor-grab active:cursor-grabbing">
       <div className="h-[249px] bg-sky-lighter">{carouselFragment}</div>
       <div className="bg-gradient-to-t from-[#000000]/25 absolute bottom-0 right-0 w-full h-[60px]"></div>
       <div className="flex flex-row px-6 py-6 space-x-2 absolute bottom-0 right-0">
@@ -48,7 +48,7 @@ export function ProductPicture({ imgSrc }: ProductPictureProps) {
             key={idx}
             className={`${
               active == idx ? 'bg-primary-base' : 'bg-sky-white'
-            } w-[8px] h-[8px] rounded-[1px]`}
+            } w-[8px] h-[8px] rounded-[1px] cursor-pointer`}
             onClick={() => {
               slideToItem(`items-${idx}`)
             }}

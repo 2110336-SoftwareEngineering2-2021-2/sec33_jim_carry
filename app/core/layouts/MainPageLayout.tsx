@@ -28,7 +28,7 @@ export const MainPageLayout: BlitzLayout<MainPageLayoutProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="sticky top-0 w-full h-[112px] shadow">
+      <div className="sticky top-0 w-full h-[112px] shadow bg-sky-white">
         <Container>
           <div className="w-full h-14 px-6 pl-[22px] flex items-center">
             <Image

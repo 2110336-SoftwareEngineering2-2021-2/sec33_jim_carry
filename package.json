@@ -11,7 +11,8 @@
     "test:watch": "jest --watch",
     "prepare": "husky install",
     "setup": "blitz install tailwind",
-    "migrate": "yarn blitz prisma generate && yarn blitz prisma migrate dev"
+    "migrate": "blitz prisma generate && blitz prisma migrate dev",
+    "seed": "blitz db seed"
   },
   "prisma": {
     "schema": "db/schema.prisma"

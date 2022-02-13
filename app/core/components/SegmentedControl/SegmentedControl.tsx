@@ -16,25 +16,32 @@ export function SegmentedControl<T extends Value>({
   const childrenArray = Children.map(childrenProp, (child) => child)
   const count = childrenArray.length
 
-  const finalSelectedIndex = childrenArray.findIndex(
+  const selectedIndex = childrenArray.findIndex(
     (child) => child.props.value === value
   )
-  const { animatedIndex } = useSpring({ animatedIndex: finalSelectedIndex })
+  const [draggingIndex, setDraggingIndex] = useState<number | null>(null)
+  const finalIndex = draggingIndex ?? selectedIndex
+  const { animatedIndex } = useSpring({ animatedIndex: finalIndex })
   const position = animatedIndex.to((idx) => idx / (count - 1))
 
   const [dragging, setDragging] = useState(false)
   const bind = useDrag(({ down, event }) => {
     setDragging(down)
+    if (!down) {
+      const newChild = childrenArray[draggingIndex ?? 0]
+      if (newChild) {
+        onChange(newChild.props.value as T)
+        setDraggingIndex(null)
+      }
+      return
+    }
     const parent = (event.target as HTMLElement).parentElement!
     const bounds = parent.getBoundingClientRect()
     const x = (event as PointerEvent).clientX - bounds.left
     const width = bounds.width
     const newPosition = Math.floor((x / width) * count)
     const clampedPosition = Math.max(0, Math.min(count - 1, newPosition))
-    const newChild = childrenArray[clampedPosition]
-    if (newChild) {
-      onChange(newChild.props.value as T)
-    }
+    setDraggingIndex(clampedPosition)
   })
 
   return (

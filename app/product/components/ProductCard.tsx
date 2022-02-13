@@ -1,5 +1,6 @@
 import { Product } from '@prisma/client'
 import { Image, Link, Routes } from 'blitz'
+import { useCallback, useMemo } from 'react'
 import { FiMessageCircle } from 'react-icons/fi'
 import { RiHeartFill, RiHeartLine } from 'react-icons/ri'
 
@@ -8,9 +9,18 @@ import { useWishlistStore } from 'app/core/context/useWishlistStore'
 
 export function ProductCard({ product }: { product: Product }) {
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlistStore()
-  const like = () => addToWishlist(product.id)
-  const unlike = () => removeFromWishlist(product.id)
-  const liked = wishlist.includes(product.id)
+  const like = useCallback(
+    () => addToWishlist(product),
+    [addToWishlist, product]
+  )
+  const unlike = useCallback(
+    () => removeFromWishlist(product),
+    [removeFromWishlist, product]
+  )
+  const liked = useMemo(
+    () => wishlist.map((wish) => wish.id).includes(product.id),
+    [product, wishlist]
+  )
   return (
     <div className="flex-col space-y-3">
       {/* Note: you can override to different aspect-ratio */}

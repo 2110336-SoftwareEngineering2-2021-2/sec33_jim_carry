@@ -3,7 +3,6 @@ import { Suspense } from 'react'
 
 import { Spinner } from 'app/core/components/Spinner'
 import { TextField } from 'app/core/components/TextField'
-import { useWishlistContext } from 'app/core/context/useWishlistStore'
 import { useProducts } from 'app/core/hooks/useProducts'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'

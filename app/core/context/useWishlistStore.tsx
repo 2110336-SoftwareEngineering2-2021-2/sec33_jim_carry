@@ -1,6 +1,5 @@
-import { Product } from '@prisma/client'
 import { invoke } from 'blitz'
-import produce, { Immutable } from 'immer'
+import produce from 'immer'
 import { Suspense, useEffect } from 'react'
 import create from 'zustand'
 
@@ -9,21 +8,21 @@ import removeFromWishlist from 'app/wishlist/mutations/removeFromWishlist'
 import getWishlist from 'app/wishlist/queries/getWishlist'
 
 import { useCurrentUser } from '../hooks/useCurrentUser'
+import { ProductWithShop } from '../types/Product'
 
-export type WishlistStore = Immutable<{
-  wishlist: Product[]
-  addToWishlist: (id: Product) => Promise<void>
-  removeFromWishlist: (id: Product) => Promise<void>
+export type WishlistStore = {
+  wishlist: ProductWithShop[]
+  addToWishlist: (product: ProductWithShop) => Promise<void>
+  removeFromWishlist: (product: ProductWithShop) => Promise<void>
   syncFromStore: () => Promise<void>
-  clearWishlist: () => void
-}>
+  clearSoldFromWishlist: () => Promise<void>
+  resetWishlist: () => void
+}
 
 export const useWishlistStore = create<WishlistStore>((set, get) => ({
   wishlist: [],
   syncFromStore: async () => {
     const wishlist = await invoke(getWishlist, null)
-    console.log('fetch')
-
     set({ wishlist })
   },
   addToWishlist: async (product) => {
@@ -46,7 +45,13 @@ export const useWishlistStore = create<WishlistStore>((set, get) => ({
     await invoke(removeFromWishlist, { productId: product.id })
     await get().syncFromStore()
   },
-  clearWishlist: () => {
+  clearSoldFromWishlist: async () => {
+    // TODO: actually remove from database
+    set((state) => ({
+      wishlist: state.wishlist.filter((product) => product.soldPrice === null),
+    }))
+  },
+  resetWishlist: () => {
     set({ wishlist: [] })
   },
 }))
@@ -54,15 +59,15 @@ export const useWishlistStore = create<WishlistStore>((set, get) => ({
 export function useWishlistContext() {
   const currentUser = useCurrentUser()
   const syncFromStore = useWishlistStore((state) => state.syncFromStore)
-  const clearWishlist = useWishlistStore((state) => state.clearWishlist)
+  const resetWishlist = useWishlistStore((state) => state.resetWishlist)
 
   useEffect(() => {
     if (currentUser) {
       syncFromStore()
     } else {
-      clearWishlist()
+      resetWishlist()
     }
-  }, [currentUser, syncFromStore, clearWishlist])
+  }, [currentUser, syncFromStore, resetWishlist])
 }
 
 export function WishlistContext() {

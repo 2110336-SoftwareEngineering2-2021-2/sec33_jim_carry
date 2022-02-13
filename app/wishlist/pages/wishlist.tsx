@@ -1,12 +1,18 @@
 import { BlitzPage } from 'blitz'
-import { Suspense } from 'react'
+import { Suspense, useMemo, useState } from 'react'
+import { FiHeart } from 'react-icons/fi'
 
-import { Spinner } from 'app/core/components/Spinner'
+import { Button } from 'app/core/components/Button'
 import {
-  useWishlistContext,
-  useWishlistStore,
-} from 'app/core/context/useWishlistStore'
+  SegmentedControl,
+  SegmentedControlItem,
+} from 'app/core/components/SegmentedControl'
+import { Spinner } from 'app/core/components/Spinner'
+import { useWishlistStore } from 'app/core/context/useWishlistStore'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
+import { ProductWithShop } from 'app/core/types/Product'
+
+import { WishProduct } from '../components/WishProduct'
 
 const Wishlist: BlitzPage = () => {
   return (
@@ -17,14 +23,78 @@ const Wishlist: BlitzPage = () => {
     </main>
   )
 }
+
 const WishProducts = () => {
   const wishlist = useWishlistStore((state) => state.wishlist)
+  const [value, setValue] = useState('all')
+  const { available, sold } = useMemo(() => {
+    const sold = wishlist.filter((product) => product.soldPrice !== null)
+    const available = wishlist.filter((product) => product.soldPrice === null)
+    return { available, sold }
+  }, [wishlist])
+  const products =
+    value === 'all' ? wishlist : value === 'sold out' ? sold : available
+
   return (
-    <ul>
-      {wishlist.map((product) => (
-        <li key={product.id}>{product.name}</li>
+    <div>
+      <div className="p-6 pb-2">
+        <SegmentedControl
+          value={value}
+          onChange={(newValue) => setValue(newValue)}
+        >
+          <SegmentedControlItem value="all">{`All (${wishlist.length})`}</SegmentedControlItem>
+          <SegmentedControlItem value="available">
+            {`Available (${available.length})`}
+          </SegmentedControlItem>
+          <SegmentedControlItem value="sold out">{`Sold Out (${sold.length})`}</SegmentedControlItem>
+        </SegmentedControl>
+      </div>
+      <ProductList products={products} value={value} />
+    </div>
+  )
+}
+
+const ProductList = ({
+  products,
+  value,
+}: {
+  products: ProductWithShop[]
+  value: string
+}) => {
+  const clearSoldFromWishlist = useWishlistStore(
+    (state) => state.clearSoldFromWishlist
+  )
+  if (products.length === 0) {
+    return (
+      <div className="flex flex-col py-40 px-6 space-y-3 text-center items-center">
+        <FiHeart strokeWidth={0.5} size={84} />
+        <span className="text-ink-base">
+          {`There are no ${
+            value === 'all' ? '' : `${value} `
+          }items in your wishlist.`}
+        </span>
+        <span className="text-ink-base font-regular text-small">
+          When you find something you like, <br />
+          don’t forget to add it here!
+        </span>
+      </div>
+    )
+  }
+  return (
+    <div className="flex flex-col p-6 space-y-6">
+      {products.map((product) => (
+        <WishProduct key={product.id} product={product} />
       ))}
-    </ul>
+      {value === 'sold out' && (
+        <Button
+          buttonType="secondary"
+          fullWidth
+          onClick={clearSoldFromWishlist}
+        >
+          Clear Items
+        </Button>
+      )}
+    </div>
   )
 }
 

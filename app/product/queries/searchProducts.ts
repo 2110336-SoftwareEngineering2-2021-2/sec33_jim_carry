@@ -5,6 +5,7 @@ import { z } from 'zod'
 const SearchProducts = z.object({
   name: z.string(),
   take: z.number(),
+  skip: z.number(),
 })
 
 export default resolver.pipe(
@@ -14,6 +15,7 @@ export default resolver.pipe(
     // Do your stuff :)
     const queries = {
       take: input.take,
+      skip: input.skip,
       where: {
         name: {
           contains: input.name,

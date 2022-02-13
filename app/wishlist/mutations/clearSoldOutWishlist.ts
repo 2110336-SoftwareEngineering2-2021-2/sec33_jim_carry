@@ -28,7 +28,11 @@ export default resolver.pipe(
         },
       },
       include: {
-        wishlist: true,
+        wishlist: {
+          include: {
+            shop: true,
+          },
+        },
       },
     })
 

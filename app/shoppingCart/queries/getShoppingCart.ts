@@ -10,7 +10,7 @@ export default resolver.pipe(
         id: session.userId,
       },
       include: {
-        wishlist: {
+        shoppingCart: {
           include: {
             shop: true,
           },
@@ -20,6 +20,6 @@ export default resolver.pipe(
 
     if (!user) throw new NotFoundError()
 
-    return user.wishlist
+    return user.shoppingCart
   }
 )

@@ -2,12 +2,12 @@ import { AuthorizationError, Ctx, resolver } from 'blitz'
 import db from 'db'
 import { z } from 'zod'
 
-const RemoveFromWishlist = z.object({
+const RemoveFromShoppingCart = z.object({
   productId: z.number(),
 })
 
 export default resolver.pipe(
-  resolver.zod(RemoveFromWishlist),
+  resolver.zod(RemoveFromShoppingCart),
   resolver.authorize(),
   async ({ productId }, { session }: Ctx) => {
     if (!session.userId) throw new AuthorizationError()
@@ -16,12 +16,12 @@ export default resolver.pipe(
         id: session.userId,
       },
       data: {
-        wishlist: {
+        shoppingCart: {
           disconnect: { id: productId },
         },
       },
       include: {
-        wishlist: {
+        shoppingCart: {
           include: {
             shop: true,
           },
@@ -29,6 +29,6 @@ export default resolver.pipe(
       },
     })
 
-    return user.wishlist
+    return user.shoppingCart
   }
 )

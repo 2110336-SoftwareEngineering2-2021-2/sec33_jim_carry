@@ -69,8 +69,8 @@ model Product {
 
   name        String
   description String?
-  price       Decimal
-  soldPrice   Decimal?
+  price       Float
+  soldPrice   Float?
   stock       Int
   hidden      Boolean
   image       String?

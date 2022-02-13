@@ -1,4 +1,4 @@
-import { invoke } from 'blitz'
+import { invoke, useSession } from 'blitz'
 import produce from 'immer'
 import { Suspense, useEffect } from 'react'
 import create from 'zustand'
@@ -32,8 +32,8 @@ export const useWishlistStore = create<WishlistStore>((set, get) => ({
         state.wishlist.push(product)
       })
     )
-    await invoke(addToWishlist, { productId: product.id })
-    await get().syncFromStore()
+    const wishlist = await invoke(addToWishlist, { productId: product.id })
+    set({ wishlist })
   },
   removeFromWishlist: async (product) => {
     set(
@@ -43,44 +43,31 @@ export const useWishlistStore = create<WishlistStore>((set, get) => ({
         state.wishlist.splice(index, 1)
       })
     )
-    await invoke(removeFromWishlist, { productId: product.id })
-    await get().syncFromStore()
+    const wishlist = await invoke(removeFromWishlist, { productId: product.id })
+    set({ wishlist })
   },
   clearSoldOutWishlist: async () => {
     set((state) => ({
       wishlist: state.wishlist.filter((product) => product.soldPrice === null),
     }))
-    await invoke(clearSoldOutWishlist, null)
-    await get().syncFromStore()
+    const wishlist = await invoke(clearSoldOutWishlist, null)
+    set({ wishlist })
   },
   resetWishlist: () => {
     set({ wishlist: [] })
   },
 }))
 
-export function useWishlistContext() {
-  const currentUser = useCurrentUser()
+export function useSyncWishlist() {
+  const session = useSession({ suspense: false })
   const syncFromStore = useWishlistStore((state) => state.syncFromStore)
   const resetWishlist = useWishlistStore((state) => state.resetWishlist)
 
   useEffect(() => {
-    if (currentUser) {
+    if (session.userId) {
       syncFromStore()
     } else {
       resetWishlist()
     }
-  }, [currentUser, syncFromStore, resetWishlist])
-}
-
-export function WishlistContext() {
-  useWishlistContext()
-  return null
-}
-
-export function WishlistProducer() {
-  return (
-    <Suspense fallback={null}>
-      <WishlistContext />
-    </Suspense>
-  )
+  }, [session, syncFromStore, resetWishlist])
 }

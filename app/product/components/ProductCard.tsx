@@ -17,7 +17,7 @@ export function ProductCard({ product }: { product: ProductWithShop }) {
     [removeFromWishlist, product]
   )
   const liked = useMemo(
-    () => wishlist.map((wish) => wish.id).includes(product.id),
+    () => !!wishlist.find((wish) => wish.id === product.id),
     [product, wishlist]
   )
   return (

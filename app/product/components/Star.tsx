@@ -1,3 +1,4 @@
+import { Decimal } from '@prisma/client/runtime'
 import { FiStar } from 'react-icons/fi'
 
 export interface StarProps {

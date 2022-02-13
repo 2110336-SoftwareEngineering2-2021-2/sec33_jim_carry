@@ -3,7 +3,11 @@ import { FiCheck, FiMessageCircle, FiShoppingBag } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
 
-export function FooterButton() {
+export interface FooterButtonProps {
+  pid: number
+}
+
+export function FooterButton({ pid }: FooterButtonProps) {
   const [inBag, setInBag] = useState(false)
   const addToBagHandler = () => {
     setInBag(!inBag)

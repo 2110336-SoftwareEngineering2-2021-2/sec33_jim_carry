@@ -7,13 +7,15 @@ export interface ProductTitleProps {
   name: string
   price: number
   isWish: boolean
+  pid: number
 }
 
-export function ProductTitle({ name, price, isWish }: ProductTitleProps) {
+export function ProductTitle({ name, price, isWish, pid }: ProductTitleProps) {
   const [wish, setwish] = useState(isWish)
   const wishHandler = () => {
     setwish(!wish)
   }
+
   return (
     <div className="flex flex-col pt-4 pb-2 px-6">
       <p className="text-large leading-normal font-bold">{name}</p>

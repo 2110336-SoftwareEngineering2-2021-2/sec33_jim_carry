@@ -8,9 +8,9 @@ import {
   SegmentedControlItem,
 } from 'app/core/components/SegmentedControl'
 import { Spinner } from 'app/core/components/Spinner'
-import { useWishlistStore } from 'app/core/context/useWishlistStore'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
 import { ProductWithShop } from 'app/core/types/Product'
+import { useWishlistStore } from 'app/wishlist/context/useWishlistStore'
 
 import { WishProduct } from '../components/WishProduct'
 
@@ -61,8 +61,8 @@ const ProductList = ({
   products: ProductWithShop[]
   value: string
 }) => {
-  const clearSoldFromWishlist = useWishlistStore(
-    (state) => state.clearSoldFromWishlist
+  const clearSoldOutWishlist = useWishlistStore(
+    (state) => state.clearSoldOutWishlist
   )
   if (products.length === 0) {
     return (
@@ -86,11 +86,7 @@ const ProductList = ({
         <WishProduct key={product.id} product={product} />
       ))}
       {value === 'sold out' && (
-        <Button
-          buttonType="secondary"
-          fullWidth
-          onClick={clearSoldFromWishlist}
-        >
+        <Button buttonType="secondary" fullWidth onClick={clearSoldOutWishlist}>
           Clear Items
         </Button>
       )}

@@ -4,18 +4,19 @@ import { Suspense, useEffect } from 'react'
 import create from 'zustand'
 
 import addToWishlist from 'app/wishlist/mutations/addToWishlist'
+import clearSoldOutWishlist from 'app/wishlist/mutations/clearSoldOutWishlist'
 import removeFromWishlist from 'app/wishlist/mutations/removeFromWishlist'
 import getWishlist from 'app/wishlist/queries/getWishlist'
 
-import { useCurrentUser } from '../hooks/useCurrentUser'
-import { ProductWithShop } from '../types/Product'
+import { useCurrentUser } from '../../core/hooks/useCurrentUser'
+import { ProductWithShop } from '../../core/types/Product'
 
 export type WishlistStore = {
   wishlist: ProductWithShop[]
   addToWishlist: (product: ProductWithShop) => Promise<void>
   removeFromWishlist: (product: ProductWithShop) => Promise<void>
   syncFromStore: () => Promise<void>
-  clearSoldFromWishlist: () => Promise<void>
+  clearSoldOutWishlist: () => Promise<void>
   resetWishlist: () => void
 }
 
@@ -45,11 +46,12 @@ export const useWishlistStore = create<WishlistStore>((set, get) => ({
     await invoke(removeFromWishlist, { productId: product.id })
     await get().syncFromStore()
   },
-  clearSoldFromWishlist: async () => {
-    // TODO: actually remove from database
+  clearSoldOutWishlist: async () => {
     set((state) => ({
       wishlist: state.wishlist.filter((product) => product.soldPrice === null),
     }))
+    await invoke(clearSoldOutWishlist, null)
+    await get().syncFromStore()
   },
   resetWishlist: () => {
     set({ wishlist: [] })

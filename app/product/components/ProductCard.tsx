@@ -3,8 +3,8 @@ import { useCallback, useMemo } from 'react'
 import { FiHeart, FiMessageCircle } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
-import { useWishlistStore } from 'app/core/context/useWishlistStore'
 import { ProductWithShop } from 'app/core/types/Product'
+import { useWishlistStore } from 'app/wishlist/context/useWishlistStore'
 
 export function ProductCard({ product }: { product: ProductWithShop }) {
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlistStore()

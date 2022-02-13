@@ -11,8 +11,8 @@ import {
 import SuperJson from 'superjson'
 
 import LoginPage from 'app/auth/pages/login'
-import { WishlistProducer } from 'app/core/context/useWishlistStore'
 import 'app/core/styles/index.css'
+import { WishlistProducer } from 'app/wishlist/context/useWishlistStore'
 
 SuperJson.registerClass(Prisma.Decimal, { identifier: 'DecimalJS' })
 

@@ -2,8 +2,8 @@ import { Image, Link, Routes } from 'blitz'
 import { FiCheck, FiShoppingBag, FiTrash2 } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
-import { useWishlistStore } from 'app/core/context/useWishlistStore'
 import { ProductWithShop } from 'app/core/types/Product'
+import { useWishlistStore } from 'app/wishlist/context/useWishlistStore'
 
 export function WishProduct({ product }: { product: ProductWithShop }) {
   const inBag = false

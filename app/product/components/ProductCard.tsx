@@ -1,16 +1,25 @@
-import { Product } from '@prisma/client'
 import { Image, Link, Routes } from 'blitz'
-import { FiMessageCircle } from 'react-icons/fi'
-import { RiHeartFill, RiHeartLine } from 'react-icons/ri'
+import { useCallback, useMemo } from 'react'
+import { FiHeart, FiMessageCircle } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
-import { useWishlistStore } from 'app/core/context/useWishlistStore'
+import { ProductWithShop } from 'app/core/types/Product'
+import { useWishlistStore } from 'app/wishlist/context/useWishlistStore'
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product }: { product: ProductWithShop }) {
   const { wishlist, addToWishlist, removeFromWishlist } = useWishlistStore()
-  const like = () => addToWishlist(product.id)
-  const unlike = () => removeFromWishlist(product.id)
-  const liked = wishlist.includes(product.id)
+  const like = useCallback(
+    () => addToWishlist(product),
+    [addToWishlist, product]
+  )
+  const unlike = useCallback(
+    () => removeFromWishlist(product),
+    [removeFromWishlist, product]
+  )
+  const liked = useMemo(
+    () => !!wishlist.find((wish) => wish.id === product.id),
+    [product, wishlist]
+  )
   return (
     <div className="flex-col space-y-3">
       {/* Note: you can override to different aspect-ratio */}
@@ -25,9 +34,9 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
       </Link>
       <div className="flex-col">
-        <span className="bold">{product.name}</span>
+        <span className="font-bold text-regular">{product.name}</span>
         <div className="flex justify-between items-center">
-          <span className="title3 font-sans text-primary-dark">{`฿${product.price}`}</span>
+          <span className="text-title3 font-sans text-primary-dark">{`฿${product.price}`}</span>
           <div className="flex">
             <Button iconOnly buttonType="transparent">
               <FiMessageCircle />
@@ -37,12 +46,12 @@ export function ProductCard({ product }: { product: Product }) {
               buttonType="transparent"
               onClick={liked ? unlike : like}
             >
-              {liked ? <RiHeartFill /> : <RiHeartLine />}
+              <FiHeart className={liked ? 'fill-primary-base' : ''} />
             </Button>
           </div>
         </div>
         <span className="font-regular text-tiny text-ink-light">
-          {/* {`1h ago · by ${product.shop.name}`} */}
+          {`1h ago · by ${product.shop.name}`}
         </span>
       </div>
     </div>

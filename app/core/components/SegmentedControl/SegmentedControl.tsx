@@ -38,7 +38,7 @@ export function SegmentedControl<T extends Value>({
   })
 
   return (
-    <div className="w-full h-8 rounded-lg p-0.5 bg-sky-lighter overflow-hidden select-none">
+    <div className="w-full h-8 rounded-lg p-0.5 bg-sky-lighter overflow-hidden select-none cursor-pointer">
       <div className="w-full h-full relative">
         <animated.span
           className={`absolute left-0 h-full`}

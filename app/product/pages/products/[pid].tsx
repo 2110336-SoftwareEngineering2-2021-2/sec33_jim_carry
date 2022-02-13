@@ -4,6 +4,8 @@ import { FiShoppingBag } from 'react-icons/fi'
 
 import { TopBar } from 'app/core/components/TopBar'
 import { TopBarAction } from 'app/core/components/TopBarAction'
+import { useWishlistStore } from 'app/core/context/useWishlistStore'
+import { useProduct } from 'app/core/hooks/useProduct'
 import { setupLayout } from 'app/core/utils/setupLayout'
 import { ProductView } from 'app/product/components/ProductView'
 
@@ -14,6 +16,10 @@ const ProductDetail: BlitzPage = () => {
     pid = parseInt(param)
   }
 
+  // const product = useProduct(pid)
+  // const wishlist = useWishlistStore((state) => state.wishlist)
+  // if (!product) return null
+  // const isWish = wishlist.map((wish) => wish.id).includes(product.id)
   return (
     <div>
       <TopBar

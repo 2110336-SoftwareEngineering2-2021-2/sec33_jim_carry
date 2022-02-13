@@ -10,7 +10,11 @@ export default resolver.pipe(
         id: session.userId,
       },
       include: {
-        wishlist: true,
+        wishlist: {
+          include: {
+            shop: true,
+          },
+        },
       },
     })
 

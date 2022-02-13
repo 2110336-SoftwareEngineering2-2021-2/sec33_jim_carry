@@ -21,7 +21,11 @@ export default resolver.pipe(
         },
       },
       include: {
-        shoppingCart: true,
+        shoppingCart: {
+          include: {
+            shop: true,
+          },
+        },
       },
     })
 

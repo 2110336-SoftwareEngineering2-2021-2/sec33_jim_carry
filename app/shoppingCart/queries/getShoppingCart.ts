@@ -10,7 +10,11 @@ export default resolver.pipe(
         id: session.userId,
       },
       include: {
-        shoppingCart: true,
+        shoppingCart: {
+          include: {
+            shop: true,
+          },
+        },
       },
     })
 

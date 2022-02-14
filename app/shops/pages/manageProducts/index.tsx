@@ -24,7 +24,7 @@ const ManageProductsPage: BlitzPage = () => {
       />
       <Suspense fallback={null}>
         <EmptyState
-          icon={<FiGrid />}
+          icon={<FiGrid strokeWidth={0.5} size={84} />}
           title="There are no products in your shop."
           description="Add a new product to start selling!"
         />

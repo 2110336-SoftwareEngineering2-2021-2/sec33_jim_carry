@@ -13,7 +13,7 @@ export function AddressList() {
   if (addresses.length === 0) {
     return (
       <EmptyState
-        icon={<FiMapPin />}
+        icon={<FiMapPin strokeWidth={0.5} size={84} />}
         title="You don't have a saved address."
         description="Add your addresses here for a quicker checkout experience."
       />

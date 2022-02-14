@@ -1,6 +1,6 @@
 import { invoke, useSession } from 'blitz'
 import produce from 'immer'
-import { Suspense, useEffect } from 'react'
+import { useEffect } from 'react'
 import create from 'zustand'
 
 import addToWishlist from 'app/wishlist/mutations/addToWishlist'
@@ -8,7 +8,6 @@ import clearSoldOutWishlist from 'app/wishlist/mutations/clearSoldOutWishlist'
 import removeFromWishlist from 'app/wishlist/mutations/removeFromWishlist'
 import getWishlist from 'app/wishlist/queries/getWishlist'
 
-import { useCurrentUser } from '../../core/hooks/useCurrentUser'
 import { ProductWithShop } from '../../core/types/Product'
 
 export type WishlistStore = {

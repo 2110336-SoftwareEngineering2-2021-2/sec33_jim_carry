@@ -1,4 +1,4 @@
-import { Head, BlitzLayout, Routes } from 'blitz'
+import { Head, BlitzLayout, Routes, useRouter } from 'blitz'
 import Image from 'next/image'
 import {
   FiBell,
@@ -8,6 +8,8 @@ import {
   FiMessageCircle,
   FiShoppingBag,
 } from 'react-icons/fi'
+
+import { useShoppingCartStore } from 'app/shoppingCart/context/useShoppingCartStore'
 
 import { Container } from '../components/Container'
 import { NavBarTarget } from '../components/NavBarTarget'
@@ -21,6 +23,9 @@ export const MainPageLayout: BlitzLayout<MainPageLayoutProps> = ({
   title,
   children,
 }) => {
+  const shoppingCart = useShoppingCartStore((state) => state.shoppingCart)
+  const count = shoppingCart.length
+  const router = useRouter()
   return (
     <>
       <Head>
@@ -38,7 +43,18 @@ export const MainPageLayout: BlitzLayout<MainPageLayoutProps> = ({
               alt="MayDay"
             />
             <span className="flex-1" />
-            <TopBarAction>
+            <TopBarAction
+              onClick={() => router.push(Routes.ShoppingCart())}
+              className="relative inline-block"
+            >
+              {!!count && (
+                <span
+                  className="absolute top-0 right-0 px-1.5 py-0.5
+                   text-tiny text-sky-white bg-error rounded-full"
+                >
+                  {count}
+                </span>
+              )}
               <FiShoppingBag />
             </TopBarAction>
           </div>

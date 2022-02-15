@@ -1,27 +1,33 @@
-import { SecondaryPageLayout } from "app/core/layouts/SecondaryPageLayout"
-import { BlitzPage, Image } from "blitz"
-import { SearchBar } from "app/search/components/SearchBar"
-import { SearchWithoutQuery } from "../components/SearchWithoutQuery"
-import { useState } from "react"
-import { SearchTag } from "../components/SearchTag"
-import { SearchWithQuery } from "../components/SearchWithQuery"
+import { BlitzPage, Image, Routes } from 'blitz'
+import { useState } from 'react'
+
+import { TopBar } from 'app/core/components/TopBar'
+import { SecondaryPageLayout } from 'app/core/layouts/SecondaryPageLayout'
+import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
+import { setupLayout } from 'app/core/utils/setupLayout'
+import { SearchBar } from 'app/search/components/SearchBar'
+
+import { SearchTag } from '../components/SearchTag'
+import { SearchWithQuery } from '../components/SearchWithQuery'
+import { SearchWithoutQuery } from '../components/SearchWithoutQuery'
 
 const Search: BlitzPage = () => {
-  const [text, setText] = useState("")
+  const [text, setText] = useState('')
 
   return (
-    <SecondaryPageLayout>
+    <div>
+      <TopBar backHref={Routes.Home().pathname} title="" />
       <div className="flex flex-col mx-6">
         <SearchBar setText={setText} />
       </div>
-      <div className="flex flex-col mx-6">{!text && <SearchWithoutQuery />}</div>
+      <div className="flex flex-col mx-6">
+        {!text && <SearchWithoutQuery />}
+      </div>
       {text && <SearchWithQuery />}
-    </SecondaryPageLayout>
+    </div>
   )
 }
 
+setupAuthRedirect(Search)
+setupLayout(Search)
 export default Search
-
-{
-  /* // search.getLayout = (page) => <SecondaryPageLayout>{page}</SecondaryPageLayout> */
-}

@@ -21,7 +21,7 @@
   resolved "https://registry.npmjs.org/@babel/compat-data/-/compat-data-7.16.8.tgz"
   integrity sha512-m7OkX0IdKLKPpBlJtF561YJal5y/jyI5fNfWbPxh2D/nbzzGI4qRyrD8xO2jB24u7l+5I2a43scCG2IrfjC50Q==
 
-"@babel/core@7.12.10", "@babel/core@^7.1.0", "@babel/core@^7.12.3", "@babel/core@^7.7.5":
+"@babel/core@7.12.10":
   version "7.12.10"
   resolved "https://registry.npmjs.org/@babel/core/-/core-7.12.10.tgz"
   integrity sha512-eTAlQKq65zHfkHZV0sIVODCPGVgoo1HdBlbSLi9CqOzuZanMv2ihzY+4paiKr1mH+XmYESMAmJ/dpZ68eN6d8w==
@@ -7026,11 +7026,6 @@ new-github-issue-url@^0.2.1:
     util "0.12.3"
     vm-browserify "1.1.2"
     watchpack "2.1.1"
-
-nextjs@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.npmjs.org/nextjs/-/nextjs-0.0.3.tgz"
-  integrity sha1-T00daiV76SDZuWSdTZUixySk5UM=
 
 nice-try@^1.0.4:
   version "1.0.5"

@@ -1,4 +1,4 @@
-import { FiMic, FiSearch } from "react-icons/fi"
+import { FiMic, FiSearch } from 'react-icons/fi'
 
 export const SearchBar = ({ setText }) => {
   return (

@@ -1,5 +1,7 @@
-import { FiArrowRight } from "react-icons/fi"
-import { ImageFrame } from "./ImageFrame"
+import { FiArrowRight } from 'react-icons/fi'
+
+import { ImageFrame } from './ImageFrame'
+
 interface Frame {
   // path of image for now
   key: number

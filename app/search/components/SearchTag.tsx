@@ -1,30 +1,30 @@
-import { Tag } from "app/product/components/Tag"
+import { Tag } from 'app/product/components/Tag'
 
 export const SearchTag = () => {
   const Tags = [
     {
       key: 1,
-      name: "Adidas",
+      name: 'Adidas',
     },
     {
       key: 2,
-      name: "Shoes",
+      name: 'Shoes',
     },
     {
       key: 3,
-      name: "Mayday",
+      name: 'Mayday',
     },
     {
       key: 4,
-      name: "Pun",
+      name: 'Pun',
     },
     {
       key: 5,
-      name: "GoodGoods",
+      name: 'GoodGoods',
     },
     {
       key: 6,
-      name: "Green",
+      name: 'Green',
     },
   ]
   return (
@@ -35,11 +35,11 @@ export const SearchTag = () => {
         overflow-x-auto 
         "
     >
-      {Tags.map((tag, index) => (
+      {/* {Tags.map((tag, index) => (
         <div key={tag.key}>
           <Tag>{tag.name}</Tag>
         </div>
-      ))}
+      ))} */}
     </div>
   )
 }

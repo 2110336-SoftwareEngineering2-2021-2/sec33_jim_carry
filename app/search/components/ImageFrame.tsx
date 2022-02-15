@@ -1,4 +1,4 @@
-import { Image } from "blitz"
+import { Image } from 'blitz'
 
 export interface ImageFrameProps {
   // path of image for now

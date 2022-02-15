@@ -1,5 +1,5 @@
 import { resolver } from 'blitz'
-import db, { Shop } from 'db'
+import db, { Prisma } from 'db'
 import { z } from 'zod'
 
 const SearchProducts = z.object({
@@ -15,7 +15,7 @@ export default resolver.pipe(
   resolver.authorize(),
   async (input) => {
     // Do your stuff :)
-    const order = []
+    const order: Prisma.ProductOrderByWithRelationInput[] = []
 
     switch (input.orderBy) {
       case 'name': {
@@ -36,7 +36,7 @@ export default resolver.pipe(
       }
     }
 
-    const queries = {
+    const queries: Prisma.ProductFindManyArgs = {
       take: input.take,
       skip: input.skip,
       where: {

@@ -15,7 +15,7 @@ export default resolver.pipe(
   resolver.authorize(),
   async (input) => {
     // Do your stuff :)
-    const order = []
+    const order: Prisma.ProductOrderByWithRelationInput[] = []
 
     switch (input.orderBy) {
       case 'name': {

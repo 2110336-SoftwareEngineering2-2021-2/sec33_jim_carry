@@ -1,9 +1,8 @@
-import { resolver } from 'blitz'
-import db, { User, Product } from 'db'
+import { AuthorizationError, Ctx, resolver } from 'blitz'
+import db, { Prisma } from 'db'
 import { z } from 'zod'
 
 const CreateShop = z.object({
-  userId: z.number(),
   bio: z.string().optional(),
   phoneNo: z.string().optional(),
   name: z.string(),
@@ -13,33 +12,23 @@ const CreateShop = z.object({
 export default resolver.pipe(
   resolver.zod(CreateShop),
   resolver.authorize(),
-  async (input) => {
-    const { userId, bio, phoneNo, name, image } = input
+  async (input, { session }: Ctx) => {
+    if (!session.userId) throw new AuthorizationError()
 
-    // get User from userId
-    const user = await db.user.findUnique({
-      where: {
-        id: input.userId,
+    const { bio, phoneNo, name, image } = input
+
+    const data: Prisma.ShopCreateInput = {
+      user: {
+        connect: {
+          id: session.userId,
+        },
       },
-    })
-
-    // initiate Array
-    const products: Product[] = []
-    const followers: User[] = []
-
-    const data = {
-      userId,
-      user,
       bio,
       phoneNo,
       name,
       image,
-      products,
-      followers,
     }
 
-    const product = await db.product.create({ data })
-
-    return product
+    return await db.shop.create({ data })
   }
 )

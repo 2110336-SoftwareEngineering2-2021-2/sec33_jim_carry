@@ -27,7 +27,7 @@ export default resolver.pipe(
         name: true,
         updatedAt: true,
         shop: true,
-        image: true,
+        images: true,
         stock: true,
         price: true,
       },

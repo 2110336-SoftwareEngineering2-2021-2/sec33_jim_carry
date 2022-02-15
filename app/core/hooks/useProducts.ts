@@ -17,7 +17,7 @@ const mockShop1 = {
   bio: 'abc.com',
   phoneNo: '0987654321',
   name: 'nongtent_shopping',
-  image: null,
+  images: [],
   rating: 3.7,
   totalSale: '2017',
   products: [],

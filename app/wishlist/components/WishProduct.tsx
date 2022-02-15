@@ -17,7 +17,7 @@ export function WishProduct({ product }: { product: ProductWithShop }) {
       <Link href={Routes.ProductDetail({ pid: product.id })}>
         <div className="relative aspect-square bg-gradient-to-r from-cyan-500 to-blue-500 cursor-pointer">
           <Image
-            src={product.image ?? ''}
+            src={product.images[0] ?? ''}
             alt={product.name}
             width={64}
             height={64}

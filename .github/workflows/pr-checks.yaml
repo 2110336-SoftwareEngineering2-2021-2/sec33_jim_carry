@@ -1,4 +1,4 @@
-name: Lint and build
+name: Lint
 
 on:
   pull_request:
@@ -32,9 +32,9 @@ jobs:
 
       - name: Install dependencies
         run: yarn --fronzen-lockfile
+      
+      - name: tsc
+        run: yarn tsc
 
       - name: Lint
         run: yarn lint
-
-      - name: Build
-        run: yarn build

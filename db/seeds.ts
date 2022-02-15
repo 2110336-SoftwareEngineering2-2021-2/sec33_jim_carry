@@ -1,4 +1,5 @@
 import db from './index'
+import { Prisma } from '.prisma/client'
 
 /*
  * This seed function is executed when you run `blitz db seed`.
@@ -8,40 +9,64 @@ import db from './index'
  * realistic data.
  */
 
-const mockImageUrl = [
+const mockImageUrls = [
   'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
   'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
   'https://images.unsplash.com/photo-1596516109370-29001ec8ec36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
+  'https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
+  'https://images.unsplash.com/photo-1585218356057-dc0e8d3558bb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
 ]
 
 const lorem =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
 
 const seed = async () => {
-  const { id: userId } = await db.user.upsert({
-    where: { email: 'dummy@example.com' },
-    create: { email: 'dummy@example.com' },
-    update: { email: 'dummy@example.com' },
-  })
-  const { id: shopId } = await db.shop.upsert({
-    where: { userId },
-    create: { userId, name: 'nongtent', totalSale: 0 },
-    update: { userId, name: 'nongtent', totalSale: 0 },
-  })
+  const products: Prisma.ProductCreateWithoutShopInput[] = []
 
   for (let i = 1; i <= 10; i++) {
-    await db.product.create({
-      data: {
-        shopId,
-        name: `Mock Product ${i}`,
-        description: lorem,
-        price: 100 * i,
-        stock: i,
-        hidden: false,
-        image: mockImageUrl[(i - 1) % 3],
-      },
+    products.push({
+      name: `Mock Product ${i}`,
+      description: lorem,
+      price: 100 * i,
+      stock: i,
+      hidden: false,
+      images: mockImageUrls,
     })
   }
+
+  const createUser: Prisma.UserCreateInput = {
+    email: 'dummy@example.com',
+    name: 'John Doe',
+    shop: {
+      create: {
+        name: 'nongtent',
+        products: {
+          create: products,
+        },
+      },
+    },
+  }
+
+  const updateUser: Prisma.UserUpdateInput = {
+    email: 'dummy@example.com',
+    name: 'John Doe',
+    shop: {
+      update: {
+        name: 'nongtent',
+        products: {
+          create: products,
+        },
+      },
+    },
+  }
+
+  await db.product.deleteMany({})
+
+  await db.user.upsert({
+    where: { email: createUser.email },
+    create: createUser,
+    update: updateUser,
+  })
 }
 
 export default seed

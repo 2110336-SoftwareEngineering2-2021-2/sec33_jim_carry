@@ -11,7 +11,7 @@ const UpdateProduct = z.object({
   soldPrice: z.number().optional(),
   stock: z.number().optional(),
   hidden: z.boolean().optional(),
-  image: z.string().optional(),
+  images: z.string().array(),
 })
 
 export default resolver.pipe(

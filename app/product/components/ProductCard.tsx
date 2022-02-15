@@ -26,7 +26,7 @@ export function ProductCard({ product }: { product: ProductWithShop }) {
       <Link href={Routes.ProductDetail({ pid: product.id })}>
         <div className="w-full relative aspect-video bg-gradient-to-r from-cyan-500 to-blue-500 cursor-pointer">
           <Image
-            src={product.image ?? ''}
+            src={product.images[0] ?? ''}
             alt={product.name}
             layout="fill"
             objectFit="cover"

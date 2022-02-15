@@ -37,6 +37,7 @@ export function ProductView({ pid }: ProductViewProps) {
           name={product.shop.name}
           rating={product.shop.rating ?? 5}
           amount={product.shop.totalSale}
+          pic={product.shop.image}
         />
         <Description
           tags={['Addidas', 'SDKfjl']}

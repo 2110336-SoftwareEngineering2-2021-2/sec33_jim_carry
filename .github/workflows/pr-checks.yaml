@@ -40,4 +40,5 @@ jobs:
         run: yarn tsc
 
       - name: Lint
+        if: always()
         run: yarn lint

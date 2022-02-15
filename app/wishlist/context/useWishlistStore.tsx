@@ -69,5 +69,5 @@ export function useSyncWishlist() {
     } else {
       resetWishlist()
     }
-  }, [session, syncFromStore, resetWishlist])
+  }, [syncFromStore, resetWishlist])
 }

@@ -16,6 +16,7 @@ export default resolver.pipe(
     if (!session.userId) throw new AuthorizationError()
 
     const { bio, phoneNo, name, image } = input
+    const totalSale = 0
 
     const data: Prisma.ShopCreateInput = {
       user: {
@@ -27,6 +28,7 @@ export default resolver.pipe(
       phoneNo,
       name,
       image,
+      totalSale,
     }
 
     return await db.shop.create({ data })

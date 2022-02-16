@@ -1,19 +1,7 @@
-import {
-  AuthorizationError,
-  Ctx,
-  resolver,
-  SESSION_TOKEN_VERSION_0,
-} from 'blitz'
-import db, { prisma, Prisma } from 'db'
-import { z } from 'zod'
+import { AuthorizationError, Ctx, resolver } from 'blitz'
+import db, { Prisma } from 'db'
 
-export const CreateShop = z.object({
-  bio: z.string().nonempty(),
-  phoneNo: z.string().nonempty(),
-  name: z.string().nonempty(),
-  citizenId: z.string().nonempty(),
-  image: z.string().optional(),
-})
+import { CreateShop } from '../validations'
 
 export default resolver.pipe(
   resolver.zod(CreateShop),

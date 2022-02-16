@@ -1,4 +1,4 @@
-import { BlitzPage, Image, Routes, useMutation, useRouter } from 'blitz'
+import { BlitzPage, Routes, useMutation, useRouter } from 'blitz'
 import { z } from 'zod'
 
 import Form, { FORM_ERROR } from 'app/core/components/Form'
@@ -6,7 +6,8 @@ import LabeledTextField from 'app/core/components/LabeledTextField'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
-import createShop, { CreateShop } from 'app/shops/mutations/createShop'
+import createShop from 'app/shops/mutations/createShop'
+import { CreateShop } from 'app/shops/validations'
 
 const RegisterPage: BlitzPage = () => {
   const router = useRouter()

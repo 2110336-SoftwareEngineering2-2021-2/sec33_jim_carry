@@ -1,8 +1,7 @@
 import { BlitzPage, Link, Routes } from 'blitz'
-import { Suspense, useState } from 'react'
+import { Suspense } from 'react'
 
 import { Spinner } from 'app/core/components/Spinner'
-import { TextField } from 'app/core/components/TextField'
 import { useProducts } from 'app/core/hooks/useProducts'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
@@ -10,12 +9,13 @@ import { ProductCard } from 'app/product/components/ProductCard'
 import { SearchBar } from 'app/search/components/SearchBar'
 
 const Home: BlitzPage = () => {
-  const [text, setText] = useState('')
   return (
     <main>
       <div className="flex flex-col mx-6 mt-6">
         <Link href={Routes.Search().pathname} passHref>
-          <SearchBar setText={setText} />
+          <a>
+            <SearchBar disabled />
+          </a>
         </Link>
       </div>
       <Suspense fallback={<Spinner />}>

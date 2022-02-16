@@ -1,8 +1,18 @@
-import { Link, Routes } from 'blitz'
-import { Router } from 'next/dist/client/router'
+import { ComponentProps } from 'react'
 import { FiMic, FiSearch } from 'react-icons/fi'
 
-export const SearchBar = ({ setText }) => {
+import { variant } from 'app/core/utils/variant'
+
+export type SearchBarProps = Pick<
+  ComponentProps<'input'>,
+  'value' | 'onChange' | 'disabled'
+>
+
+export const SearchBar = ({
+  value,
+  onChange,
+  disabled = false,
+}: SearchBarProps) => {
   return (
     <div
       className="
@@ -12,18 +22,19 @@ export const SearchBar = ({ setText }) => {
     >
       <FiSearch />
 
-      <Link href={Routes.Search().pathname} passHref>
-        <input
-          className="
+      <input
+        className={`
           flex-1 bg-transparent focus:outline-none
           text-regular leading-none font-regular
-          text-ink-darkest placeholder:text-ink-light 
-          "
-          autoFocus
-          placeholder="Search"
-          onChange={(e) => setText(e.target.value)}
-        />
-      </Link>
+          text-ink-darkest placeholder:text-ink-light
+          ${variant(disabled, 'cursor-pointer')}
+        `}
+        autoFocus
+        placeholder="Search"
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+      />
       <FiMic />
     </div>
   )

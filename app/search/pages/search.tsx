@@ -1,14 +1,12 @@
-import { BlitzPage, Image, Routes, useQuery } from 'blitz'
+import { BlitzPage, Routes, useQuery } from 'blitz'
 import { Suspense, useState } from 'react'
 
 import { TopBar } from 'app/core/components/TopBar'
-import { SecondaryPageLayout } from 'app/core/layouts/SecondaryPageLayout'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 import searchProducts from 'app/product/queries/searchProducts'
 import { SearchBar } from 'app/search/components/SearchBar'
 
-import { SearchTag } from '../components/SearchTag'
 import { SearchWithQuery } from '../components/SearchWithQuery'
 import { SearchWithoutQuery } from '../components/SearchWithoutQuery'
 
@@ -47,7 +45,7 @@ export const Search: BlitzPage = () => {
     <>
       <TopBar backHref={Routes.Home().pathname} title="" />
       <div className="flex flex-col mx-6">
-        <SearchBar setText={setText} />
+        <SearchBar value={text} onChange={(e) => setText(e.target.value)} />
       </div>
       <Suspense fallback={null}>
         <SearchComp text={text} />

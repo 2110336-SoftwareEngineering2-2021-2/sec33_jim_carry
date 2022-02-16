@@ -13,7 +13,6 @@ export interface ProductViewProps {
 
 export function ProductView({ pid }: ProductViewProps) {
   const [product] = useQuery(getProduct, { id: pid })
-  console.log(product)
 
   return (
     <div>

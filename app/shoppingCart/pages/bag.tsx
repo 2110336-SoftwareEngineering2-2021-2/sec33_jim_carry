@@ -2,6 +2,7 @@ import { BlitzPage, Routes } from 'blitz'
 import { FiShoppingBag } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
+import { EmptyState } from 'app/core/components/EmptyState'
 import { TopBar } from 'app/core/components/TopBar'
 import { ProductWithShop } from 'app/core/types/Product'
 import { setupLayout } from 'app/core/utils/setupLayout'
@@ -27,15 +28,17 @@ const ShoppingCart: BlitzPage = () => {
 function ProductList({ products }: { products: ProductWithShop[] }) {
   if (products.length === 0) {
     return (
-      <div className="flex flex-col py-40 px-6 items-center text-center space-y-3">
-        <FiShoppingBag strokeWidth={0.5} size={84} />
-        <span className="text-ink-base">There are no items in your bag.</span>
-        <span className="text-ink-base font-regular text-small">
-          Start browsing now to discover our
-          <br />
-          high-quality second hand goods!
-        </span>
-      </div>
+      <EmptyState
+        icon={<FiShoppingBag strokeWidth={0.5} size={84} />}
+        title="There are no items in your bag."
+        description={
+          <>
+            Start browsing now to discover our
+            <br />
+            high-quality second hand goods!
+          </>
+        }
+      />
     )
   }
   return (

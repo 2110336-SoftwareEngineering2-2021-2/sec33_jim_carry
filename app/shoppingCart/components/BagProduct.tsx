@@ -16,7 +16,7 @@ export function BagProduct({ product }: { product: ProductWithShop }) {
       <Link href={Routes.ProductDetail({ pid: product.id })}>
         <div className="relative aspect-square cursor-pointer">
           <Image
-            src={product.image ?? ''}
+            src={product.images[0] ?? ''}
             alt={product.name}
             width={64}
             height={64}

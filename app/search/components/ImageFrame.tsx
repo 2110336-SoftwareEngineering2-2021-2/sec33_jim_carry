@@ -7,7 +7,7 @@ export interface ImageFrameProps {
   name: string
 }
 
-export const ImageFrame = ({ key, imgUrl, name }: ImageFrameProps) => {
+export const ImageFrame = ({ imgUrl, name }: ImageFrameProps) => {
   return (
     <div className="relative w-[96px] h-[96px] min-w-[96px]">
       <Image

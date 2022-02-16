@@ -17,15 +17,7 @@ export function ProductView({ pid }: ProductViewProps) {
 
   return (
     <div>
-      <ProductPicture
-        imgSrc={[
-          'https://i.pinimg.com/736x/e6/94/24/e69424dbee0c631d16e9388cd7c872a6--running-shoes-sale-nike-free-shoes.jpg',
-          'https://i.pinimg.com/736x/e6/94/24/e69424dbee0c631d16e9388cd7c872a6--running-shoes-sale-nike-free-shoes.jpg',
-          'https://i.pinimg.com/736x/e6/94/24/e69424dbee0c631d16e9388cd7c872a6--running-shoes-sale-nike-free-shoes.jpg',
-          'https://i.pinimg.com/736x/e6/94/24/e69424dbee0c631d16e9388cd7c872a6--running-shoes-sale-nike-free-shoes.jpg',
-          'https://i.pinimg.com/736x/e6/94/24/e69424dbee0c631d16e9388cd7c872a6--running-shoes-sale-nike-free-shoes.jpg',
-        ]}
-      />
+      <ProductPicture imgSrc={product.images} />
       <div className="flex flex-col divide-y divide-sky-lighter">
         <ProductTitle product={product} />
         <Seller

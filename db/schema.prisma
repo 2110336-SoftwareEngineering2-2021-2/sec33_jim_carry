@@ -42,7 +42,7 @@ model Shop {
   name      String
   image     String?
   rating    Float?
-  totalSale Int
+  totalSale Int     @default(0)
 
   products  Product[]
   followers User[]    @relation(name: "follow")
@@ -73,7 +73,7 @@ model Product {
   soldPrice   Float?
   stock       Int
   hidden      Boolean
-  image       String?
+  images      String[]
 
   categories   Category[]
   hashtags     Hashtag[]

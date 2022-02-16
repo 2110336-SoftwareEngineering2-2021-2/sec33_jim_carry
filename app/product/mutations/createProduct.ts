@@ -9,7 +9,7 @@ const CreateProduct = z.object({
   price: z.number(),
   stock: z.number(),
   hidden: z.boolean(),
-  image: z.string().optional(),
+  images: z.string().array(),
 })
 
 export default resolver.pipe(

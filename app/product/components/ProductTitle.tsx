@@ -20,7 +20,7 @@ export function ProductTitle({ product }: ProductTitleProps) {
     [removeFromWishlist, product]
   )
   const isWish = useMemo(
-    () => !!wishlist.find((wish) => wish.id === product.id),
+    () => !!wishlist.some((wish) => wish.id === product.id),
     [product, wishlist]
   )
   return (

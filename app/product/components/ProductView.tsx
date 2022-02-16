@@ -27,12 +27,7 @@ export function ProductView({ pid }: ProductViewProps) {
         ]}
       />
       <div className="flex flex-col divide-y divide-sky-lighter">
-        <ProductTitle
-          name={product.name}
-          price={product.price}
-          isWish={true}
-          pid={pid}
-        />
+        <ProductTitle product={product} />
         <Seller
           name={product.shop.name}
           rating={product.shop.rating ?? 5}

@@ -44,7 +44,7 @@ export function ProductView({ pid }: ProductViewProps) {
           description={product.description ?? ''}
         />
       </div>
-      <FooterButton pid={pid} />
+      <FooterButton product={product} />
     </div>
   )
 }

@@ -8,10 +8,10 @@ import db, { prisma, Prisma } from 'db'
 import { z } from 'zod'
 
 export const CreateShop = z.object({
-  bio: z.string().optional(),
-  phoneNo: z.string().optional(),
-  name: z.string(),
-  citizenId: z.string(),
+  bio: z.string().nonempty(),
+  phoneNo: z.string().nonempty(),
+  name: z.string().nonempty(),
+  citizenId: z.string().nonempty(),
   image: z.string().optional(),
 })
 
@@ -24,7 +24,7 @@ export default resolver.pipe(
     const { bio, phoneNo, name, image, citizenId } = input
     const totalSale = 0
 
-    const updateUser = await db.user.update({
+    await db.user.update({
       where: {
         id: session.userId,
       },

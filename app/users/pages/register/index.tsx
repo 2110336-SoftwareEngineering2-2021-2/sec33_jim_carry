@@ -27,8 +27,7 @@ const RegisterPage: BlitzPage = () => {
               await createShopMutation(values)
               router.push(Routes.FinishRegisterPage().pathname)
             } catch (error: any) {
-              return <div> form is not complete</div>
-              // return { [FORM_ERROR]: error.toString() }
+              return { [FORM_ERROR]: error.toString() }
             }
           }}
         >

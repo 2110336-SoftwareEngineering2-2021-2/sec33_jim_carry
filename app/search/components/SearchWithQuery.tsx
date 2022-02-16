@@ -1,17 +1,8 @@
-import { Suspense, useState } from 'react'
+import { Suspense } from 'react'
 
 import { Button } from 'app/core/components/Button'
-import {
-  SegmentedControl,
-  SegmentedControlItem,
-} from 'app/core/components/SegmentedControl'
 import { Spinner } from 'app/core/components/Spinner'
-import { TextField } from 'app/core/components/TextField'
-import { useProducts } from 'app/core/hooks/useProducts'
-import { Products } from 'app/pages'
 import { ProductCard } from 'app/product/components/ProductCard'
-
-import { SearchTag } from './SearchTag'
 
 // this has some problem
 // export interface SearchWithQueryProps {

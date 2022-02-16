@@ -30,7 +30,6 @@ export function ProductPicture({ imgSrc }: ProductPictureProps) {
   const [active, setactive] = useState(0)
   useListenToCustomEvent((data) => {
     if (data.eventName === 'onSlideStartChange') {
-      console.log('KSDJfklj')
       for (let i = 0; i < imgSrc.length; i++) {
         if (getIsActiveItem(`items-${i}`)) {
           setactive(i)

@@ -13,7 +13,6 @@ export interface ProductViewProps {
 
 export function ProductView({ pid }: ProductViewProps) {
   const [product] = useQuery(getProduct, { id: pid })
-  console.log(product)
 
   return (
     <div>
@@ -31,7 +30,7 @@ export function ProductView({ pid }: ProductViewProps) {
           description={product.description ?? ''}
         />
       </div>
-      <FooterButton pid={pid} />
+      <FooterButton product={product} />
     </div>
   )
 }

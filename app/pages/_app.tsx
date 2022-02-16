@@ -12,6 +12,7 @@ import SuperJson from 'superjson'
 
 import LoginPage from 'app/auth/pages/login'
 import 'app/core/styles/index.css'
+import { useSyncShoppingCart } from 'app/shoppingCart/context/useShoppingCartStore'
 import { useSyncWishlist } from 'app/wishlist/context/useWishlistStore'
 
 SuperJson.registerClass(Prisma.Decimal, { identifier: 'DecimalJS' })
@@ -19,6 +20,7 @@ SuperJson.registerClass(Prisma.Decimal, { identifier: 'DecimalJS' })
 export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
   useSyncWishlist()
+  useSyncShoppingCart()
   return (
     <ErrorBoundary
       FallbackComponent={RootErrorFallback}

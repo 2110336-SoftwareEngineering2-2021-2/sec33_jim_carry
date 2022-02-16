@@ -6,12 +6,11 @@ import {
   FiHome,
   FiMenu,
   FiMessageCircle,
-  FiShoppingBag,
 } from 'react-icons/fi'
 
 import { Container } from '../components/Container'
 import { NavBarTarget } from '../components/NavBarTarget'
-import { TopBarAction } from '../components/TopBarAction'
+import { ShoppingBagAction } from '../components/ShoppingBagAction'
 
 interface MainPageLayoutProps {
   title: string
@@ -38,9 +37,7 @@ export const MainPageLayout: BlitzLayout<MainPageLayoutProps> = ({
               alt="MayDay"
             />
             <span className="flex-1" />
-            <TopBarAction>
-              <FiShoppingBag />
-            </TopBarAction>
+            <ShoppingBagAction />
           </div>
           <div className="flex">
             <NavBarTarget to={Routes.Home()} title="Home" icon={<FiHome />} />

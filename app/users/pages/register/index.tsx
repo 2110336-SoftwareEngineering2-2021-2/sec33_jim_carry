@@ -16,7 +16,7 @@ const RegisterPage: BlitzPage = () => {
         <p>Information is for identification and contact purposes.</p>
       </div>
       <div>
-        <Form
+        {/* <Form
           className="py-3 px-6 flex flex-col gap-6"
           submitText="Continue"
           // schema={????}
@@ -33,7 +33,7 @@ const RegisterPage: BlitzPage = () => {
           <LabeledTextField name="Last name" label="Last name" />
           <LabeledTextField name="Citizen ID" label="CItizen ID" />
           <LabeledTextField name="Phone number" label="Phone number" />
-        </Form>
+        </Form> */}
       </div>
     </div>
   )

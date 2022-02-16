@@ -9,7 +9,6 @@ import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 
 const FinishRegisterPage: BlitzPage = () => {
-  const goBack = useGoBack(Routes.Menu().pathname)
   return (
     <div>
       <TopBar title="Register Complete" largeTitle />

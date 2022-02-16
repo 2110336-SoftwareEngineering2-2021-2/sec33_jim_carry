@@ -1,14 +1,16 @@
-import { BlitzPage, Image, Routes } from 'blitz'
+import { BlitzPage, Image, Routes, useMutation, useRouter } from 'blitz'
+import { z } from 'zod'
 
 import Form, { FORM_ERROR } from 'app/core/components/Form'
 import LabeledTextField from 'app/core/components/LabeledTextField'
 import { TopBar } from 'app/core/components/TopBar'
-import { useGoBack } from 'app/core/hooks/useGoBack'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
+import createShop, { CreateShop } from 'app/shops/mutations/createShop'
 
 const RegisterPage: BlitzPage = () => {
-  // const goBack = useGoBack(Routes.FinishRegisterPage().pathname)
+  const router = useRouter()
+  const [createShopMutation] = useMutation(createShop)
   return (
     <div>
       <TopBar title="Register Shop" largeTitle />
@@ -16,24 +18,30 @@ const RegisterPage: BlitzPage = () => {
         <p>Information is for identification and contact purposes.</p>
       </div>
       <div>
-        {/* <Form
+        <Form
           className="py-3 px-6 flex flex-col gap-6"
           submitText="Continue"
-          // schema={????}
-          // onSubmit={async (values: z.infer<typeof ????>) => {
-          //   try {
-          //     // await create???Mutation(values)
-          //     goNext()
-          //   } catch (error: any) {
-          //     return { [FORM_ERROR]: error.toString() }
-          //   }
-          // }}
+          schema={CreateShop}
+          onSubmit={async (values: z.infer<typeof CreateShop>) => {
+            try {
+              await createShopMutation(values)
+              router.push(Routes.FinishRegisterPage().pathname)
+            } catch (error: any) {
+              return <div> form is not complete</div>
+              // return { [FORM_ERROR]: error.toString() }
+            }
+          }}
         >
-          <LabeledTextField name="First name" label="First name" />
-          <LabeledTextField name="Last name" label="Last name" />
-          <LabeledTextField name="Citizen ID" label="CItizen ID" />
-          <LabeledTextField name="Phone number" label="Phone number" />
-        </Form> */}
+          <LabeledTextField name="name" label="Shop name" />
+          <LabeledTextField
+            name="bio"
+            label="Shop description"
+            asTextArea
+            style={{ height: 112 }}
+          />
+          <LabeledTextField name="citizenId" label="Citizen ID" />
+          <LabeledTextField name="phoneNo" label="Phone number" />
+        </Form>
       </div>
     </div>
   )

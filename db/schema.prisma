@@ -14,6 +14,7 @@ generator client {
 
 model User {
   id             Int      @id @default(autoincrement())
+  citizenId      String?
   name           String?
   email          String   @unique
   hashedPassword String?

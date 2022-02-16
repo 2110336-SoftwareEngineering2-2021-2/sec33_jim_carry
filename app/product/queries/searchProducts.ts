@@ -1,6 +1,6 @@
 import { resolver } from 'blitz'
 import db, { Prisma } from 'db'
-import { z } from 'zod'
+import { string, z } from 'zod'
 
 const SearchProducts = z.object({
   name: z.string(),

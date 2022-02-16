@@ -1,11 +1,17 @@
-import { AuthorizationError, Ctx, resolver } from 'blitz'
-import db, { Prisma } from 'db'
+import {
+  AuthorizationError,
+  Ctx,
+  resolver,
+  SESSION_TOKEN_VERSION_0,
+} from 'blitz'
+import db, { prisma, Prisma } from 'db'
 import { z } from 'zod'
 
-const CreateShop = z.object({
+export const CreateShop = z.object({
   bio: z.string().optional(),
   phoneNo: z.string().optional(),
   name: z.string(),
+  citizenId: z.string(),
   image: z.string().optional(),
 })
 
@@ -15,8 +21,17 @@ export default resolver.pipe(
   async (input, { session }: Ctx) => {
     if (!session.userId) throw new AuthorizationError()
 
-    const { bio, phoneNo, name, image } = input
+    const { bio, phoneNo, name, image, citizenId } = input
     const totalSale = 0
+
+    const updateUser = await db.user.update({
+      where: {
+        id: session.userId,
+      },
+      data: {
+        citizenId: citizenId,
+      },
+    })
 
     const data: Prisma.ShopCreateInput = {
       user: {

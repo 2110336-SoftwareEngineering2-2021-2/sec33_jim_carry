@@ -1,3 +1,5 @@
+import { Link, Routes } from 'blitz'
+import { Router } from 'next/dist/client/router'
 import { FiMic, FiSearch } from 'react-icons/fi'
 
 export const SearchBar = ({ setText }) => {
@@ -9,16 +11,19 @@ export const SearchBar = ({ setText }) => {
       "
     >
       <FiSearch />
-      <input
-        className="
+
+      <Link href={Routes.Search().pathname} passHref>
+        <input
+          className="
           flex-1 bg-transparent focus:outline-none
           text-regular leading-none font-regular
-          text-ink-darkest placeholder:text-ink-light
-        "
-        placeholder="Search"
-        // value = {}
-        onChange={(e) => setText(e.target.value)}
-      />
+          text-ink-darkest placeholder:text-ink-light 
+          "
+          autoFocus
+          placeholder="Search"
+          onChange={(e) => setText(e.target.value)}
+        />
+      </Link>
       <FiMic />
     </div>
   )

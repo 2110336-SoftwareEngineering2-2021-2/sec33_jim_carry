@@ -1,30 +1,75 @@
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 
 import { Button } from 'app/core/components/Button'
 import {
   SegmentedControl,
   SegmentedControlItem,
 } from 'app/core/components/SegmentedControl'
+import { Spinner } from 'app/core/components/Spinner'
+import { TextField } from 'app/core/components/TextField'
+import { useProducts } from 'app/core/hooks/useProducts'
+import { Products } from 'app/pages'
+import { ProductCard } from 'app/product/components/ProductCard'
 
 import { SearchTag } from './SearchTag'
 
-export const SearchWithQuery = () => {
-  const [value, setValue] = useState(1)
+// this has some problem
+// export interface SearchWithQueryProps {
+//   order: string
+//   setOrder: (order:string) => void
+//   products: Product[]
+// }
+export const SearchWithQuery = ({ order, setOrder, products }) => {
   return (
     <div>
       <div className="flex flex-row">
-        <Button buttonType="transparent"> Name </Button>
-        <button className="px-8 text-ink-light"> Date</button>
-        <button className="px-8 text-ink-light"> Price</button>
-        <button className="px-8 text-ink-light"> Rating</button>
+        {order === 'name' && <Button buttonType="transparent">Name</Button>}
+        {order !== 'name' && (
+          <button
+            className="px-8 text-ink-light"
+            onClick={(e) => setOrder('name')}
+          >
+            Name
+          </button>
+        )}
+        {order === 'createdAt' && (
+          <Button buttonType="transparent"> Date </Button>
+        )}
+        {order !== 'createdAt' && (
+          <button
+            className="px-8 text-ink-light"
+            onClick={(e) => setOrder('createdAt')}
+          >
+            Date
+          </button>
+        )}
+        {order === 'price' && <Button buttonType="transparent"> Price </Button>}
+        {order !== 'price' && (
+          <button
+            className="px-8 text-ink-light"
+            onClick={(e) => setOrder('price')}
+          >
+            Price
+          </button>
+        )}
+        {order === 'rating' && <Button buttonType="transparent">Rating</Button>}
+        {order !== 'rating' && (
+          <button
+            className="px-8 text-ink-light"
+            onClick={(e) => setOrder('rating')}
+          >
+            Rating
+          </button>
+        )}
       </div>
-      <div className="flex flex-col mx-6">
-        {/* for Search Tag */}
-        {/* <div className="h-20 my-6 flex items-center">
-          <SearchTag></SearchTag>
-        </div> */}
-        <p> some Product cards </p>
-      </div>
+
+      <Suspense fallback={<Spinner />}>
+        <div className="p-6 flex flex-col space-y-6">
+          {products.map((product) => (
+            <ProductCard product={product} key={product.id} />
+          ))}
+        </div>
+      </Suspense>
     </div>
   )
 }

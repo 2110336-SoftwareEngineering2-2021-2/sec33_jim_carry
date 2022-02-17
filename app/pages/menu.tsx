@@ -19,8 +19,10 @@ interface MenuProps {
 }
 
 const Menu: BlitzPage<MenuProps> = ({ user }) => {
-  const { name, email, profileImage } = user!
+  const { name, email, profileImage, shop } = user!
+  const hasShop = !!shop
   const [logoutMutation] = useMutation(logout)
+
   return (
     <div className="py-6 flex flex-col gap-[10px]">
       <div className="h-16 px-6 flex items-center gap-4">
@@ -44,9 +46,15 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
         <Link href={Routes.AddressesPage().pathname} passHref>
           <MenuListItem as="a" icon={<FiMapPin />} title="My addresses" />
         </Link>
-        <Link href={Routes.ManageProductsPage().pathname} passHref>
-          <MenuListItem as="a" icon={<FiGrid />} title="My products" />
-        </Link>
+        {hasShop ? (
+          <Link href={Routes.ManageProductsPage().pathname} passHref>
+            <MenuListItem as="a" icon={<FiGrid />} title="My products" />
+          </Link>
+        ) : (
+          <Link href={Routes.RegisterPage().pathname} passHref>
+            <MenuListItem as="a" icon={<FiGrid />} title="Register shop" />
+          </Link>
+        )}
         <MenuListItem icon={<FiHelpCircle />} title="Help" />
       </div>
       <div className="px-6">

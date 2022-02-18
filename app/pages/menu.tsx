@@ -40,6 +40,7 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
           <span className="mt-1 text-regular leading-normal font-regular text-ink-darkest">
             {email}
           </span>
+          {/*TODO : Seller Chip*/}
         </div>
       </div>
       <div>

@@ -5,6 +5,7 @@ import LabeledTextField from 'app/core/components/LabeledTextField'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
+import { UploadImagesBlock } from 'app/shops/components/UploadImagesBlock'
 
 const CreateProductPage: BlitzPage = () => {
   return (
@@ -38,6 +39,7 @@ const CreateProductPage: BlitzPage = () => {
           asTextArea
           style={{ height: 144 }}
         />
+        <UploadImagesBlock />
       </Form>
     </div>
   )

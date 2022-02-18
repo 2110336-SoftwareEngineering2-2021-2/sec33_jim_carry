@@ -54,6 +54,6 @@ export const Search: BlitzPage = () => {
   )
 }
 
-setupAuthRedirect(Search)
 setupLayout(Search)
+
 export default Search

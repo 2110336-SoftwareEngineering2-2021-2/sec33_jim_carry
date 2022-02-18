@@ -60,10 +60,9 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
       <div className="px-6">
         <span className="block w-full h-[1px] bg-sky-lighter" />
       </div>
-      <MenuListItem
-        onClick={async () => await logoutMutation()}
-        title="Logout"
-      />
+      <Link href={Routes.LogoutPage().pathname} passHref>
+        <MenuListItem as="a" title="Logout" />
+      </Link>
     </div>
   )
 }

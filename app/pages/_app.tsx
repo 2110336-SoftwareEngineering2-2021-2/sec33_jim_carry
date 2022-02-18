@@ -7,10 +7,14 @@ import {
   AuthorizationError,
   ErrorFallbackProps,
   useQueryErrorResetBoundary,
+  Routes,
+  useRouter,
 } from 'blitz'
 import SuperJson from 'superjson'
 
-import LoginPage from 'app/auth/pages/login'
+import { LoginPrompt } from 'app/core/components/LoginPrompt'
+import { Redirect } from 'app/core/components/Redirect'
+import { useSyncLoginPrompt } from 'app/core/stores/LoginPromptStore'
 import 'app/core/styles/index.css'
 import { useSyncShoppingCart } from 'app/shoppingCart/context/useShoppingCartStore'
 import { useSyncWishlist } from 'app/wishlist/context/useWishlistStore'
@@ -21,19 +25,26 @@ export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
   useSyncWishlist()
   useSyncShoppingCart()
+  useSyncLoginPrompt()
   return (
     <ErrorBoundary
       FallbackComponent={RootErrorFallback}
       onReset={useQueryErrorResetBoundary().reset}
     >
       {getLayout(<Component {...pageProps} />)}
+      <LoginPrompt />
     </ErrorBoundary>
   )
 }
 
-function RootErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
+function RootErrorFallback({ error }: ErrorFallbackProps) {
+  const { pathname, asPath } = useRouter()
   if (error instanceof AuthenticationError) {
-    return <LoginPage />
+    if (pathname === Routes.LoginPage().pathname) return null
+    const params = new URLSearchParams({ next: asPath })
+    return (
+      <Redirect to={`${Routes.LoginPage().pathname}?${params.toString()}`} />
+    )
   } else if (error instanceof AuthorizationError) {
     return (
       <ErrorComponent

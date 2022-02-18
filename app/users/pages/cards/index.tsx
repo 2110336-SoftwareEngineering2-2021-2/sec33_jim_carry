@@ -1,5 +1,14 @@
-import { BlitzPage, Link, Routes } from 'blitz'
-import { Suspense } from 'react'
+import {
+  BlitzPage,
+  GetServerSideProps,
+  invokeWithMiddleware,
+  Link,
+  PromiseReturnType,
+  Routes,
+  useMutation,
+  useRouter,
+} from 'blitz'
+import { useCallback } from 'react'
 import { FiPlus } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
@@ -7,8 +16,25 @@ import { TopBar } from 'app/core/components/TopBar'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 import { CardList } from 'app/users/components/CardList'
+import destroyCard from 'app/users/mutations/destroyCard'
+import getCards from 'app/users/queries/getCards'
 
-export const CardsPage: BlitzPage = () => {
+interface CardsPageProps {
+  cards: PromiseReturnType<typeof getCards>
+}
+
+export const CardsPage: BlitzPage<CardsPageProps> = ({ cards }) => {
+  const { replace, asPath } = useRouter()
+  const [destroyCardMutation] = useMutation(destroyCard)
+
+  const onDestroyCard = useCallback(
+    async (cardId: string) => {
+      await destroyCardMutation(cardId)
+      replace(asPath)
+    },
+    [destroyCardMutation, replace, asPath]
+  )
+
   return (
     <div>
       <TopBar
@@ -22,11 +48,18 @@ export const CardsPage: BlitzPage = () => {
           </Link>
         }
       />
-      <Suspense fallback={null}>
-        <CardList />
-      </Suspense>
+      <CardList cards={cards} onDestroyCard={onDestroyCard} />
     </div>
   )
+}
+
+export const getServerSideProps: GetServerSideProps<CardsPageProps> = async (
+  context
+) => {
+  const cards = await invokeWithMiddleware(getCards, {}, context)
+  return {
+    props: { cards },
+  }
 }
 
 setupAuthRedirect(CardsPage)

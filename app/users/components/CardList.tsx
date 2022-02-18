@@ -1,15 +1,16 @@
-import { useMutation, useQuery } from 'blitz'
+import { PromiseReturnType } from 'blitz'
 import { FiCreditCard } from 'react-icons/fi'
 
 import { EmptyState } from 'app/core/components/EmptyState'
 
-import destroyCard from '../mutations/destroyCard'
 import getCards from '../queries/getCards'
 
-export function CardList() {
-  const [cards, { refetch }] = useQuery(getCards, null)
-  const [destroyCardMutation] = useMutation(destroyCard)
+export interface CardListProps {
+  cards: PromiseReturnType<typeof getCards>
+  onDestroyCard: (id: string) => Promise<void>
+}
 
+export function CardList({ cards, onDestroyCard }: CardListProps) {
   if (cards.length === 0) {
     return (
       <EmptyState
@@ -25,8 +26,7 @@ export function CardList() {
         <div
           onClick={async () => {
             if (!confirm('Are you sure you want to delete this card?')) return
-            await destroyCardMutation(card.id)
-            await refetch()
+            await onDestroyCard(card.id)
           }}
           key={card.id}
           className="

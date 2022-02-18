@@ -3,6 +3,7 @@ import { FiTrash2 } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
 import { ProductWithShop } from 'app/core/types/Product'
+import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
 
 import { useShoppingCartStore } from '../context/useShoppingCartStore'
 
@@ -32,7 +33,7 @@ export function BagProduct({ product }: { product: ProductWithShop }) {
           </span>
           <span
             className={`text-large ${
-              product.soldPrice === null ? 'text-primary-dark' : 'text-sky-dark'
+              !isProductSoldOut(product) ? 'text-primary-dark' : 'text-sky-dark'
             }`}
           >
             {`฿${product.price}`}

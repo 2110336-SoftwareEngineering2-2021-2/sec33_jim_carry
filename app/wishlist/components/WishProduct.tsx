@@ -3,6 +3,7 @@ import { FiCheck, FiShoppingBag, FiTrash2 } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
 import { ProductWithShop } from 'app/core/types/Product'
+import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
 import { useShoppingCartStore } from 'app/shoppingCart/context/useShoppingCartStore'
 import { useWishlistStore } from 'app/wishlist/context/useWishlistStore'
 
@@ -12,7 +13,7 @@ export function WishProduct({ product }: { product: ProductWithShop }) {
   const inBag = !!shoppingCart.find((p) => p.id === product.id)
   const addToBag = () => addToShoppingCart(product)
   const removeFromBag = () => removeFromShoppingCart(product)
-  const sold = product.soldPrice !== null
+  const sold = isProductSoldOut(product)
   const removeFromWishlist = useWishlistStore(
     (state) => state.removeFromWishlist
   )

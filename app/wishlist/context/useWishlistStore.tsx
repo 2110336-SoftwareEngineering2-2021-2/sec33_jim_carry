@@ -3,6 +3,7 @@ import produce from 'immer'
 import { useEffect } from 'react'
 import create from 'zustand'
 
+import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
 import addToWishlist from 'app/wishlist/mutations/addToWishlist'
 import clearSoldOutWishlist from 'app/wishlist/mutations/clearSoldOutWishlist'
 import removeFromWishlist from 'app/wishlist/mutations/removeFromWishlist'
@@ -47,7 +48,7 @@ export const useWishlistStore = create<WishlistStore>((set, get) => ({
   },
   clearSoldOutWishlist: async () => {
     set((state) => ({
-      wishlist: state.wishlist.filter((product) => product.soldPrice === null),
+      wishlist: state.wishlist.filter((product) => !isProductSoldOut(product)),
     }))
     const wishlist = await invoke(clearSoldOutWishlist, null)
     set({ wishlist })

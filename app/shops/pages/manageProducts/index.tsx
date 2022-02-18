@@ -9,6 +9,7 @@ import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
+import getProducts from 'app/product/queries/getProducts'
 import { ShopProduct } from 'app/shops/components/ShopProduct'
 import getCurrentUser from 'app/users/queries/getCurrentUser'
 
@@ -37,25 +38,24 @@ const ManageProductsPage: BlitzPage = () => {
 
 const ProductList = () => {
   const [user] = useQuery(getCurrentUser, null)
-  const shop = user!.shop
-  console.log(shop)
-  // if (products.length === 0) {
-  //   return (
-  //     <EmptyState
-  //       icon={<FiGrid strokeWidth={0.5} size={84} />}
-  //       title="There are no products in your shop."
-  //       description="Add a new product to start selling!"
-  //     />
-  //   )
-  // }
+  const [products] = useQuery(getProducts, {
+    where: { shopId: user!.shop!.id },
+  })
+
+  if (products.count === 0) {
+    return (
+      <EmptyState
+        icon={<FiGrid strokeWidth={0.5} size={84} />}
+        title="There are no products in your shop."
+        description="Add a new product to start selling!"
+      />
+    )
+  }
   return (
     <div className="flex flex-col p-6 space-y-4">
-      <ShopProduct />
-      <ShopProduct />
-      <ShopProduct />
-      {/* {products.map((product) => {
-        ;<ShopProduct key={product.id} />
-      })} */}
+      {products.products.map((product) => (
+        <ShopProduct key={product.id} product={product} />
+      ))}
     </div>
   )
 }

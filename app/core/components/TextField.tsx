@@ -56,7 +56,7 @@ export const FloatingLabel = polymorphic('label')((Box, props) => {
     <Box
       className={`
         ${className}
-        absolute left-4 top-2
+        absolute left-4 top-2 pointer-events-none
         text-tiny leading-none font-regular text-ink-lighter
         transition-all
         peer-placeholder-shown:text-regular peer-placeholder-shown:top-4

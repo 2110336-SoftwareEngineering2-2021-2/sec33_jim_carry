@@ -24,11 +24,15 @@ export const MaskedLabeledTextField = function (
       control={control}
       name={props.name}
       render={({ field }) => (
-        <InputMask value={field.value} onChange={field.onChange} {...props}>
+        <InputMask
+          value={field.value ?? ''}
+          onChange={field.onChange}
+          {...props}
+        >
           {(inputProps: any) => <LabeledTextField {...inputProps} />}
         </InputMask>
       )}
-    ></Controller>
+    />
   )
 }
 

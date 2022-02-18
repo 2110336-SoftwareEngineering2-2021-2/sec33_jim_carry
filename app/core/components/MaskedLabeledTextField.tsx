@@ -27,6 +27,7 @@ export const MaskedLabeledTextField = function (
         <InputMask
           value={field.value ?? ''}
           onChange={field.onChange}
+          onBlur={field.onBlur}
           {...props}
         >
           {(inputProps: any) => <LabeledTextField {...inputProps} />}

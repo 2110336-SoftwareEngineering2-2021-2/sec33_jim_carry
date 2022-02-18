@@ -42,6 +42,7 @@ export default async function getCheckoutSummary(_ = null, { session }: Ctx) {
 
   const customer = await getCustomer(session.userId)
   const cards = Cards.parse((await omise.customers.listCards(customer.id)).data)
+  const itemIds = items.map((item) => item.id)
   const groupedItems = Object.values(groupBy(items, (item) => item.shop.id))
   const groups = groupedItems.map((items) => {
     const shop = items[0]!.shop
@@ -53,5 +54,5 @@ export default async function getCheckoutSummary(_ = null, { session }: Ctx) {
   })
   const totalPrice = groups.reduce((total, group) => total + group.total, 0)
 
-  return { addresses: user.addresses, groups, cards, totalPrice }
+  return { addresses: user.addresses, itemIds, groups, cards, totalPrice }
 }

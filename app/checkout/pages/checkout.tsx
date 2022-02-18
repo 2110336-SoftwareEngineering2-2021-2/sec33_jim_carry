@@ -4,8 +4,9 @@ import {
   invokeWithMiddleware,
   PromiseReturnType,
   Routes,
+  useMutation,
 } from 'blitz'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { FiCreditCard } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
@@ -16,6 +17,7 @@ import { setupLayout } from 'app/core/utils/setupLayout'
 
 import { CheckoutGroup } from '../components/CheckoutGroup'
 import { SelectSection } from '../components/SelectSection'
+import confirmCheckout from '../mutations/confirmCheckout'
 import getCheckoutSummary from '../queries/getCheckoutSummary'
 
 interface CheckoutProps {
@@ -23,16 +25,21 @@ interface CheckoutProps {
 }
 
 const CheckoutPage: BlitzPage<CheckoutProps> = ({ summary }) => {
-  const { addresses, groups, cards, totalPrice } = summary
+  const { addresses, itemIds, groups, cards, totalPrice } = summary
+  const [addressId, setAddressId] = useState(addresses[0]?.id)
+  const [cardId, setCardId] = useState(cards[0]?.id)
 
-  const addressId = addresses[0]?.id
-  const cardId = cards[0]?.id
+  const addressIdIsValid = addresses.some((address) => address.id === addressId)
+  const cardIdIsValid = cards.some((card) => card.id === cardId)
 
-  const selectedAddress = addresses.find((address) => address.id === addressId)
-  const selectedCard = cards.find((card) => card.id === cardId)
+  const [confirmCheckoutMutation, { isLoading }] = useMutation(confirmCheckout)
 
-  if (typeof window !== 'undefined') {
-    console.log(JSON.stringify(summary, null, 2))
+  const onCheckout = async () => {
+    await confirmCheckoutMutation({
+      addressId: addressId!,
+      cardId: cardId!,
+      itemIds,
+    })
   }
 
   return (
@@ -43,17 +50,23 @@ const CheckoutPage: BlitzPage<CheckoutProps> = ({ summary }) => {
         largeTitle
       />
       <div className="flex flex-col py-3 gap-6">
-        <SelectSection sectionName="Ship to">
-          <div className="flex-1 text-regular leading-normal font-regular text-ink-darkest">
-            {selectedAddress ? (
-              <>
-                <p>{`${selectedAddress.receiverName} | ${selectedAddress.phoneNo}`}</p>
-                <p>{selectedAddress.address}</p>
-              </>
-            ) : (
-              'Add address'
-            )}
-          </div>
+        <SelectSection
+          sectionName="Ship to"
+          items={addresses}
+          value={addressId}
+          onChange={setAddressId}
+          title="Addresses"
+          description="Select an address to use for this order."
+          getLabel={(address) => address.name}
+          addText="Add address"
+          addLink={Routes.CreateAddressPage().pathname}
+        >
+          {(address) => (
+            <div className="flex-1 text-regular leading-normal font-regular text-ink-darkest">
+              <p>{`${address.receiverName} | ${address.phoneNo}`}</p>
+              <p>{address.address}</p>
+            </div>
+          )}
         </SelectSection>
         <Divider />
         {groups.map((group) => (
@@ -62,26 +75,34 @@ const CheckoutPage: BlitzPage<CheckoutProps> = ({ summary }) => {
             <Divider />
           </Fragment>
         ))}
-        <SelectSection sectionName="Payment">
-          <div
-            className="
-              flex-1 flex gap-3 items-center
-              text-regular leading-normal font-regular text-ink-darkest"
-          >
-            {selectedCard ? (
-              <>
-                <FiCreditCard className="text-[24px]" />
-                <p>{`${selectedCard.brand} •••• ${selectedCard.last_digits}`}</p>
-              </>
-            ) : (
-              'Add card'
-            )}
-          </div>
+        <SelectSection
+          sectionName="Payment"
+          items={cards}
+          value={cardId}
+          onChange={setCardId}
+          title="Payment Cards"
+          description="Select a card to use for this order."
+          getLabel={(card) => `${card.brand} •••• ${card.last_digits}`}
+          addText="Add card"
+          addLink={Routes.AddCardPage().pathname}
+        >
+          {(card) => (
+            <div
+              className="
+                flex-1 flex gap-3 items-center
+                text-regular leading-normal font-regular text-ink-darkest
+              "
+            >
+              <FiCreditCard className="text-[24px]" />
+              <p>{`${card.brand} •••• ${card.last_digits}`}</p>
+            </div>
+          )}
         </SelectSection>
         <div className="px-6">
           <Button
+            onClick={onCheckout}
             fullWidth
-            disabled={!selectedAddress || !selectedCard}
+            disabled={isLoading || !addressIdIsValid || !cardIdIsValid}
           >{`Pay ฿${totalPrice}`}</Button>
         </div>
       </div>

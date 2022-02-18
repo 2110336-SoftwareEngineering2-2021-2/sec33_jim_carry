@@ -8,6 +8,7 @@ import { z } from 'zod'
 
 import Form, { FORM_ERROR } from 'app/core/components/Form'
 import LabeledTextField from 'app/core/components/LabeledTextField'
+import MaskedLabeledTextField from 'app/core/components/MaskedLabeledTextField'
 import { TopBar } from 'app/core/components/TopBar'
 import { omisePublicKey } from 'app/core/environment'
 import { useGoBack } from 'app/core/hooks/useGoBack'
@@ -45,10 +46,19 @@ const AddCardPage: BlitzPage = () => {
           }
         }}
       >
-        <LabeledTextField name="cardNumber" label="Card number" />
+        <MaskedLabeledTextField
+          mask="9999 9999 9999 9999"
+          maskChar={null}
+          name="cardNumber"
+          label="Card number"
+        />
         <LabeledTextField name="cardHolderName" label="Cardholder name" />
         <div className="flex gap-6">
-          <LabeledTextField name="expiryDate" label="Expiry date" />
+          <MaskedLabeledTextField
+            mask="99/99"
+            name="expiryDate"
+            label="Expiry date"
+          />
           <LabeledTextField name="cvv" label="Security code" />
         </div>
       </Form>

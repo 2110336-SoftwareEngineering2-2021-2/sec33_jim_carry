@@ -6,7 +6,7 @@ import {
   Routes,
   useMutation,
 } from 'blitz'
-import { FiGrid, FiHelpCircle, FiMapPin } from 'react-icons/fi'
+import { FiCreditCard, FiGrid, FiHelpCircle, FiMapPin } from 'react-icons/fi'
 
 import logout from 'app/auth/mutations/logout'
 import { MenuListItem } from 'app/core/components/MenuListItem'
@@ -45,6 +45,9 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
       <div>
         <Link href={Routes.AddressesPage().pathname} passHref>
           <MenuListItem as="a" icon={<FiMapPin />} title="My addresses" />
+        </Link>
+        <Link href={Routes.CardsPage().pathname} passHref>
+          <MenuListItem as="a" icon={<FiCreditCard />} title="My cards" />
         </Link>
         {hasShop ? (
           <Link href={Routes.ManageProductsPage().pathname} passHref>

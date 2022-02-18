@@ -7,6 +7,7 @@ import {
   AuthorizationError,
   ErrorFallbackProps,
   useQueryErrorResetBoundary,
+  Script,
 } from 'blitz'
 import SuperJson from 'superjson'
 
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
       onReset={useQueryErrorResetBoundary().reset}
     >
       {getLayout(<Component {...pageProps} />)}
+      <Script src="https://cdn.omise.co/omise.js" />
     </ErrorBoundary>
   )
 }

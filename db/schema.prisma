@@ -20,6 +20,7 @@ model User {
   hashedPassword String?
   googleId       String?  @unique
   profileImage   String?
+  omiseId        String?  @unique
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   role           Role     @default(USER)

@@ -11,6 +11,7 @@ import {
 import { Spinner } from 'app/core/components/Spinner'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
 import { ProductWithShop } from 'app/core/types/Product'
+import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
 import { useWishlistStore } from 'app/wishlist/context/useWishlistStore'
 
 import { WishProduct } from '../components/WishProduct'
@@ -29,8 +30,8 @@ const WishProducts = () => {
   const wishlist = useWishlistStore((state) => state.wishlist)
   const [value, setValue] = useState('all')
   const { available, sold } = useMemo(() => {
-    const sold = wishlist.filter((product) => product.soldPrice !== null)
-    const available = wishlist.filter((product) => product.soldPrice === null)
+    const sold = wishlist.filter((product) => isProductSoldOut(product))
+    const available = wishlist.filter((product) => !isProductSoldOut(product))
     return { available, sold }
   }, [wishlist])
   const products =

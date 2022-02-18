@@ -1,6 +1,7 @@
 import { AuthorizationError, Ctx, resolver } from 'blitz'
 import db from 'db'
 
+import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
 import getWishlist from 'app/wishlist/queries/getWishlist'
 
 /**
@@ -13,7 +14,7 @@ export default resolver.pipe(
     const wishlist = await getWishlist(null, { session })
 
     const soldProducts = wishlist
-      .filter((product) => product.soldPrice !== null)
+      .filter((product) => isProductSoldOut(product))
       .map((product) => ({
         id: product.id,
       }))

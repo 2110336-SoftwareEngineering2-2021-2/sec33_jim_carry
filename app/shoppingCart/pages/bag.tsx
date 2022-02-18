@@ -58,7 +58,7 @@ function TotalFooter({ products }: { products: ProductWithShop[] }) {
     (current, product) => current + Number(product.price),
     0
   )
-  const safariRenderHack = { zIndex: 10 }
+  const safariRenderHack = { zIndex: 1 }
   return (
     <div className="flex flex-col px-6 py-5 space-y-4 sticky bottom-0 bg-sky-white border-t border-y-sky-light">
       <div className="flex flex-row justify-between text-large font-bold">

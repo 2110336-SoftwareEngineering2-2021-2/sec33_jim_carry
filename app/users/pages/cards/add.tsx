@@ -47,6 +47,7 @@ const AddCardPage: BlitzPage = () => {
         }}
       >
         <MaskedLabeledTextField
+          className="font-mono"
           mask="9999 9999 9999 9999"
           maskChar={null}
           name="cardNumber"
@@ -55,11 +56,16 @@ const AddCardPage: BlitzPage = () => {
         <LabeledTextField name="cardHolderName" label="Cardholder name" />
         <div className="flex gap-6">
           <MaskedLabeledTextField
+            className="font-mono"
             mask="99/99"
             name="expiryDate"
             label="Expiry date"
           />
-          <LabeledTextField name="cvv" label="Security code" />
+          <LabeledTextField
+            className="font-mono"
+            name="cvv"
+            label="Security code"
+          />
         </div>
       </Form>
     </div>

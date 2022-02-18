@@ -36,7 +36,8 @@ export function CardList() {
           "
         >
           <p className="text-regular leading-tight font-regular text-ink-darkest">
-            {`${card.brand} •••• ${card.last_digits}`}
+            {card.brand}
+            <span className="font-mono">{` •••• ${card.last_digits}`}</span>
           </p>
           <p className="text-small leading-tight font-regular text-ink-lighter">
             {card.name}

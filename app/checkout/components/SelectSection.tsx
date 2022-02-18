@@ -16,7 +16,7 @@ export interface SelectSectionProps<T, K> {
   children: (item: T) => ReactNode
   title: string
   description: string
-  getLabel: (item: T) => string
+  getLabel: (item: T) => ReactNode
   addText: string
   addLink: string
 }

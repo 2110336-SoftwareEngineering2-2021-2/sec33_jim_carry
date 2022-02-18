@@ -7,6 +7,7 @@ import {
   useMutation,
   useRouter,
 } from 'blitz'
+import { Card } from 'omise-js-typed/dist/lib/omise'
 import { Fragment, useState } from 'react'
 import { FiCreditCard } from 'react-icons/fi'
 
@@ -86,7 +87,7 @@ const CheckoutPage: BlitzPage<CheckoutProps> = ({ summary }) => {
           onChange={setCardId}
           title="Payment Cards"
           description="Select a card to use for this order."
-          getLabel={(card) => `${card.brand} •••• ${card.last_digits}`}
+          getLabel={(card) => <CardLabel card={card} />}
           addText="Add card"
           addLink={Routes.AddCardPage().pathname}
         >
@@ -98,7 +99,7 @@ const CheckoutPage: BlitzPage<CheckoutProps> = ({ summary }) => {
               "
             >
               <FiCreditCard className="text-[24px]" />
-              <p>{`${card.brand} •••• ${card.last_digits}`}</p>
+              <CardLabel card={card} />
             </div>
           )}
         </SelectSection>
@@ -111,6 +112,15 @@ const CheckoutPage: BlitzPage<CheckoutProps> = ({ summary }) => {
         </div>
       </div>
     </div>
+  )
+}
+
+function CardLabel({ card }: { card: Pick<Card, 'brand' | 'last_digits'> }) {
+  return (
+    <p>
+      {card.brand}
+      <span className="font-mono">{` •••• ${card.last_digits}`}</span>
+    </p>
   )
 }
 

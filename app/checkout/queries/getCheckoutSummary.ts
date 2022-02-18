@@ -1,6 +1,7 @@
 import { AuthorizationError, Ctx, NotFoundError } from 'blitz'
 import db from 'db'
 
+import { shippingCost } from 'app/core/constants'
 import { groupBy } from 'app/core/utils/groupBy'
 import { getCustomer, omise } from 'app/omise'
 import { Cards } from 'app/users/validations'
@@ -48,9 +49,14 @@ export default async function getCheckoutSummary(_ = null, { session }: Ctx) {
     const shop = items[0]!.shop
     const itemsWithoutShop = items.map(({ shop, ...item }) => item)
     const subtotal = items.reduce((total, item) => total + item.price, 0)
-    const shipping = 20
-    const total = subtotal + shipping
-    return { shop, items: itemsWithoutShop, subtotal, shipping, total }
+    const total = subtotal + shippingCost
+    return {
+      shop,
+      items: itemsWithoutShop,
+      subtotal,
+      shipping: shippingCost,
+      total,
+    }
   })
   const totalPrice = groups.reduce((total, group) => total + group.total, 0)
 

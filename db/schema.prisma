@@ -7,7 +7,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 // --------------------------------------
@@ -32,6 +33,7 @@ model User {
   following    Shop[]    @relation(name: "follow")
   tokens       Token[]
   sessions     Session[]
+  Order        Order[]
 }
 
 model Shop {
@@ -48,6 +50,7 @@ model Shop {
 
   products  Product[]
   followers User[]    @relation(name: "follow")
+  Order     Order[]
 }
 
 model Address {
@@ -77,10 +80,11 @@ model Product {
   hidden      Boolean
   images      String[]
 
-  categories   Category[]
-  hashtags     Hashtag[]
-  wishlistedBy User[]     @relation(name: "wishlist")
-  selectedBy   User[]     @relation(name: "shoppingCart")
+  categories        Category[]
+  hashtags          Hashtag[]
+  wishlistedBy      User[]              @relation(name: "wishlist")
+  selectedBy        User[]              @relation(name: "shoppingCart")
+  OrderItemSnapshot OrderItemSnapshot[]
 }
 
 model CategoryGroup {
@@ -105,6 +109,34 @@ model Hashtag {
   name String
 
   products Product[]
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  owner     User     @relation(fields: [ownerId], references: [id])
+  ownerId   Int
+  shop      Shop     @relation(fields: [shopId], references: [id])
+  shopId    Int
+
+  chargeId String?
+  items    OrderItemSnapshot[]
+}
+
+model OrderItemSnapshot {
+  id      Int   @id @default(autoincrement())
+  Order   Order @relation(fields: [orderId], references: [id])
+  orderId Int
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  name        String
+  description String?
+  price       Float
+  soldPrice   Float
+  images      String[]
 }
 
 model Session {

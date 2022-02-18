@@ -5,6 +5,7 @@ import {
   PromiseReturnType,
   Routes,
   useMutation,
+  useRouter,
 } from 'blitz'
 import { Fragment, useState } from 'react'
 import { FiCreditCard } from 'react-icons/fi'
@@ -34,12 +35,15 @@ const CheckoutPage: BlitzPage<CheckoutProps> = ({ summary }) => {
 
   const [confirmCheckoutMutation, { isLoading }] = useMutation(confirmCheckout)
 
+  const { replace } = useRouter()
+
   const onCheckout = async () => {
     await confirmCheckoutMutation({
       addressId: addressId!,
       cardId: cardId!,
       itemIds,
     })
+    replace(Routes.OrdersPage().pathname)
   }
 
   return (

@@ -1,4 +1,4 @@
-import { BlitzPage, Routes } from 'blitz'
+import { BlitzPage, Link, Routes } from 'blitz'
 import { FiShoppingBag } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
@@ -64,7 +64,9 @@ function TotalFooter({ products }: { products: ProductWithShop[] }) {
         <span>Subtotal</span>
         <span>{`฿${total}`}</span>
       </div>
-      <Button fullWidth>Checkout</Button>
+      <Link href={Routes.CheckoutPage().pathname} passHref>
+        <Button fullWidth>Checkout</Button>
+      </Link>
     </div>
   )
 }

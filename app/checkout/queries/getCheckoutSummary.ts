@@ -50,12 +50,15 @@ export default async function getCheckoutSummary(_ = null, { session }: Ctx) {
   const groupedItems = Object.values(groupBy(items, (item) => item.shop.id))
   const groups = groupedItems.map((items) => {
     const shop = items[0]!.shop
-    const itemsWithoutShop = items.map(({ shop, ...item }) => item)
+    const transformedItems = items.map(({ shop, images, ...item }) => ({
+      ...item,
+      thumbnail: images[0],
+    }))
     const subtotal = items.reduce((total, item) => total + item.price, 0)
     const total = subtotal + shippingCost
     return {
       shop,
-      items: itemsWithoutShop,
+      items: transformedItems,
       subtotal,
       shipping: shippingCost,
       total,

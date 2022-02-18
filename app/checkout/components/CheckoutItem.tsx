@@ -4,12 +4,14 @@ import { Image } from 'blitz'
 export function CheckoutItem({
   item,
 }: {
-  item: Pick<Product, 'name' | 'images' | 'price'>
+  item: Pick<Product, 'name' | 'price'> & {
+    thumbnail?: string
+  }
 }) {
   return (
     <div className="flex space-x-4">
       <Image
-        src={item.images[0] ?? ''}
+        src={item.thumbnail ?? ''}
         alt={item.name}
         width={64}
         height={64}

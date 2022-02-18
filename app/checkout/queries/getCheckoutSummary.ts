@@ -21,6 +21,9 @@ export default async function getCheckoutSummary(_ = null, { session }: Ctx) {
 
   const items = await db.product.findMany({
     where: {
+      stock: {
+        gt: 0,
+      },
       selectedBy: {
         some: {
           id: session.userId,

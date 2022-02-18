@@ -14,8 +14,6 @@ import { ShopProduct } from 'app/shops/components/ShopProduct'
 import getCurrentUser from 'app/users/queries/getCurrentUser'
 
 const ManageProductsPage: BlitzPage = () => {
-  // TODO : See CRUD for product, R for product list
-
   return (
     <div>
       <TopBar
@@ -41,6 +39,8 @@ const ProductList = () => {
   const [products] = useQuery(getProducts, {
     where: { shopId: user!.shop!.id },
   })
+
+  // TODO : Segmented Control
 
   if (products.count === 0) {
     return (

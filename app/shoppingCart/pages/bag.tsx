@@ -1,10 +1,11 @@
-import { BlitzPage, Routes } from 'blitz'
+import { BlitzPage, Link, Routes } from 'blitz'
 import { FiShoppingBag } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
 import { EmptyState } from 'app/core/components/EmptyState'
 import { TopBar } from 'app/core/components/TopBar'
 import { ProductWithShop } from 'app/core/types/Product'
+import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
 import { setupLayout } from 'app/core/utils/setupLayout'
 
 import { BagProduct } from '../components/BagProduct'
@@ -54,10 +55,9 @@ function TotalFooter({ products }: { products: ProductWithShop[] }) {
   if (products.length === 0) {
     return null
   }
-  const total = products.reduce(
-    (current, product) => current + Number(product.price),
-    0
-  )
+  const total = products
+    .filter((product) => !isProductSoldOut(product))
+    .reduce((current, product) => current + product.price, 0)
   const safariRenderHack = { zIndex: 1 }
   return (
     <div className="flex flex-col px-6 py-5 space-y-4 sticky bottom-0 bg-sky-white border-t border-y-sky-light">
@@ -65,7 +65,9 @@ function TotalFooter({ products }: { products: ProductWithShop[] }) {
         <span>Subtotal</span>
         <span style={safariRenderHack}>{`฿${total}`}</span>
       </div>
-      <Button fullWidth>Checkout</Button>
+      <Link href={Routes.CheckoutPage().pathname} passHref>
+        <Button fullWidth>Checkout</Button>
+      </Link>
     </div>
   )
 }

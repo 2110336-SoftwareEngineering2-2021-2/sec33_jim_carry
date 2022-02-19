@@ -37,6 +37,9 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
 
+      - name: Blitz codegen
+        run: yarn exec blitz cg
+
       - name: Generate documentation
         run: node typedoc
 

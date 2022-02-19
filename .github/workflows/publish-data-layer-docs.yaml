@@ -2,7 +2,7 @@ name: Publish data layer documentation
 
 on:
   push:
-    branches: [feat/data-layer-docs]
+    branches: [master]
 
 jobs:
   publish-docs:

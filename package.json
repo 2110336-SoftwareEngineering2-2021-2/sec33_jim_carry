@@ -12,7 +12,8 @@
     "prepare": "husky install",
     "setup": "blitz install tailwind",
     "migrate": "blitz prisma generate && blitz prisma migrate dev",
-    "seed": "blitz db seed"
+    "seed": "blitz db seed",
+    "docs": "yarn tsc docs-generator/index.ts --outDir docs-generator/build && node docs-generator/build"
   },
   "prisma": {
     "schema": "db/schema.prisma"

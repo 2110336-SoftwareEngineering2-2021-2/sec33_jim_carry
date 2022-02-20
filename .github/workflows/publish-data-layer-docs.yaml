@@ -41,7 +41,7 @@ jobs:
         run: yarn exec blitz cg
 
       - name: Generate documentation
-        run: node typedoc
+        run: yarn docs
 
       - name: Publich documentation
         run: surge ./data-layer-docs --domain https://mayday-data-layer.surge.sh --token ${{ secrets.SURGE_TOKEN }}

@@ -58,5 +58,5 @@ lib-cov
 # Documentation generator build output
 docs-generator/build
 
-# Data layer Documentation
-data-layer-docs
+# API Documentation
+api-docs

@@ -21,7 +21,7 @@ async function main() {
   const project = app.convert()
 
   if (project) {
-    const outputDir = 'data-layer-docs'
+    const outputDir = 'api-docs'
 
     await app.generateDocs(project, outputDir)
   }

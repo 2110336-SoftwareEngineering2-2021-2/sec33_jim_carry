@@ -1,4 +1,4 @@
-name: Publish data layer documentation
+name: Publish API documentation
 
 on:
   push:
@@ -44,4 +44,4 @@ jobs:
         run: yarn docs
 
       - name: Publich documentation
-        run: surge ./data-layer-docs --domain https://mayday-data-layer.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+        run: surge ./api-docs --domain https://mayday-api.surge.sh --token ${{ secrets.SURGE_TOKEN }}

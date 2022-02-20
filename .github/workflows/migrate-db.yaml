@@ -2,11 +2,10 @@ name: Migrate DB
 
 on:
   workflow_dispatch:
-  push:
-    branches: [feat/migrate-action]
 
 jobs:
   migrate-db:
+    if: github.ref == 'refs/heads/master'
     strategy:
       matrix:
         node-version: [16.x]

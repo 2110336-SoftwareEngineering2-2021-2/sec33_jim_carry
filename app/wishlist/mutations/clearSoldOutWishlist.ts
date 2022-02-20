@@ -7,7 +7,7 @@ import getWishlist from 'app/wishlist/queries/getWishlist'
 /**
  * Clears the sold out items from the wishlist, and returns the updated wishlist
  */
-export default resolver.pipe(
+const clearSoldOutWishlist = resolver.pipe(
   resolver.authorize(),
   async (_ = null, { session }: Ctx) => {
     if (!session.userId) throw new AuthorizationError()
@@ -40,3 +40,5 @@ export default resolver.pipe(
     return user.wishlist
   }
 )
+
+export default clearSoldOutWishlist

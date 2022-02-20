@@ -7,7 +7,7 @@ const GetProduct = z.object({
   id: z.number().optional().refine(Boolean, 'Required'),
 })
 
-export default resolver.pipe(
+const getProduct = resolver.pipe(
   resolver.zod(GetProduct),
   resolver.authorize(),
   async ({ id }) => {
@@ -22,3 +22,5 @@ export default resolver.pipe(
     return product
   }
 )
+
+export default getProduct

@@ -1,7 +1,7 @@
 import { resolver, NotFoundError, Ctx, AuthorizationError } from 'blitz'
 import db from 'db'
 
-export default resolver.pipe(
+const getShoppingCart = resolver.pipe(
   resolver.authorize(),
   async (_ = null, { session }: Ctx) => {
     if (!session.userId) throw new AuthorizationError()
@@ -23,3 +23,5 @@ export default resolver.pipe(
     return user.shoppingCart
   }
 )
+
+export default getShoppingCart

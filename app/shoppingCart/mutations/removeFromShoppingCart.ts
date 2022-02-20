@@ -6,7 +6,7 @@ const RemoveFromShoppingCart = z.object({
   productId: z.number(),
 })
 
-export default resolver.pipe(
+const removeFormShoppingCart = resolver.pipe(
   resolver.zod(RemoveFromShoppingCart),
   resolver.authorize(),
   async ({ productId }, { session }: Ctx) => {
@@ -32,3 +32,5 @@ export default resolver.pipe(
     return user.shoppingCart
   }
 )
+
+export default removeFormShoppingCart

@@ -6,6 +6,11 @@ import { groupBy } from 'app/core/utils/groupBy'
 import { getCustomer, omise } from 'app/omise'
 import { Cards } from 'app/users/validations'
 
+/**
+ * Get all information required to render the checkout page
+ *
+ * @returns The user's addresses, cards, and items in the shopping bag (grouped by shop).
+ */
 export default async function getCheckoutSummary(_ = null, { session }: Ctx) {
   if (!session.userId) throw new AuthorizationError()
 

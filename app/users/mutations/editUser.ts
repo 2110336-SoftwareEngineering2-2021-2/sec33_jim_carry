@@ -9,7 +9,7 @@ const User = z.object({
   profileImage: z.string().optional(),
 })
 
-export default resolver.pipe(
+const editUser = resolver.pipe(
   resolver.zod(User),
   resolver.authorize(),
   async ({ id, ...data }) => {
@@ -19,3 +19,5 @@ export default resolver.pipe(
     })
   }
 )
+
+export default editUser

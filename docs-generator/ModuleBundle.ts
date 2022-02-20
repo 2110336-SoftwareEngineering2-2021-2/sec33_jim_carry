@@ -1,3 +1,4 @@
+import { capitalCase } from 'change-case'
 import { DeclarationReflection, ProjectReflection } from 'typedoc'
 
 export class ModuleBundle {
@@ -23,7 +24,7 @@ export class ModuleBundle {
     const [firstModule, ...restModules] = this.modules
 
     allChildren.forEach((child) => (child.parent = firstModule))
-    firstModule!.name = this.name
+    firstModule!.name = capitalCase(this.name)
     firstModule!.children = allChildren
 
     restModules.forEach((module) => {

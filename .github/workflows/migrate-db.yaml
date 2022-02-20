@@ -37,4 +37,5 @@ jobs:
       - name: Migrate DB
         run: yarn exec blitz prisma migrate deploy
         env:
+          NODE_ENV: production
           DB_URL: ${{ secrets.DB_URL }}

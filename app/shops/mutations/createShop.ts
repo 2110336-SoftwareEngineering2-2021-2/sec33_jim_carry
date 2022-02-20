@@ -3,7 +3,7 @@ import db from 'db'
 
 import { CreateShop } from '../validations'
 
-export default resolver.pipe(
+const createShop = resolver.pipe(
   resolver.zod(CreateShop),
   resolver.authorize(),
   async (input, { session }: Ctx) => {
@@ -33,3 +33,5 @@ export default resolver.pipe(
     return shop
   }
 )
+
+export default createShop

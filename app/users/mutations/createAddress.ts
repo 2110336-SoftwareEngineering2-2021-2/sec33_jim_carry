@@ -3,7 +3,7 @@ import db from 'db'
 
 import { CreateAddress } from '../validations'
 
-export default resolver.pipe(
+const createAddress = resolver.pipe(
   resolver.zod(CreateAddress),
   resolver.authorize(),
   async (address, ctx: Ctx) => {
@@ -17,3 +17,5 @@ export default resolver.pipe(
     })
   }
 )
+
+export default createAddress

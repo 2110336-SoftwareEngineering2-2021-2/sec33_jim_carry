@@ -7,7 +7,7 @@ interface GetProductsInput
     'where' | 'orderBy' | 'skip' | 'take'
   > {}
 
-export default resolver.pipe(
+const getProducts = resolver.pipe(
   resolver.authorize(),
   async ({ where, orderBy, skip = 0, take = 100 }: GetProductsInput) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
@@ -38,3 +38,5 @@ export default resolver.pipe(
     }
   }
 )
+
+export default getProducts

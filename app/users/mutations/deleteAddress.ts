@@ -6,7 +6,7 @@ const RemoveAddress = z.object({
   id: z.number(),
 })
 
-export default resolver.pipe(
+const deleteAddress = resolver.pipe(
   resolver.zod(RemoveAddress),
   resolver.authorize(),
   async ({ id }, ctx: Ctx) => {
@@ -18,3 +18,5 @@ export default resolver.pipe(
     await db.address.delete({ where: { id } })
   }
 )
+
+export default deleteAddress

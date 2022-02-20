@@ -1,7 +1,7 @@
 import { resolver, Ctx, AuthorizationError, NotFoundError } from 'blitz'
 import db from 'db'
 
-export default resolver.pipe(
+const getAddresses = resolver.pipe(
   resolver.authorize(),
   async (_ = null, { session }: Ctx) => {
     if (!session.userId) throw new AuthorizationError()
@@ -17,3 +17,5 @@ export default resolver.pipe(
     return user.addresses
   }
 )
+
+export default getAddresses

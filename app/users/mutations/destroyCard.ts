@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 import { getCustomer, omise } from 'app/omise'
 
-export default resolver.pipe(
+const destroyCard = resolver.pipe(
   resolver.zod(z.string().nonempty()),
   resolver.authorize(),
   async (cardId, ctx: Ctx) => {
@@ -13,3 +13,5 @@ export default resolver.pipe(
     await omise.customers.destroyCard(customer.id, cardId)
   }
 )
+
+export default destroyCard

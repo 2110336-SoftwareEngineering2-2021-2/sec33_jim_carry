@@ -4,7 +4,7 @@ import { getCustomer, omise } from 'app/omise'
 
 import { CardToken } from '../validations'
 
-export default resolver.pipe(
+const attachCard = resolver.pipe(
   resolver.zod(CardToken),
   resolver.authorize(),
   async (cardToken, ctx: Ctx) => {
@@ -16,3 +16,5 @@ export default resolver.pipe(
     })
   }
 )
+
+export default attachCard

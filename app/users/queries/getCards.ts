@@ -4,7 +4,7 @@ import { getCustomer, omise } from 'app/omise'
 
 import { Cards } from '../validations'
 
-export default resolver.pipe(
+const getCards = resolver.pipe(
   resolver.authorize(),
   async (_ = null, { session }: Ctx) => {
     if (!session.userId) throw new AuthorizationError()
@@ -14,3 +14,5 @@ export default resolver.pipe(
     return Cards.parse(cards.data)
   }
 )
+
+export default getCards

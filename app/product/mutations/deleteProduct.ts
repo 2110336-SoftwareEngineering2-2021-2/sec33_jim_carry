@@ -6,7 +6,7 @@ const DeleteProduct = z.object({
   id: z.number(),
 })
 
-export default resolver.pipe(
+const deleteProduct = resolver.pipe(
   resolver.zod(DeleteProduct),
   resolver.authorize(),
   async ({ id }) => {
@@ -16,3 +16,5 @@ export default resolver.pipe(
     return product
   }
 )
+
+export default deleteProduct

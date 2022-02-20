@@ -7,7 +7,7 @@ import { getCustomer, omise } from 'app/omise'
 
 import { ConfirmCheckout } from '../validations'
 
-export default resolver.pipe(
+const confirmCheckout = resolver.pipe(
   resolver.zod(ConfirmCheckout),
   resolver.authorize(),
   async (
@@ -46,6 +46,8 @@ export default resolver.pipe(
     }
   }
 )
+
+export default confirmCheckout
 
 async function createOrder(
   userId: number,

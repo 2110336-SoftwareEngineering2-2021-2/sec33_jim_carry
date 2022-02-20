@@ -6,7 +6,7 @@ const RemoveFromWishlist = z.object({
   productId: z.number(),
 })
 
-export default resolver.pipe(
+const removeFromWishlist = resolver.pipe(
   resolver.zod(RemoveFromWishlist),
   resolver.authorize(),
   async ({ productId }, { session }: Ctx) => {
@@ -32,3 +32,5 @@ export default resolver.pipe(
     return user.wishlist
   }
 )
+
+export default removeFromWishlist

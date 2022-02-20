@@ -1,8 +1,7 @@
 name: Migrate DB
 
 on:
-  push:
-    branches: [feat/migrate-action]
+  workflow_dispatch:
 
 jobs:
   migrate-db:

@@ -7,6 +7,12 @@ import { getCustomer, omise } from 'app/omise'
 
 import { ConfirmCheckout } from '../validations'
 
+/**
+ * Confirm the checkout and create an order for each shop.
+ * The user's select card will be charged for each order.
+ *
+ * @param input - The user's shipping address and payment card, and the item ids to purchase.
+ */
 const confirmCheckout = resolver.pipe(
   resolver.zod(ConfirmCheckout),
   resolver.authorize(),
@@ -120,6 +126,9 @@ async function createOrder(
       currency: 'thb',
       capture: true,
       description: `Order ${order.id}`,
+      metadata: {
+        orderId: order.id,
+      },
     })
     await db.order.update({
       data: {

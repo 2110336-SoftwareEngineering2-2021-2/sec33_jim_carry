@@ -6,6 +6,11 @@ const RemoveAddress = z.object({
   id: z.number(),
 })
 
+/**
+ * Delete an address from the current user.
+ *
+ * @param input - The id of the address to delete.
+ */
 const deleteAddress = resolver.pipe(
   resolver.zod(RemoveAddress),
   resolver.authorize(),

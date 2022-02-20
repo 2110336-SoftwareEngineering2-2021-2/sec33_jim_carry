@@ -4,6 +4,11 @@ import { getCustomer, omise } from 'app/omise'
 
 import { CardToken } from '../validations'
 
+/**
+ * Attach a card to the current user.
+ *
+ * @param input - The card token to attach.
+ */
 const attachCard = resolver.pipe(
   resolver.zod(CardToken),
   resolver.authorize(),

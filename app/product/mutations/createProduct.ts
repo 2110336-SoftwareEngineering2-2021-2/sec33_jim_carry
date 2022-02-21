@@ -12,7 +12,7 @@ const CreateProduct = z.object({
   images: z.string().array(),
 })
 
-export default resolver.pipe(
+const createProduct = resolver.pipe(
   resolver.zod(CreateProduct),
   resolver.authorize(),
   async (input) => {
@@ -22,3 +22,5 @@ export default resolver.pipe(
     return product
   }
 )
+
+export default createProduct

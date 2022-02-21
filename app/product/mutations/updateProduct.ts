@@ -14,7 +14,7 @@ const UpdateProduct = z.object({
   images: z.string().array(),
 })
 
-export default resolver.pipe(
+const updateProduct = resolver.pipe(
   resolver.zod(UpdateProduct),
   resolver.authorize(),
   async ({ id, ...data }) => {
@@ -24,3 +24,5 @@ export default resolver.pipe(
     return product
   }
 )
+
+export default updateProduct

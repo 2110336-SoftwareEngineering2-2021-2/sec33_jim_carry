@@ -19,37 +19,43 @@ export interface LabeledTextFieldProps
 export const LabeledTextField = forwardRef<
   HTMLInputElement,
   LabeledTextFieldProps
->(({ label, outerProps, labelProps, name, asTextArea, ...props }, ref) => {
-  const {
-    register,
-    formState: { isSubmitting, errors },
-  } = useFormContext()
-  const error = Array.isArray(errors[name])
-    ? errors[name].join(', ')
-    : errors[name]?.message || errors[name]
-  const as = asTextArea ? 'textarea' : 'input'
+>(
+  (
+    { className, label, outerProps, labelProps, name, asTextArea, ...props },
+    ref
+  ) => {
+    const {
+      register,
+      formState: { isSubmitting, errors },
+    } = useFormContext()
+    const error = Array.isArray(errors[name])
+      ? errors[name].join(', ')
+      : errors[name]?.message || errors[name]
+    const as = asTextArea ? 'textarea' : 'input'
 
-  return (
-    <div {...outerProps}>
-      <div className="relative">
-        <TextField
-          as={as}
-          placeholder={label}
-          disabled={isSubmitting}
-          {...register(name)}
-          fullWidth
-          floatingLabel
-          hasError={!!error}
-          {...props}
-        />
-        <FloatingLabel htmlFor={name} {...labelProps}>
-          {label}
-        </FloatingLabel>
+    return (
+      <div {...outerProps}>
+        <div className="relative">
+          <TextField
+            className={className}
+            as={as}
+            placeholder={label}
+            disabled={isSubmitting}
+            {...register(name)}
+            fullWidth
+            floatingLabel
+            hasError={!!error}
+            {...props}
+          />
+          <FloatingLabel htmlFor={name} {...labelProps}>
+            {label}
+          </FloatingLabel>
+        </div>
+
+        {error && <ErrorMessage>{error}</ErrorMessage>}
       </div>
-
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-    </div>
-  )
-})
+    )
+  }
+)
 
 export default LabeledTextField

@@ -9,6 +9,7 @@ import {
   useQueryErrorResetBoundary,
   Routes,
   useRouter,
+  Script,
 } from 'blitz'
 import SuperJson from 'superjson'
 
@@ -33,6 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
     >
       {getLayout(<Component {...pageProps} />)}
       <LoginPrompt />
+      <Script src="https://cdn.omise.co/omise.js" />
     </ErrorBoundary>
   )
 }

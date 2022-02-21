@@ -8,7 +8,7 @@ import {
   googleClientSecret,
 } from 'app/core/environment'
 
-export default passportAuth({
+const authApi = passportAuth({
   successRedirectUrl: '/',
   errorRedirectUrl: '/',
   strategies: [
@@ -53,3 +53,5 @@ export default passportAuth({
     },
   ],
 })
+
+export default authApi

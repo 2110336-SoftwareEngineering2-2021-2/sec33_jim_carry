@@ -2,10 +2,12 @@ name: Migrate DB
 
 on:
   workflow_dispatch:
+  push:
+    branches: [dev]
 
 jobs:
   migrate-db:
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     strategy:
       matrix:
         node-version: [16.x]
@@ -34,8 +36,16 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
 
-      - name: Migrate DB
+      - name: Migrate production DB
+        if: github.ref == 'refs/heads/master'
         run: yarn exec blitz prisma migrate deploy
         env:
           NODE_ENV: production
           DATABASE_URL: ${{ secrets.DB_URL }}
+
+      - name: Migrate dev DB
+        if: github.ref == 'refs/heads/dev'
+        run: yarn exec blitz prisma migrate deploy
+        env:
+          NODE_ENV: production
+          DATABASE_URL: ${{ secrets.DEV_DB_URL }}

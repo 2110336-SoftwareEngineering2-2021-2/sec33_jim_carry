@@ -2,7 +2,7 @@ name: Publish API documentation
 
 on:
   push:
-    branches: [master]
+    branches: [master, dev]
 
 jobs:
   publish-docs:
@@ -43,5 +43,10 @@ jobs:
       - name: Generate documentation
         run: yarn docs
 
-      - name: Publich documentation
+      - name: Publich production documentation
+        if: github.ref == 'refs/heads/master'
         run: surge ./api-docs --domain https://mayday-api.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+
+      - name: Publich dev documentation
+        if: github.ref == 'refs/heads/dev'
+        run: surge ./api-docs --domain https://mayday-api-dev.surge.sh --token ${{ secrets.SURGE_TOKEN }}

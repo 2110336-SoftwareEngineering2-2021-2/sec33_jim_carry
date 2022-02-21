@@ -16,6 +16,7 @@ import {
 } from 'react-icons/fi'
 
 import logout from 'app/auth/mutations/logout'
+import { Divider } from 'app/core/components/Divider'
 import { MenuListItem } from 'app/core/components/MenuListItem'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
@@ -60,6 +61,9 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
         <Link href={Routes.OrdersPage().pathname} passHref>
           <MenuListItem as="a" icon={<FiTruck />} title="My orders" />
         </Link>
+      </div>
+      <Divider full={false} />
+      <div>
         {hasShop ? (
           <>
             <MenuListItem icon={<FiLayout />} title="My shop" />
@@ -72,15 +76,15 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
             <MenuListItem as="a" icon={<FiLayout />} title="Register shop" />
           </Link>
         )}
+      </div>
+      <Divider full={false} />
+      <div>
         <MenuListItem icon={<FiHelpCircle />} title="Help" />
+        <MenuListItem
+          onClick={async () => await logoutMutation()}
+          title="Logout"
+        />
       </div>
-      <div className="px-6">
-        <span className="block w-full h-[1px] bg-sky-lighter" />
-      </div>
-      <MenuListItem
-        onClick={async () => await logoutMutation()}
-        title="Logout"
-      />
     </div>
   )
 }

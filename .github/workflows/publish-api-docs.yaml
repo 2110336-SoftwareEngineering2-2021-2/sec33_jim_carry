@@ -43,10 +43,10 @@ jobs:
       - name: Generate documentation
         run: yarn docs
 
-      - name: Publich production documentation
+      - name: Publish production documentation
         if: github.ref == 'refs/heads/master'
         run: surge ./api-docs --domain https://mayday-api.surge.sh --token ${{ secrets.SURGE_TOKEN }}
 
-      - name: Publich dev documentation
+      - name: Publish dev documentation
         if: github.ref == 'refs/heads/dev'
         run: surge ./api-docs --domain https://mayday-api-dev.surge.sh --token ${{ secrets.SURGE_TOKEN }}

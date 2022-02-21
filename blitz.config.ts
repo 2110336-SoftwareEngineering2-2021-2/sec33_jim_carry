@@ -10,6 +10,7 @@ const config: BlitzConfig = {
   env: {
     APP_ORIGIN: process.env.APP_ORIGIN,
     BLITZ_DEV_SERVER_ORIGIN: process.env.BLITZ_DEV_SERVER_ORIGIN,
+    OMISE_PUBLIC_KEY: process.env.OMISE_PUBLIC_KEY,
   },
   /* Uncomment this to customize the webpack config
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {

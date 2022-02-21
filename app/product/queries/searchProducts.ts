@@ -10,7 +10,7 @@ const SearchProducts = z.object({
   orderType: z.enum(['asc', 'desc']),
 })
 
-export default resolver.pipe(
+const searchProducts = resolver.pipe(
   resolver.zod(SearchProducts),
   resolver.authorize(),
   async (input) => {
@@ -54,3 +54,5 @@ export default resolver.pipe(
     return await db.product.findMany(queries)
   }
 )
+
+export default searchProducts

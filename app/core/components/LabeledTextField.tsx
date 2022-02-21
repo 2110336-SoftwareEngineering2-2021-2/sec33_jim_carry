@@ -22,7 +22,16 @@ export const LabeledTextField = forwardRef<
   LabeledTextFieldProps
 >(
   (
-    { label, outerProps, labelProps, name, asTextArea, caption, ...props },
+    {
+      className,
+      label,
+      outerProps,
+      labelProps,
+      name,
+      asTextArea,
+      caption,
+      ...props
+    },
     ref
   ) => {
     const {
@@ -38,6 +47,7 @@ export const LabeledTextField = forwardRef<
       <div {...outerProps}>
         <div className="relative">
           <TextField
+            className={className}
             as={as}
             placeholder={label}
             disabled={isSubmitting}

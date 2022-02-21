@@ -6,7 +6,7 @@ const AddToShoppingCart = z.object({
   productId: z.number(),
 })
 
-export default resolver.pipe(
+const addToShoppingCart = resolver.pipe(
   resolver.zod(AddToShoppingCart),
   resolver.authorize(),
   async ({ productId }, { session }: Ctx) => {
@@ -32,3 +32,5 @@ export default resolver.pipe(
     return user.shoppingCart
   }
 )
+
+export default addToShoppingCart

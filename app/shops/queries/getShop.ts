@@ -7,7 +7,7 @@ const GetShop = z.object({
   id: z.number().optional().refine(Boolean, 'Required'),
 })
 
-export default resolver.pipe(
+const getShop = resolver.pipe(
   resolver.zod(GetShop),
   resolver.authorize(),
   async ({ id }) => {
@@ -19,3 +19,5 @@ export default resolver.pipe(
     return shop
   }
 )
+
+export default getShop

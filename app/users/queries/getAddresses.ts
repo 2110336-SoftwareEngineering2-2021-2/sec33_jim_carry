@@ -1,7 +1,12 @@
 import { resolver, Ctx, AuthorizationError, NotFoundError } from 'blitz'
 import db from 'db'
 
-export default resolver.pipe(
+/**
+ * Get the current user's addresses.
+ *
+ * @returns An array of the user's addresses.
+ */
+const getAddresses = resolver.pipe(
   resolver.authorize(),
   async (_ = null, { session }: Ctx) => {
     if (!session.userId) throw new AuthorizationError()
@@ -17,3 +22,5 @@ export default resolver.pipe(
     return user.addresses
   }
 )
+
+export default getAddresses

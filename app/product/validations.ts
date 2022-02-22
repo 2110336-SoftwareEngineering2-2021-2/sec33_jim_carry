@@ -4,12 +4,8 @@ import { z } from 'zod'
 export const CreateProduct = z.object({
   name: z.string().nonempty(),
   price: z.number().nonnegative(),
-  stock: z.number().nonnegative(),
-  hashtags: z.string().nonempty(),
+  stock: z.number().nonnegative().int(),
+  hashtags: z.string().optional(),
   description: z.string().optional(),
   // images:
-})
-
-export const CreateHashtag = z.object({
-  name: z.string().nonempty(),
 })

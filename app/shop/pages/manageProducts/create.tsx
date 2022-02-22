@@ -10,19 +10,21 @@ import { setupLayout } from 'app/core/utils/setupLayout'
 import createProduct from 'app/product/mutations/createProduct'
 import { CreateProduct } from 'app/product/validations'
 import { UploadImagesBlock } from 'app/shop/components/UploadImagesBlock'
-import getCurrentUser from 'app/users/queries/getCurrentUser'
 
 const CreateProductPage: BlitzPage = () => {
-  const [user] = useQuery(getCurrentUser, null)
   const [createProductMutation] = useMutation(createProduct)
   const goBack = useGoBack(Routes.ManageProductsPage().pathname)
 
   const compileInputValues = (values: z.infer<typeof CreateProduct>) => {
-    const shopId = user!.shop!.id
     const hidden = false
+    const price = Number(values.price)
+    const stock = Number(values.price)
+
+    const hashtags = values.hashtags!.split(',').map((s) => s.trim())
+
     // TODO : Handle images
     const images = ['https://picsum.photos/500', 'https://picsum.photos/500']
-    return { ...values, shopId, hidden, images }
+    return { ...values, hidden, price, stock, hashtags, images }
   }
 
   return (
@@ -38,8 +40,8 @@ const CreateProductPage: BlitzPage = () => {
           try {
             const valuesToUpload = compileInputValues(values)
             console.log(valuesToUpload)
-            //await createProductMutation(values)
-            //goBack()
+            await createProductMutation(valuesToUpload)
+            goBack()
           } catch (error: any) {
             return { [FORM_ERROR]: error.toString() }
           }

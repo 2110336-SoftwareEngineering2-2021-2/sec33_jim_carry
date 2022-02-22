@@ -81,7 +81,7 @@ model Product {
   images      String[]
 
   categories        Category[]
-  hashtags          Hashtag[]
+  hashtags          String[]
   wishlistedBy      User[]              @relation(name: "wishlist")
   selectedBy        User[]              @relation(name: "shoppingCart")
   OrderItemSnapshot OrderItemSnapshot[]
@@ -99,13 +99,6 @@ model Category {
   group   CategoryGroup @relation(fields: [groupId], references: [id])
   groupId Int
 
-  name String
-
-  products Product[]
-}
-
-model Hashtag {
-  id   Int    @id @default(autoincrement())
   name String
 
   products Product[]

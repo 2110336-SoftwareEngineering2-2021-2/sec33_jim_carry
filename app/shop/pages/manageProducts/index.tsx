@@ -15,7 +15,7 @@ import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 import getProducts from 'app/product/queries/getProducts'
-import { ShopProduct } from 'app/shops/components/ShopProduct'
+import { ShopProduct } from 'app/shop/components/ShopProduct'
 import getCurrentUser from 'app/users/queries/getCurrentUser'
 
 const ManageProductsPage: BlitzPage = () => {

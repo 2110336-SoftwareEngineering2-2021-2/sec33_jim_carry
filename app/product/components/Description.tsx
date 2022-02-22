@@ -8,7 +8,7 @@ export interface DescriptionProps {
 export function Description({ tags, description }: DescriptionProps) {
   return (
     <div className="flex flex-col px-6 pt-4 pb-3 space-y-3">
-      <div className="flex flex-row space-x-3">
+      <div className="flex flex-row space-x-3 overflow-x-auto no-scrollbar">
         {tags.map((tag, index) => (
           <Tag key={index}>#{tag}</Tag>
         ))}

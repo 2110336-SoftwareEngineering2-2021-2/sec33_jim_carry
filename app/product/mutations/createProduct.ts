@@ -3,15 +3,22 @@ import db from 'db'
 import { createUnparsedSourceFile } from 'typescript'
 import { z } from 'zod'
 
-const CreateProduct = z.object({
-  name: z.string(),
-  description: z.string().optional(),
-  price: z.number(),
-  stock: z.number(),
-  hidden: z.boolean(),
-  hashtags: z.string().array(),
-  images: z.string().array(),
-})
+import { CreateProduct } from '../validations'
+
+const compileInputValues = (values: z.infer<typeof CreateProduct>) => {
+  const price = parseFloat(values.price)
+  const stock = parseInt(values.stock)
+
+  if (price === NaN || stock === NaN)
+    throw new TypeError('Price and stock must be a number')
+
+  const hidden = false
+  const hashtags = values.hashtags!.split(',').map((s) => s.trim())
+
+  // TODO : Handle images
+  const images = ['https://picsum.photos/500', 'https://picsum.photos/500']
+  return { ...values, price, stock, hidden, hashtags, images }
+}
 
 const createProduct = resolver.pipe(
   resolver.zod(CreateProduct),
@@ -19,18 +26,22 @@ const createProduct = resolver.pipe(
   async (input, { session }: Ctx) => {
     if (!session.userId) throw new AuthorizationError()
 
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-
-    const product = await db.product.create({
-      data: {
-        ...input,
-        shop: {
-          connect: { userId: session.userId },
+    try {
+      // TODO: in multi-tenant app, you must add validation to ensure correct tenant
+      const compiledInput = compileInputValues(input)
+      const product = await db.product.create({
+        data: {
+          ...compiledInput,
+          shop: {
+            connect: { userId: session.userId },
+          },
         },
-      },
-    })
+      })
 
-    return product
+      return product
+    } catch (error) {
+      throw error
+    }
   }
 )
 

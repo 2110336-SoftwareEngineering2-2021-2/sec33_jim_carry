@@ -15,18 +15,6 @@ const CreateProductPage: BlitzPage = () => {
   const [createProductMutation] = useMutation(createProduct)
   const goBack = useGoBack(Routes.ManageProductsPage().pathname)
 
-  const compileInputValues = (values: z.infer<typeof CreateProduct>) => {
-    const hidden = false
-    const price = Number(values.price)
-    const stock = Number(values.price)
-
-    const hashtags = values.hashtags!.split(',').map((s) => s.trim())
-
-    // TODO : Handle images
-    const images = ['https://picsum.photos/500', 'https://picsum.photos/500']
-    return { ...values, hidden, price, stock, hashtags, images }
-  }
-
   return (
     <div>
       <TopBar
@@ -39,7 +27,7 @@ const CreateProductPage: BlitzPage = () => {
         schema={CreateProduct}
         onSubmit={async (values: z.infer<typeof CreateProduct>) => {
           try {
-            await createProductMutation(compileInputValues(values))
+            await createProductMutation(values)
             goBack()
           } catch (error: any) {
             return { [FORM_ERROR]: error.toString() }
@@ -47,8 +35,17 @@ const CreateProductPage: BlitzPage = () => {
         }}
       >
         <LabeledTextField name="name" label="Product name" />
-        <LabeledTextField name="price" label="Price per item (฿)" />
-        <LabeledTextField name="stock" label="Number of items in stock" />
+        <LabeledTextField
+          name="price"
+          label="Price per item (฿)"
+          type="number"
+          step="0.01"
+        />
+        <LabeledTextField
+          name="stock"
+          label="Number of items in stock"
+          type="number"
+        />
         <LabeledTextField
           name="hashtags"
           label="Hashtags"

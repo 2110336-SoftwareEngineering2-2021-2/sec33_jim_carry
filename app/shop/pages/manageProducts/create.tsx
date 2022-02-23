@@ -1,4 +1,4 @@
-import { BlitzPage, Routes, useMutation, useQuery } from 'blitz'
+import { BlitzPage, Routes, useMutation } from 'blitz'
 import { z } from 'zod'
 
 import Form, { FORM_ERROR } from 'app/core/components/Form'
@@ -36,11 +36,10 @@ const CreateProductPage: BlitzPage = () => {
       <Form
         className="py-3 px-6 flex flex-col gap-6"
         submitText="Save"
+        schema={CreateProduct}
         onSubmit={async (values: z.infer<typeof CreateProduct>) => {
           try {
-            const valuesToUpload = compileInputValues(values)
-            console.log(valuesToUpload)
-            await createProductMutation(valuesToUpload)
+            await createProductMutation(compileInputValues(values))
             goBack()
           } catch (error: any) {
             return { [FORM_ERROR]: error.toString() }
@@ -48,16 +47,8 @@ const CreateProductPage: BlitzPage = () => {
         }}
       >
         <LabeledTextField name="name" label="Product name" />
-        <LabeledTextField
-          name="price"
-          label="Price per item (฿)"
-          type="number"
-        />
-        <LabeledTextField
-          name="stock"
-          label="Number of items in stock"
-          type="number"
-        />
+        <LabeledTextField name="price" label="Price per item (฿)" />
+        <LabeledTextField name="stock" label="Number of items in stock" />
         <LabeledTextField
           name="hashtags"
           label="Hashtags"

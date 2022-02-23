@@ -24,7 +24,7 @@ const CreateAddressPage: BlitzPage = () => {
         onSubmit={async (values: z.infer<typeof CreateAddress>) => {
           try {
             await createAddressMutation(values)
-            goBack()
+            await goBack()
           } catch (error: any) {
             return { [FORM_ERROR]: error.toString() }
           }

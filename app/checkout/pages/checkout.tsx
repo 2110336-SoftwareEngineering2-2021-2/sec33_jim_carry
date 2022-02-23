@@ -44,7 +44,7 @@ const CheckoutPage: BlitzPage<CheckoutProps> = ({ summary }) => {
       cardId: cardId!,
       itemIds,
     })
-    replace(Routes.OrdersPage().pathname)
+    await replace(Routes.OrdersPage().pathname)
   }
 
   return (

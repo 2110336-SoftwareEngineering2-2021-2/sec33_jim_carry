@@ -6,11 +6,7 @@ import { useLoginPromptStore } from '../stores/LoginPromptStore'
 import { Popover, PopoverText, PopoverTitle } from './Popover'
 
 export function LoginPrompt() {
-  const { isOpen, message, close } = useLoginPromptStore((state) => ({
-    isOpen: state.isOpen,
-    message: state.message,
-    close: state.close,
-  }))
+  const { isOpen, message, close } = useLoginPromptStore()
   const { asPath } = useRouter()
   return (
     <Popover isOpen={isOpen} onClose={close}>

@@ -1,15 +1,16 @@
-import { useMutation, useQuery } from 'blitz'
+import { PromiseReturnType } from 'blitz'
 import { FiMapPin } from 'react-icons/fi'
 
 import { EmptyState } from 'app/core/components/EmptyState'
 
-import deleteAddress from '../mutations/deleteAddress'
 import getAddresses from '../queries/getAddresses'
 
-export function AddressList() {
-  const [addresses, { refetch }] = useQuery(getAddresses, null)
-  const [deleteAddressMutation] = useMutation(deleteAddress)
+export interface AddressListProps {
+  addresses: PromiseReturnType<typeof getAddresses>
+  onDeleteAddress: (id: number) => Promise<void>
+}
 
+export function AddressList({ addresses, onDeleteAddress }: AddressListProps) {
   if (addresses.length === 0) {
     return (
       <EmptyState
@@ -26,8 +27,7 @@ export function AddressList() {
           onClick={async () => {
             if (!confirm('Are you sure you want to delete this address?'))
               return
-            await deleteAddressMutation({ id: address.id })
-            await refetch()
+            await onDeleteAddress(address.id)
           }}
           key={address.id}
           className="

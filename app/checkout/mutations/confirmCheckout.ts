@@ -1,5 +1,5 @@
 import { AuthorizationError, Ctx, resolver } from 'blitz'
-import db from 'db'
+import db, { Address, OrderStatus } from 'db'
 
 import { shippingCost } from 'app/core/constants'
 import { groupBy } from 'app/core/utils/groupBy'
@@ -21,6 +21,13 @@ const confirmCheckout = resolver.pipe(
     { session: { userId } }: Ctx
   ) => {
     if (!userId) throw new AuthorizationError()
+
+    const address = await db.address.findUnique({
+      where: {
+        id: addressId,
+      },
+      rejectOnNotFound: true,
+    })
 
     const customer = await getCustomer(userId)
     const { id: cardId } = await omise.customers.retrieveCard(
@@ -46,6 +53,7 @@ const confirmCheckout = resolver.pipe(
         userId,
         items[0]!.shopId,
         items.map((item) => item.id),
+        address,
         customer.id,
         cardId
       )
@@ -59,6 +67,7 @@ async function createOrder(
   userId: number,
   shopId: number,
   itemIds: number[],
+  address: Address,
   customerId: string,
   cardId: string
 ) {
@@ -98,6 +107,9 @@ async function createOrder(
       }
     })
 
+    const subtotal = items.reduce((total, item) => total + item.price, 0)
+    const total = subtotal + shippingCost
+
     const order = await db.order.create({
       data: {
         ownerId: userId,
@@ -114,11 +126,13 @@ async function createOrder(
             })),
           },
         },
+        totalPrice: total,
+        address: address.address,
+        addressNote: address.note,
+        receiverName: address.receiverName,
+        receiverPhoneNo: address.phoneNo,
       },
     })
-
-    const subtotal = items.reduce((total, item) => total + item.price, 0)
-    const total = subtotal + shippingCost
     const charge = await omise.charges.create({
       customer: customerId,
       card: cardId,
@@ -132,6 +146,7 @@ async function createOrder(
     })
     await db.order.update({
       data: {
+        status: OrderStatus.PAID,
         chargeId: charge.id,
       },
       where: {

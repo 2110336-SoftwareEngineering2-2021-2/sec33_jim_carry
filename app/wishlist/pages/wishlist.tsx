@@ -12,6 +12,7 @@ import { Spinner } from 'app/core/components/Spinner'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
 import { ProductWithShop } from 'app/core/types/Product'
 import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
+import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { useWishlistStore } from 'app/wishlist/context/useWishlistStore'
 
 import { WishProduct } from '../components/WishProduct'
@@ -96,6 +97,7 @@ const ProductList = ({
   )
 }
 
+setupAuthRedirect(Wishlist)
 Wishlist.getLayout = (page) => (
   <MainPageLayout title="Wishlist">{page}</MainPageLayout>
 )

@@ -85,6 +85,9 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
           title="Logout"
         />
       </div>
+      <Link href={Routes.LogoutPage().pathname} passHref>
+        <MenuListItem as="a" title="Logout" />
+      </Link>
     </div>
   )
 }

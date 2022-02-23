@@ -1,4 +1,4 @@
-import { Image } from 'blitz'
+import { Image, Link, Routes } from 'blitz'
 import { ReactNode } from 'react'
 import { FiChevronLeft } from 'react-icons/fi'
 
@@ -63,12 +63,16 @@ export function TopBar({
                 {title}
               </h3>
             ) : (
-              <Image
-                src="/images/logo_horizontal.svg"
-                width={102}
-                height={28}
-                alt=""
-              />
+              <Link href={Routes.Home().pathname} passHref>
+                <a className="pointer-events-auto">
+                  <Image
+                    src="/images/logo_horizontal.svg"
+                    width={102}
+                    height={28}
+                    alt=""
+                  />
+                </a>
+              </Link>
             )}
           </span>
         ) : null}

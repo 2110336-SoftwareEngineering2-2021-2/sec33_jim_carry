@@ -113,8 +113,15 @@ model Order {
   shop      Shop     @relation(fields: [shopId], references: [id])
   shopId    Int
 
-  chargeId String?
-  items    OrderItemSnapshot[]
+  status     OrderStatus         @default(PENDING)
+  totalPrice Float
+  chargeId   String?
+  items      OrderItemSnapshot[]
+
+  address         String
+  addressNote     String?
+  receiverName    String
+  receiverPhoneNo String
 }
 
 model OrderItemSnapshot {
@@ -169,4 +176,12 @@ enum TokenType {
 enum Role {
   USER
   ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  COMPLETED
+  CANCELLED
 }

@@ -3,6 +3,7 @@ import produce from 'immer'
 import { useEffect } from 'react'
 import create from 'zustand'
 
+import { promptLogin } from 'app/core/stores/LoginPromptStore'
 import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
 import addToWishlist from 'app/wishlist/mutations/addToWishlist'
 import clearSoldOutWishlist from 'app/wishlist/mutations/clearSoldOutWishlist'
@@ -27,6 +28,8 @@ export const useWishlistStore = create<WishlistStore>((set, get) => ({
     set({ wishlist })
   },
   addToWishlist: async (product) => {
+    if (!promptLogin('You need to sign in to add items to your wishlist.'))
+      return
     set(
       produce<WishlistStore>((state) => {
         state.wishlist.push(product)
@@ -36,6 +39,8 @@ export const useWishlistStore = create<WishlistStore>((set, get) => ({
     set({ wishlist })
   },
   removeFromWishlist: async (product) => {
+    if (!promptLogin('You need to sign in to add items to your wishlist.'))
+      return
     set(
       produce<WishlistStore>((state) => {
         const index = state.wishlist.findIndex((wish) => wish.id === product.id)

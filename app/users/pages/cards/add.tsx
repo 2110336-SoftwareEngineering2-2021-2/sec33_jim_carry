@@ -40,7 +40,7 @@ const AddCardPage: BlitzPage = () => {
               security_code: parseInt(values.cvv.value),
             })
             await attachCardMutation(cardToken.id)
-            goBack()
+            await goBack()
           } catch (error: any) {
             return { [FORM_ERROR]: error.toString() }
           }

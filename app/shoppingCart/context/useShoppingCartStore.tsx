@@ -3,6 +3,8 @@ import produce from 'immer'
 import { useEffect } from 'react'
 import create from 'zustand'
 
+import { promptLogin } from 'app/core/stores/LoginPromptStore'
+
 import { ProductWithShop } from '../../core/types/Product'
 import addToShoppingCart from '../mutations/addToShoppingCart'
 import removeFromShoppingCart from '../mutations/removeFromShoppingCart'
@@ -23,6 +25,8 @@ export const useShoppingCartStore = create<ShoppingCartStore>((set, get) => ({
     set({ shoppingCart })
   },
   addToShoppingCart: async (product) => {
+    if (!promptLogin('You need to sign in add items to your shopping bag.'))
+      return
     set(
       produce<ShoppingCartStore>((state) => {
         state.shoppingCart.push(product)
@@ -34,6 +38,8 @@ export const useShoppingCartStore = create<ShoppingCartStore>((set, get) => ({
     set({ shoppingCart })
   },
   removeFromShoppingCart: async (product) => {
+    if (!promptLogin('You need to sign in add items to your shopping bag.'))
+      return
     set(
       produce<ShoppingCartStore>((state) => {
         const index = state.shoppingCart.findIndex(

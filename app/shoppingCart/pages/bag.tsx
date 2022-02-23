@@ -6,6 +6,7 @@ import { EmptyState } from 'app/core/components/EmptyState'
 import { TopBar } from 'app/core/components/TopBar'
 import { ProductWithShop } from 'app/core/types/Product'
 import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
+import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 
 import { BagProduct } from '../components/BagProduct'
@@ -72,6 +73,7 @@ function TotalFooter({ products }: { products: ProductWithShop[] }) {
   )
 }
 
+setupAuthRedirect(ShoppingCart)
 setupLayout(ShoppingCart)
 
 export default ShoppingCart

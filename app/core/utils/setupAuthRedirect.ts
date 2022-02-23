@@ -1,8 +1,6 @@
-import { BlitzPage } from "blitz"
+import { BlitzPage } from 'blitz'
 
 export function setupAuthRedirect(page: BlitzPage) {
-  page.authenticate = {
-    redirectTo: "/login",
-  }
+  page.authenticate = true
   page.suppressFirstRenderFlicker = true
 }

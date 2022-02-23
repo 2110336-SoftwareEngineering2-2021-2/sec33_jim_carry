@@ -12,7 +12,6 @@ const SearchProducts = z.object({
 
 const searchProducts = resolver.pipe(
   resolver.zod(SearchProducts),
-  resolver.authorize(),
   async (input) => {
     // Do your stuff :)
     const order: Prisma.ProductOrderByWithRelationInput[] = []

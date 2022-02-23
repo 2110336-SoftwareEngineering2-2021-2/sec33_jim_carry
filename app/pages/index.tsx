@@ -36,7 +36,6 @@ export function Products() {
   )
 }
 
-setupAuthRedirect(Home)
 Home.getLayout = (page) => <MainPageLayout title="Home">{page}</MainPageLayout>
 
 export default Home

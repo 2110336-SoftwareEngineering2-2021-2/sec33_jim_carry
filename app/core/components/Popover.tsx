@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { Children, Fragment, ReactNode } from 'react'
+import { Fragment, ReactNode } from 'react'
 
 import { polymorphic } from '../utils/polymorphic'
 

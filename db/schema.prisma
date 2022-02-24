@@ -8,7 +8,7 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["interactiveTransactions"]
+  previewFeatures = ["interactiveTransactions", "extendedIndexes"]
 }
 
 // --------------------------------------
@@ -28,12 +28,14 @@ model User {
 
   shop         Shop?
   addresses    Address[]
-  wishlist     Product[] @relation(name: "wishlist")
-  shoppingCart Product[] @relation(name: "shoppingCart")
-  following    Shop[]    @relation(name: "follow")
+  wishlist     Product[]    @relation(name: "wishlist")
+  shoppingCart Product[]    @relation(name: "shoppingCart")
+  following    Shop[]       @relation(name: "follow")
   tokens       Token[]
   sessions     Session[]
   Order        Order[]
+  chats        ChatMember[]
+  messages     Message[]
 }
 
 model Shop {
@@ -144,6 +146,40 @@ model OrderItemSnapshot {
   price       Float
   soldPrice   Float
   images      String[]
+}
+
+model Chat {
+  id            Int          @id @default(autoincrement())
+  memberships   ChatMember[]
+  membershipIds Int[]
+
+  messages Message[]
+}
+
+model Message {
+  id       Int  @id @default(autoincrement())
+  chat     Chat @relation(fields: [chatId], references: [id])
+  chatId   Int
+  sender   User @relation(fields: [senderId], references: [id])
+  senderId Int
+
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt(sort: Desc)])
+}
+
+model ChatMember {
+  chat   Chat @relation(fields: [chatId], references: [id])
+  chatId Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  isShop            Boolean
+  lastMessageReadId Int
+
+  // composite primary key
+  @@id([chatId, userId])
 }
 
 model Session {

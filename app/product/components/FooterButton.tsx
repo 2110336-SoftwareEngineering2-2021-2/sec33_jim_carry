@@ -1,6 +1,8 @@
+import { useMutation } from 'blitz'
 import { useCallback, useMemo } from 'react'
 import { FiCheck, FiMessageCircle, FiShoppingBag } from 'react-icons/fi'
 
+import createChat from 'app/chat/mutations/createChat'
 import { Button } from 'app/core/components/Button'
 import { ProductWithShop } from 'app/core/types/Product'
 import { useShoppingCartStore } from 'app/shoppingCart/context/useShoppingCartStore'
@@ -24,9 +26,20 @@ export function FooterButton({ product }: FooterButtonProps) {
     () => shoppingCart.some((cart) => cart.id === product.id),
     [product, shoppingCart]
   )
+  const [createChatMutation] = useMutation(createChat)
   return (
     <div className="flex flex-row px-6 py-3 space-x-4 sticky bottom-0 bg-[#FFFFFF]">
-      <Button buttonType="secondary" size="large" iconOnly>
+      <Button
+        buttonType="secondary"
+        size="large"
+        iconOnly
+        onClick={async () => {
+          const chat = await createChatMutation({
+            shopOwnerId: product.shop.userId,
+          })
+          alert(`Chat created: ${chat.id}`)
+        }}
+      >
         <FiMessageCircle size={24} />
       </Button>
       <Button

@@ -1,7 +1,9 @@
+import { useMutation } from 'blitz'
 import { Image, Link, Routes } from 'blitz'
 import { useCallback, useMemo } from 'react'
 import { FiHeart, FiMessageCircle } from 'react-icons/fi'
 
+import createChat from 'app/chat/mutations/createChat'
 import { Button } from 'app/core/components/Button'
 import { ProductWithShop } from 'app/core/types/Product'
 import { useWishlistStore } from 'app/wishlist/context/useWishlistStore'
@@ -20,6 +22,7 @@ export function ProductCard({ product }: { product: ProductWithShop }) {
     () => !!wishlist.find((wish) => wish.id === product.id),
     [product, wishlist]
   )
+  const [createChatMutation] = useMutation(createChat)
   return (
     <div className="flex-col space-y-3">
       {/* Note: you can override to different aspect-ratio */}
@@ -38,7 +41,16 @@ export function ProductCard({ product }: { product: ProductWithShop }) {
         <div className="flex justify-between items-center">
           <span className="text-title3 font-sans text-primary-dark">{`฿${product.price}`}</span>
           <div className="flex">
-            <Button iconOnly buttonType="transparent">
+            <Button
+              iconOnly
+              buttonType="transparent"
+              onClick={async () => {
+                const chat = await createChatMutation({
+                  shopOwnerId: product.shop.userId,
+                })
+                alert(`Chat created: ${chat.id}`)
+              }}
+            >
               <FiMessageCircle />
             </Button>
             <Button

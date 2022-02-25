@@ -176,7 +176,7 @@ model ChatMember {
   userId Int
 
   isShop            Boolean
-  lastMessageReadId Int
+  lastMessageReadId Int?
 
   // composite primary key
   @@id([chatId, userId])

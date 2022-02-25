@@ -1,11 +1,10 @@
-import { resolver } from 'blitz'
+import { AuthorizationError, Ctx, resolver } from 'blitz'
 import db from 'db'
 import { z } from 'zod'
 
 const UpdateProduct = z.object({
   id: z.number(),
   name: z.string().optional(),
-  shopId: z.number().optional(),
   description: z.string().optional(),
   price: z.number().optional(),
   soldPrice: z.number().optional(),
@@ -17,11 +16,19 @@ const UpdateProduct = z.object({
 const updateProduct = resolver.pipe(
   resolver.zod(UpdateProduct),
   resolver.authorize(),
-  async ({ id, ...data }) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const product = await db.product.update({ where: { id }, data })
-
-    return product
+  async ({ id, ...data }, ctx: Ctx) => {
+    const shop = await db.shop.findUnique({
+      where: { userId: ctx.session.userId! },
+    })
+    if (!shop) {
+      throw new AuthorizationError('You must have a shop to update product')
+    }
+    const product = await db.product.findUnique({ where: { id } })
+    if (product?.shopId !== shop.id) {
+      throw new AuthorizationError('You do not have access to this product')
+    }
+    const newProduct = await db.product.update({ where: { id }, data })
+    return newProduct
   }
 )
 

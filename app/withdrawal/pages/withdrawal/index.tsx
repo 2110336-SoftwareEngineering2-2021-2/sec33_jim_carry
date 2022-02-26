@@ -27,7 +27,7 @@ const WithdrawalPage: BlitzPage = () => {
     { id: 1, name: 'กสิกรไทย' },
     { id: 2, name: 'กรุงเทพ' },
     { id: 3, name: 'กรุงศรี' },
-    { id: 4, name: 'ซีโอเอ็มบี' },
+    { id: 4, name: 'ซีไอเอ็มบี' },
     { id: 5, name: 'ทหารไทยธนชาต' },
     { id: 6, name: 'ไทยพาณิชย์' },
   ]

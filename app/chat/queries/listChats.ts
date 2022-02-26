@@ -1,10 +1,24 @@
 import { resolver, Ctx } from 'blitz'
-import db from 'db'
+import db, { Chat, ChatMember, Message } from 'db'
 import { z } from 'zod'
 
 const CreateChatInput = z.object({
   isShopChat: z.boolean(),
 })
+
+export type ChatPreview = Chat & {
+  memberships: (ChatMember & {
+    user: {
+      shop: {
+        name: string
+        image: string | null
+      } | null
+      name: string | null
+    }
+  })[]
+  messages: Message[]
+}
+
 /**
  * Get a list of chats, with last message in chat.
  */
@@ -24,7 +38,17 @@ const listChats = resolver.pipe(
       include: {
         memberships: {
           include: {
-            user: true,
+            user: {
+              select: {
+                name: true,
+                shop: {
+                  select: {
+                    name: true,
+                    image: true,
+                  },
+                },
+              },
+            },
           },
         },
         messages: {

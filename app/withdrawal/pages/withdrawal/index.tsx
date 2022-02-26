@@ -10,6 +10,7 @@ import { RadioOption } from 'app/core/components/RadioOption'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
+import { FormWithdrawal } from 'app/withdrawal/formValidations'
 import withdraw from 'app/withdrawal/mutations/withdraw'
 import getBalance from 'app/withdrawal/queries/getBalance'
 import { Withdrawal } from 'app/withdrawal/validations'
@@ -17,12 +18,11 @@ import { Withdrawal } from 'app/withdrawal/validations'
 function BalanceComponent() {
   const [balance] = useQuery(getBalance, {})
   return (
-    <div className="text-large leading-none font-regular"> ฿{balance}.00 </div>
+    <div className="text-large leading-none font-regular"> ฿{balance} </div>
   )
 }
 
 const WithdrawalPage: BlitzPage = () => {
-  // handcode for now this has to be useQuery
   const banks = [
     { id: 1, name: 'กสิกรไทย' },
     { id: 2, name: 'กรุงเทพ' },
@@ -43,7 +43,6 @@ const WithdrawalPage: BlitzPage = () => {
           <div className="font-medium leading-none text-large">
             Total Balance :
           </div>
-          {/* <balanceComponent></balanceComponent> */}
           <BalanceComponent />
         </div>
       </Suspense>
@@ -76,10 +75,12 @@ const WithdrawalPage: BlitzPage = () => {
         <Form
           className="py-3 px-6 flex flex-col gap-6"
           submitText="Withdraw"
-          schema={Withdrawal}
-          onSubmit={async (values: z.infer<typeof Withdrawal>) => {
+          schema={FormWithdrawal}
+          onSubmit={async (values: z.infer<typeof FormWithdrawal>) => {
             try {
-              await withdrawMutation(values)
+              const bank = banks[(bankId == null ? 1 : bankId) - 1]?.name
+              const vals = { ...values, bank: bank == null ? 'กสิกรไทย' : bank }
+              await withdrawMutation(vals)
               router.push(Routes.FinishWithdrawalPage().pathname)
               setWithdrawalState(0)
             } catch (error: any) {

@@ -1,7 +1,6 @@
 import { z } from 'zod'
 
-export const Withdrawal = z.object({
-  bank: z.string().nonempty(),
+export const FormWithdrawal = z.object({
   account: z.string().nonempty(),
   amount: z.string().nonempty(),
 })

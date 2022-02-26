@@ -11,7 +11,7 @@ import { Withdrawal } from '../validations'
 const withdraw = resolver.pipe(
   resolver.zod(Withdrawal),
   resolver.authorize(),
-  async ({ account, amount }, ctx: Ctx) => {
+  async ({ bank, account, amount }, ctx: Ctx) => {
     if (!ctx.session.userId) throw new AuthorizationError()
     const user = await db.user.findFirst({
       where: { id: ctx.session.userId },

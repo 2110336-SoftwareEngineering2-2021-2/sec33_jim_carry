@@ -4,6 +4,7 @@ import db, { Address, OrderStatus } from 'db'
 import { shippingCost } from 'app/core/constants'
 import { groupBy } from 'app/core/utils/groupBy'
 import { getCustomer, omise } from 'app/omise'
+import { orderTransfer } from 'app/transaction/mutations/orderTransfer'
 
 import { ConfirmCheckout } from '../validations'
 
@@ -154,7 +155,7 @@ async function createOrder(
       },
     })
 
-    // TODO: credit the seller and add to transaction history
+    await orderTransfer(order)
   })
 
   await db.user.update({

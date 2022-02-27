@@ -29,7 +29,6 @@ export function OrderView({ filter }: OrderViewProps) {
   const [orders] = useQuery(getOrders, {
     status: status,
   })
-  console.log(orders)
   if (orders.length == 0) {
     return (
       <EmptyState

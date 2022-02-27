@@ -21,7 +21,6 @@ const OrdersPage: BlitzPage = () => {
           value={value}
           onChange={(newvalue) => {
             setvalue(newvalue)
-            console.log(value)
           }}
         >
           <SegmentedControlItem value={1}>Pending</SegmentedControlItem>

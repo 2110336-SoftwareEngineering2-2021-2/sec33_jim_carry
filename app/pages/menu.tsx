@@ -62,7 +62,7 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
           <MenuListItem as="a" icon={<FiTruck />} title="My orders" />
         </Link>
       </div>
-      <Divider full={false} />
+      <Divider padded={true} />
       <div>
         {hasShop ? (
           <>
@@ -77,17 +77,13 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
           </Link>
         )}
       </div>
-      <Divider full={false} />
+      <Divider padded={true} />
       <div>
         <MenuListItem icon={<FiHelpCircle />} title="Help" />
-        <MenuListItem
-          onClick={async () => await logoutMutation()}
-          title="Logout"
-        />
+        <Link href={Routes.LogoutPage().pathname} passHref>
+          <MenuListItem as="a" title="Logout" />
+        </Link>
       </div>
-      <Link href={Routes.LogoutPage().pathname} passHref>
-        <MenuListItem as="a" title="Logout" />
-      </Link>
     </div>
   )
 }

@@ -37,6 +37,7 @@ export function FooterButton({ product }: FooterButtonProps) {
           const chat = await createChatMutation({
             shopOwnerId: product.shop.userId,
           })
+          // TODO: redirect to chat page
           alert(`Chat created: ${chat.id}`)
         }}
       >

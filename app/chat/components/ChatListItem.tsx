@@ -3,10 +3,10 @@ import { useSession } from 'blitz'
 import { Avatar } from 'app/core/components/Avatar'
 import { variant } from 'app/core/utils/variant'
 
-import { ChatPreview } from '../queries/listChats'
+import { ChatData } from '../queries/listChats'
 
 export interface ChatListItemProps {
-  chat: ChatPreview
+  chat: ChatData
 }
 
 export function ChatListItem({ chat }: ChatListItemProps) {

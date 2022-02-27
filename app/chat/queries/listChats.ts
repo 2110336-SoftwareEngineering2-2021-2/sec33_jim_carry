@@ -6,7 +6,7 @@ const CreateChatInput = z.object({
   isShopChat: z.boolean(),
 })
 
-export type ChatPreview = Chat & {
+export type ChatData = Chat & {
   memberships: (ChatMember & {
     user: {
       shop: {

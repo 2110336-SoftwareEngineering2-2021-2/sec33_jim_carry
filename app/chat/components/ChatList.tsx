@@ -2,11 +2,11 @@ import { FiMessageCircle } from 'react-icons/fi'
 
 import { EmptyState } from 'app/core/components/EmptyState'
 
-import { ChatPreview } from '../queries/listChats'
+import { ChatData } from '../queries/listChats'
 import { ChatListItem } from './ChatListItem'
 
 interface ChatListProps {
-  chats: ChatPreview[]
+  chats: ChatData[]
 }
 
 export function ChatList({ chats }: ChatListProps) {

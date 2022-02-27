@@ -2,10 +2,11 @@ import { BlitzPage, useQuery } from 'blitz'
 import { Suspense } from 'react'
 
 import { ChatList } from 'app/chat/components/ChatList'
-import listChats from 'app/chat/queries/listChats'
 import { Spinner } from 'app/core/components/Spinner'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
+
+import { useChatStore } from '../context/useChatStore'
 
 const Chats: BlitzPage = () => {
   return (
@@ -18,7 +19,7 @@ const Chats: BlitzPage = () => {
 }
 
 const ChatListSection = () => {
-  const [chats] = useQuery(listChats, { isShopChat: false })
+  const chats = useChatStore((state) => state.chats)
   return <ChatList chats={chats} />
 }
 

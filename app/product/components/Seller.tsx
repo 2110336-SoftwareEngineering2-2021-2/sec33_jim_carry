@@ -1,3 +1,5 @@
+import { Avatar } from 'app/core/components/Avatar'
+
 import { Star } from './Star'
 
 export interface SellerProps {
@@ -21,25 +23,7 @@ export function Seller({ name, rating, amount, pic }: SellerProps) {
   }
   return (
     <div className="flex flex-row px-6 py-3 space-x-3">
-      {pic ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={pic}
-          alt=""
-          referrerPolicy="no-referrer"
-          className="w-[44px] h-[44px] rounded-full object-contain"
-        />
-      ) : (
-        <div
-          style={{
-            backgroundColor: 'grey',
-            width: '44px',
-            height: '44px',
-            borderRadius: '50%',
-          }}
-        ></div>
-      )}
-
+      <Avatar src={pic} />
       <div className="flex flex-col">
         <p className="text-ink-light">{name}</p>
         <div className="flex flex-row items-center space-x-1">

@@ -28,7 +28,7 @@ const CreateProductPage: BlitzPage = () => {
         onSubmit={async (values: z.infer<typeof CreateProduct>) => {
           try {
             await createProductMutation(values)
-            goBack()
+            await goBack()
           } catch (error: any) {
             return { [FORM_ERROR]: error.toString() }
           }

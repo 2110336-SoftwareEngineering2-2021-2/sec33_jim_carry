@@ -15,9 +15,6 @@
 
 */
 -- DropIndex
-DROP INDEX "Message_createdAt_idx";
-
--- DropIndex
 DROP INDEX "Session_handle_key";
 
 -- DropIndex
@@ -65,8 +62,34 @@ DROP INDEX "_wishlist_AB_unique";
 -- DropIndex
 DROP INDEX "_wishlist_B_index";
 
--- AlterTable
-ALTER TABLE "ChatMember" ALTER COLUMN "lastMessageReadId" DROP NOT NULL;
+-- CreateTable
+CREATE TABLE "Chat" (
+    "id" SERIAL NOT NULL,
+    "membershipIds" INTEGER[],
+
+    CONSTRAINT "Chat_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Message" (
+    "id" SERIAL NOT NULL,
+    "chatId" INTEGER NOT NULL,
+    "senderId" INTEGER NOT NULL,
+    "content" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ChatMember" (
+    "chatId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "isShop" BOOLEAN NOT NULL,
+    "lastMessageReadId" INTEGER,
+
+    CONSTRAINT "ChatMember_pkey" PRIMARY KEY ("chatId","userId")
+);
 
 -- CreateIndex
 CREATE INDEX "Message_createdAt_idx" ON "Message"("createdAt" DESC);
@@ -118,3 +141,15 @@ CREATE UNIQUE INDEX "_wishlist_AB_unique" ON "_wishlist"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_wishlist_B_index" ON "_wishlist"("B");
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_chatId_fkey" FOREIGN KEY ("chatId") REFERENCES "Chat"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Message" ADD CONSTRAINT "Message_senderId_fkey" FOREIGN KEY ("senderId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ChatMember" ADD CONSTRAINT "ChatMember_chatId_fkey" FOREIGN KEY ("chatId") REFERENCES "Chat"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ChatMember" ADD CONSTRAINT "ChatMember_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

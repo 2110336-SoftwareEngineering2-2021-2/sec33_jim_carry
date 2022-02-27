@@ -4,7 +4,7 @@ import db, { Address, OrderStatus } from 'db'
 import { shippingCost } from 'app/core/constants'
 import { groupBy } from 'app/core/utils/groupBy'
 import { getCustomer, omise } from 'app/omise'
-import { orderTransfer } from 'app/transaction/mutations/orderTransfer'
+import { transferOrder } from 'app/transaction/mutations/transferOrder'
 
 import { ConfirmCheckout } from '../validations'
 
@@ -154,8 +154,7 @@ async function createOrder(
         id: order.id,
       },
     })
-
-    await orderTransfer(order)
+    await transferOrder(db, order)
   })
 
   await db.user.update({

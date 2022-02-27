@@ -3,10 +3,10 @@ import db from 'db'
 
 const getTransactions = resolver.pipe(
   resolver.authorize(),
-  async (_ = null, { session }: Ctx) => {
-    if (!session.userId) throw new AuthorizationError()
+  async (_ = null, { session: { userId } }: Ctx) => {
+    if (!userId) throw new AuthorizationError()
     const transactions = await db.transaction.findMany({
-      where: { id: session.userId },
+      where: { userId },
       include: {
         Order: {
           include: {

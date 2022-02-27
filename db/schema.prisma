@@ -25,6 +25,7 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   role           Role     @default(USER)
+  totalBalance   Float    @default(1000)
 
   shop         Shop?
   addresses    Address[]

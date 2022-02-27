@@ -21,9 +21,6 @@ const createChat = resolver.pipe(
     })
 
     if (chat) {
-      console.log(
-        `Chat already exists! User ${currentUserId} and shop owner ${shopOwnerId}`
-      )
       return chat
     }
 
@@ -47,9 +44,6 @@ const createChat = resolver.pipe(
         },
       },
     })
-    console.log(
-      `Created new chat! User ${currentUserId} and shop owner ${shopOwnerId}`
-    )
     return newChat
   }
 )

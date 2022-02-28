@@ -6,6 +6,7 @@ import listChats, { ChatData } from 'app/chat/queries/listChats'
 
 export type ChatStore = {
   chats: ChatData[]
+  isLoading: boolean
   shopChats: ChatData[]
   syncFromStore: () => Promise<void>
   resetChat: () => void
@@ -14,11 +15,14 @@ export type ChatStore = {
 export const useChatStore = create<ChatStore>((set, get) => ({
   chats: [],
   shopChats: [],
+  isLoading: false,
   syncFromStore: async () => {
+    set({ isLoading: true })
     const chats = await invoke(listChats, { isShopChat: false })
     const shopChats = await invoke(listChats, { isShopChat: true })
     set({ chats })
     set({ shopChats })
+    set({ isLoading: false })
   },
   resetChat: () => {
     set({ chats: [] })

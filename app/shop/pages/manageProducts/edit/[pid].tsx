@@ -14,7 +14,7 @@ import { TopBar } from 'app/core/components/TopBar'
 import { useGoBack } from 'app/core/hooks/useGoBack'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
-import createProduct from 'app/product/mutations/createProduct'
+import updateProduct from 'app/product/mutations/updateProduct'
 import getProduct from 'app/product/queries/getProduct'
 import { ProductFormValues } from 'app/product/validations'
 import { ProductForm } from 'app/shop/components/ProductForm'
@@ -40,7 +40,7 @@ const UpdateProductForm = () => {
     pid = parseInt(param)
   }
   const [product] = useQuery(getProduct, { id: pid })
-  const [updateProductMutation] = useMutation(createProduct)
+  const [updateProductMutation] = useMutation(updateProduct)
   const goBack = useGoBack(Routes.ManageProductsPage().pathname)
 
   return (
@@ -52,8 +52,10 @@ const UpdateProductForm = () => {
         hashtags: product.hashtags.join(', '),
         description: product.description ? product.description : '',
       }}
-      onSubmit={(values: z.infer<typeof ProductFormValues>) => {
-        console.log(values)
+      onSubmit={async (values: z.infer<typeof ProductFormValues>) => {
+        await updateProductMutation({ id: pid, data: values })
+        await goBack()
+        Router.reload()
       }}
     />
   )

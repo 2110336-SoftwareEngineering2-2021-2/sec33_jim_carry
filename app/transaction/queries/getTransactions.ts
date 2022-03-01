@@ -14,6 +14,9 @@ const getTransactions = resolver.pipe(
           },
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
 
     if (!transactions) throw new NotFoundError()

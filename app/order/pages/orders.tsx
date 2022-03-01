@@ -1,5 +1,11 @@
-import { BlitzPage } from 'blitz'
-import { Suspense, useState } from 'react'
+import { OrderStatus } from '@prisma/client'
+import {
+  BlitzPage,
+  GetServerSideProps,
+  invokeWithMiddleware,
+  PromiseReturnType,
+} from 'blitz'
+import { useState } from 'react'
 
 import {
   SegmentedControl,
@@ -10,9 +16,14 @@ import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 
 import { OrderView } from '../components/OrderView'
+import getOrders from '../queries/getOrders'
 
-const OrdersPage: BlitzPage = () => {
-  const [value, setvalue] = useState(1)
+interface OrderPageProps {
+  orders: PromiseReturnType<typeof getOrders>
+}
+
+const OrdersPage: BlitzPage<OrderPageProps> = ({ orders }) => {
+  const [value, setvalue] = useState<OrderStatus>('PENDING')
   return (
     <div>
       <TopBar title="My Orders" largeTitle />
@@ -23,17 +34,30 @@ const OrdersPage: BlitzPage = () => {
             setvalue(newvalue)
           }}
         >
-          <SegmentedControlItem value={1}>Pending</SegmentedControlItem>
-          <SegmentedControlItem value={2}>Shipping</SegmentedControlItem>
-          <SegmentedControlItem value={3}>Completed</SegmentedControlItem>
-          <SegmentedControlItem value={4}>Canceled</SegmentedControlItem>
+          <SegmentedControlItem value={'PENDING'}>Pending</SegmentedControlItem>
+          <SegmentedControlItem value={'SHIPPED'}>
+            Shipping
+          </SegmentedControlItem>
+          <SegmentedControlItem value={'COMPLETED'}>
+            Completed
+          </SegmentedControlItem>
+          <SegmentedControlItem value={'CANCELLED'}>
+            Canceled
+          </SegmentedControlItem>
         </SegmentedControl>
       </div>
-      <Suspense fallback="">
-        <OrderView filter={value} />
-      </Suspense>
+      <OrderView filter={value} orders={orders} />
     </div>
   )
+}
+
+export const getServerSideProps: GetServerSideProps<OrderPageProps> = async (
+  context
+) => {
+  const orders = await invokeWithMiddleware(getOrders, {}, context)
+  return {
+    props: { orders },
+  }
 }
 
 setupAuthRedirect(OrdersPage)

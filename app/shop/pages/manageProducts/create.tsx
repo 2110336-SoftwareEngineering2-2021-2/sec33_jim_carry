@@ -1,4 +1,4 @@
-import { BlitzPage, Routes, useMutation } from 'blitz'
+import { BlitzPage, Router, Routes, useMutation } from 'blitz'
 import { z } from 'zod'
 
 import Form, { FORM_ERROR } from 'app/core/components/Form'
@@ -29,6 +29,7 @@ const CreateProductPage: BlitzPage = () => {
           try {
             await createProductMutation(values)
             await goBack()
+            Router.reload()
           } catch (error: any) {
             return { [FORM_ERROR]: error.toString() }
           }

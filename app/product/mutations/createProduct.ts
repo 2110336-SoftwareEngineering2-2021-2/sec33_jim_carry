@@ -1,6 +1,5 @@
-import { AuthorizationError, Ctx, resolver } from 'blitz'
+import { resolver } from 'blitz'
 import db from 'db'
-import { createUnparsedSourceFile } from 'typescript'
 import { z } from 'zod'
 
 import { CreateProduct } from '../validations'
@@ -25,9 +24,7 @@ const compileInputValues = (values: z.infer<typeof CreateProduct>) => {
 const createProduct = resolver.pipe(
   resolver.zod(CreateProduct),
   resolver.authorize(),
-  async (input, { session }: Ctx) => {
-    if (!session.userId) throw new AuthorizationError()
-
+  async (input, { session }) => {
     const compiledInput = compileInputValues(input)
     const product = await db.product.create({
       data: {

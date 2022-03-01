@@ -47,9 +47,11 @@ export const ShopProduct = ({ product, onDelete }: ShopProductProps) => {
           </span>
         </div>
         <div className="flex flex-row space-x-1">
-          <Button buttonType="transparent" size="small" iconOnly>
-            <FiEdit2 />
-          </Button>
+          <Link href={Routes.UpdateProductPage({ pid: product.id })}>
+            <Button buttonType="transparent" size="small" iconOnly>
+              <FiEdit2 />
+            </Button>
+          </Link>
           <Button
             buttonType="transparent"
             size="small"

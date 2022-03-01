@@ -3,9 +3,9 @@ import db from 'db'
 import { createUnparsedSourceFile } from 'typescript'
 import { z } from 'zod'
 
-import { CreateProduct } from '../validations'
+import { ProductFormValues } from '../validations'
 
-const compileInputValues = (values: z.infer<typeof CreateProduct>) => {
+const compileInputValues = (values: z.infer<typeof ProductFormValues>) => {
   const price = parseFloat(values.price)
   const stock = parseInt(values.stock)
 
@@ -23,7 +23,7 @@ const compileInputValues = (values: z.infer<typeof CreateProduct>) => {
 }
 
 const createProduct = resolver.pipe(
-  resolver.zod(CreateProduct),
+  resolver.zod(ProductFormValues),
   resolver.authorize(),
   async (input, { session }: Ctx) => {
     if (!session.userId) throw new AuthorizationError()

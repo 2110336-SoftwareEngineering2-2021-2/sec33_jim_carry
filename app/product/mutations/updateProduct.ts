@@ -2,12 +2,7 @@ import { AuthorizationError, Ctx, resolver } from 'blitz'
 import db from 'db'
 import { z } from 'zod'
 
-import { ProductFormValues } from '../validations'
-
-const UpdateProduct = z.object({
-  id: z.number(),
-  data: ProductFormValues,
-})
+import { ProductFormValues, UpdateProduct } from '../validations'
 
 const compileInputValues = (values: z.infer<typeof ProductFormValues>) => {
   const price = parseFloat(values.price)

@@ -11,9 +11,24 @@ const deleteProduct = resolver.pipe(
   resolver.authorize(),
   async ({ id }, { session }: Ctx) => {
     if (!session.userId) throw new AuthorizationError()
-    const product = await db.product.deleteMany({ where: { id } })
+    const user = await db.user.findFirst({
+      where: { id: session.userId },
+      select: {
+        shop: {
+          select: { id: true },
+        },
+      },
+    })
 
-    return product
+    // Find a product with this ID and in this user's shop
+    const product = await db.product.findFirst({
+      where: { id, shopId: user?.shop?.id },
+    })
+    if (!product) throw new Error('Deletion not allowed, product not in shop')
+
+    const deletedProduct = await db.product.deleteMany({ where: { id } })
+
+    return deletedProduct
   }
 )
 

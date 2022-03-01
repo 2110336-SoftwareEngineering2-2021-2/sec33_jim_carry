@@ -19,7 +19,7 @@ export const ProductForm = ({ onSubmit, initialValues }: ProductFormProps) => {
       initialValues={initialValues}
       onSubmit={async (values: z.infer<typeof ProductFormValues>) => {
         try {
-          onSubmit(values)
+          await onSubmit(values)
         } catch (error: any) {
           return { [FORM_ERROR]: error.toString() }
         }

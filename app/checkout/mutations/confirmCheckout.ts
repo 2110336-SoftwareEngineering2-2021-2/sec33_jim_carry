@@ -71,7 +71,7 @@ async function createOrder(
   customerId: string,
   cardId: string
 ) {
-  return await db.$transaction(async (db) => {
+  await db.$transaction(async (db) => {
     await db.product.updateMany({
       data: {
         stock: {
@@ -153,5 +153,20 @@ async function createOrder(
         id: order.id,
       },
     })
+
+    // TODO: credit the seller and add to transaction history
+  })
+
+  await db.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      shoppingCart: {
+        disconnect: itemIds.map((itemId) => ({
+          id: itemId,
+        })),
+      },
+    },
   })
 }

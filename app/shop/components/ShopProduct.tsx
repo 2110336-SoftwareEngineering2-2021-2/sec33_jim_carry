@@ -1,12 +1,29 @@
 import { Routes, Image, Link } from 'blitz'
+import { useState } from 'react'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
 import { ProductWithShop } from 'app/core/types/Product'
 
-export const ShopProduct = ({ product }: { product: ProductWithShop }) => {
+import { DeleteProductPrompt } from './DeleteProductPrompt'
+
+interface ShopProductProps {
+  product: ProductWithShop
+  onDelete: (number) => void
+}
+
+export const ShopProduct = ({ product, onDelete }: ShopProductProps) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const handleDialogClose = () => setIsDialogOpen(false)
+
   return (
     <div className="flex space-x-4">
+      <DeleteProductPrompt
+        product={product}
+        isOpen={isDialogOpen}
+        handleClose={handleDialogClose}
+        onProductDelete={onDelete}
+      />
       <Link href={Routes.ProductDetail({ pid: product.id })}>
         <div className="relative aspect-square cursor-pointer">
           <Image
@@ -33,7 +50,12 @@ export const ShopProduct = ({ product }: { product: ProductWithShop }) => {
           <Button buttonType="transparent" size="small" iconOnly>
             <FiEdit2 />
           </Button>
-          <Button buttonType="transparent" size="small" iconOnly>
+          <Button
+            buttonType="transparent"
+            size="small"
+            iconOnly
+            onClick={() => setIsDialogOpen(true)}
+          >
             <FiTrash2 />
           </Button>
         </div>

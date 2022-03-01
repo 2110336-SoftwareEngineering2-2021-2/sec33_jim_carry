@@ -1,4 +1,4 @@
-import { BlitzPage, Link, Routes, useQuery } from 'blitz'
+import { BlitzPage, Link, Routes, useMutation, useQuery } from 'blitz'
 import { Suspense, useMemo, useState } from 'react'
 import { FiGrid, FiPlus } from 'react-icons/fi'
 
@@ -14,6 +14,7 @@ import { ProductWithShop } from 'app/core/types/Product'
 import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
+import deleteProduct from 'app/product/mutations/deleteProduct'
 import getProducts from 'app/product/queries/getProducts'
 import { ShopProduct } from 'app/shop/components/ShopProduct'
 import getCurrentUser from 'app/users/queries/getCurrentUser'
@@ -44,14 +45,24 @@ const ShopProducts = () => {
   const [{ products }] = useQuery(getProducts, {
     where: { shopId: user!.shop!.id },
   })
+  const [productList, setProductList] = useState(products)
+  const [deleteProductMutation] = useMutation(deleteProduct)
+
   const [value, setValue] = useState('all')
   const { available, sold } = useMemo(() => {
-    const sold = products.filter((product) => isProductSoldOut(product))
-    const available = products.filter((product) => !isProductSoldOut(product))
+    const sold = productList.filter((product) => isProductSoldOut(product))
+    const available = productList.filter(
+      (product) => !isProductSoldOut(product)
+    )
     return { available, sold }
-  }, [products])
+  }, [productList])
   const visibleProducts =
-    value === 'all' ? products : value === 'sold out' ? sold : available
+    value === 'all' ? productList : value === 'sold out' ? sold : available
+
+  const handleProductDelete = async (id: number) => {
+    await deleteProductMutation({ id })
+    setProductList(productList.filter((product) => product.id != id))
+  }
 
   return (
     <div>
@@ -60,14 +71,18 @@ const ShopProducts = () => {
           value={value}
           onChange={(newValue) => setValue(newValue)}
         >
-          <SegmentedControlItem value="all">{`All (${products.length})`}</SegmentedControlItem>
+          <SegmentedControlItem value="all">{`All (${productList.length})`}</SegmentedControlItem>
           <SegmentedControlItem value="available">
             {`Available (${available.length})`}
           </SegmentedControlItem>
           <SegmentedControlItem value="sold out">{`Sold Out (${sold.length})`}</SegmentedControlItem>
         </SegmentedControl>
       </div>
-      <ProductList products={visibleProducts} value={value} />
+      <ProductList
+        products={visibleProducts}
+        value={value}
+        onProductDelete={handleProductDelete}
+      />
     </div>
   )
 }
@@ -75,9 +90,11 @@ const ShopProducts = () => {
 const ProductList = ({
   products,
   value,
+  onProductDelete,
 }: {
   products: ProductWithShop[]
   value: string
+  onProductDelete: (number) => void
 }) => {
   if (products.length === 0) {
     return (
@@ -93,7 +110,11 @@ const ProductList = ({
   return (
     <div className="flex flex-col p-6 space-y-4">
       {products.map((product) => (
-        <ShopProduct key={product.id} product={product} />
+        <ShopProduct
+          key={product.id}
+          product={product}
+          onDelete={onProductDelete}
+        />
       ))}
     </div>
   )

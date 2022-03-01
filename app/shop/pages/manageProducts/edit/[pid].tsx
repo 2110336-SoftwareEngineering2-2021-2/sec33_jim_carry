@@ -34,11 +34,7 @@ const UpdateProductPage: BlitzPage = () => {
 }
 
 const UpdateProductForm = () => {
-  const param = useParam('pid')
-  let pid: number = 0
-  if (typeof param == 'string') {
-    pid = parseInt(param)
-  }
+  const pid = parseInt(useParam('pid'))
   const [product] = useQuery(getProduct, { id: pid })
   const [updateProductMutation] = useMutation(updateProduct)
   const goBack = useGoBack(Routes.ManageProductsPage().pathname)

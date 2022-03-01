@@ -51,7 +51,6 @@ const UpdateProductForm = () => {
       onSubmit={async (values: z.infer<typeof ProductFormValues>) => {
         await updateProductMutation({ id: pid, data: values })
         await goBack()
-        Router.reload()
       }}
     />
   )

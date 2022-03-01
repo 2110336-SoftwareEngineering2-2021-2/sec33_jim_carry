@@ -33,7 +33,6 @@ const CreateProductForm = () => {
       onSubmit={async (values: z.infer<typeof ProductFormValues>) => {
         await createProductMutation(values)
         await goBack()
-        Router.reload()
       }}
     />
   )

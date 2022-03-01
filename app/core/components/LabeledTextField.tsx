@@ -14,6 +14,7 @@ export interface LabeledTextFieldProps
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements['div']>
   labelProps?: ComponentPropsWithoutRef<'label'>
   asTextArea?: boolean
+  caption?: string
 }
 
 export const LabeledTextField = forwardRef<
@@ -21,7 +22,16 @@ export const LabeledTextField = forwardRef<
   LabeledTextFieldProps
 >(
   (
-    { className, label, outerProps, labelProps, name, asTextArea, ...props },
+    {
+      className,
+      label,
+      outerProps,
+      labelProps,
+      name,
+      asTextArea,
+      caption,
+      ...props
+    },
     ref
   ) => {
     const {
@@ -52,6 +62,11 @@ export const LabeledTextField = forwardRef<
           </FloatingLabel>
         </div>
 
+        {caption && (
+          <div className="mt-3 text-small leading-normal font-regular text-ink-lighter">
+            {caption}
+          </div>
+        )}
         {error && <ErrorMessage>{error}</ErrorMessage>}
       </div>
     )

@@ -26,7 +26,7 @@ export function ProductView({ pid }: ProductViewProps) {
           pic={product.shop.image}
         />
         <Description
-          tags={['Addidas', 'SDKfjl']}
+          tags={product.hashtags}
           description={product.description ?? ''}
         />
       </div>

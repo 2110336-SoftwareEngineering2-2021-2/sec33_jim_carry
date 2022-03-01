@@ -1,5 +1,14 @@
-import { BlitzPage, Link, Routes, useMutation, useQuery } from 'blitz'
-import { Suspense, useMemo, useState } from 'react'
+import {
+  BlitzPage,
+  GetServerSideProps,
+  invokeWithMiddleware,
+  Link,
+  PromiseReturnType,
+  Routes,
+  useMutation,
+  useRouter,
+} from 'blitz'
+import { Suspense, useCallback, useMemo, useState } from 'react'
 import { FiGrid, FiPlus } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
@@ -19,7 +28,11 @@ import getProducts from 'app/product/queries/getProducts'
 import { ShopProduct } from 'app/shop/components/ShopProduct'
 import getCurrentUser from 'app/users/queries/getCurrentUser'
 
-const ManageProductsPage: BlitzPage = () => {
+interface ManageProductsPageProps {
+  data: PromiseReturnType<typeof getProducts>
+}
+
+const ManageProductsPage: BlitzPage<ManageProductsPageProps> = ({ data }) => {
   return (
     <div>
       <TopBar
@@ -34,35 +47,32 @@ const ManageProductsPage: BlitzPage = () => {
         }
       />
       <Suspense fallback={<Spinner />}>
-        <ShopProducts />
+        <ShopProducts products={data.products} />
       </Suspense>
     </div>
   )
 }
 
-const ShopProducts = () => {
-  const [user] = useQuery(getCurrentUser, null)
-  const [{ products }] = useQuery(getProducts, {
-    where: { shopId: user!.shop!.id },
-  })
-  const [productList, setProductList] = useState(products)
+const ShopProducts = ({ products }: { products: ProductWithShop[] }) => {
+  const { replace, asPath } = useRouter()
   const [deleteProductMutation] = useMutation(deleteProduct)
 
   const [value, setValue] = useState('all')
   const { available, sold } = useMemo(() => {
-    const sold = productList.filter((product) => isProductSoldOut(product))
-    const available = productList.filter(
-      (product) => !isProductSoldOut(product)
-    )
+    const sold = products.filter((product) => isProductSoldOut(product))
+    const available = products.filter((product) => !isProductSoldOut(product))
     return { available, sold }
-  }, [productList])
+  }, [products])
   const visibleProducts =
-    value === 'all' ? productList : value === 'sold out' ? sold : available
+    value === 'all' ? products : value === 'sold out' ? sold : available
 
-  const handleProductDelete = async (id: number) => {
-    await deleteProductMutation({ id })
-    setProductList(productList.filter((product) => product.id != id))
-  }
+  const handleProductDelete = useCallback(
+    async (id: number) => {
+      await deleteProductMutation({ id })
+      replace(asPath)
+    },
+    [deleteProductMutation, replace, asPath]
+  )
 
   return (
     <div>
@@ -71,7 +81,7 @@ const ShopProducts = () => {
           value={value}
           onChange={(newValue) => setValue(newValue)}
         >
-          <SegmentedControlItem value="all">{`All (${productList.length})`}</SegmentedControlItem>
+          <SegmentedControlItem value="all">{`All (${products.length})`}</SegmentedControlItem>
           <SegmentedControlItem value="available">
             {`Available (${available.length})`}
           </SegmentedControlItem>
@@ -118,6 +128,20 @@ const ProductList = ({
       ))}
     </div>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const user = await invokeWithMiddleware(getCurrentUser, {}, context)
+  const data = await invokeWithMiddleware(
+    getProducts,
+    {
+      where: { shopId: user!.shop!.id },
+    },
+    context
+  )
+  return {
+    props: { data },
+  }
 }
 
 setupAuthRedirect(ManageProductsPage)

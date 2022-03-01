@@ -5,7 +5,7 @@ import {
   invokeWithMiddleware,
   PromiseReturnType,
 } from 'blitz'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import {
   SegmentedControl,
@@ -24,6 +24,9 @@ interface OrderPageProps {
 
 const OrdersPage: BlitzPage<OrderPageProps> = ({ orders }) => {
   const [value, setvalue] = useState<OrderStatus>('PENDING')
+  const filteredOrders = useMemo(() => {
+    return orders.filter((order) => order.status === value)
+  }, [orders, value])
   return (
     <div>
       <TopBar title="My Orders" largeTitle />
@@ -46,7 +49,7 @@ const OrdersPage: BlitzPage<OrderPageProps> = ({ orders }) => {
           </SegmentedControlItem>
         </SegmentedControl>
       </div>
-      <OrderView filter={value} orders={orders} />
+      <OrderView orders={filteredOrders} />
     </div>
   )
 }

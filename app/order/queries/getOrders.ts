@@ -16,9 +16,6 @@ const getOrders = resolver.pipe(async (_ = null, { session }: Ctx) => {
     orderBy: { createdAt: 'desc' },
     include: { shop: true, items: true },
   })
-  if (!orders) {
-    throw new NotFoundError()
-  }
 
   return orders
 })

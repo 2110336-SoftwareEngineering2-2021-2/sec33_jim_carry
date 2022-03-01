@@ -7,15 +7,11 @@ import { EmptyState } from 'app/core/components/EmptyState'
 import { OrderCard } from './OrderCard'
 
 export interface OrderViewProps {
-  filter: OrderStatus
   orders: (Order & { shop: Shop; items: OrderItemSnapshot[] })[]
 }
 
-export function OrderView({ filter, orders }: OrderViewProps) {
-  const filtered_orders = useMemo(() => {
-    return orders.filter((order) => order.status === filter)
-  }, [orders, filter])
-  if (filtered_orders.length == 0) {
+export function OrderView({ orders }: OrderViewProps) {
+  if (orders.length == 0) {
     return (
       <EmptyState
         icon={<FiTruck strokeWidth={0.5} size={84} />}
@@ -31,7 +27,7 @@ export function OrderView({ filter, orders }: OrderViewProps) {
   }
   return (
     <div className="flex flex-col divide-y divide-sky-light">
-      {filtered_orders.map((e, idx) => (
+      {orders.map((e, idx) => (
         <OrderCard key={idx} order={e} />
       ))}
     </div>

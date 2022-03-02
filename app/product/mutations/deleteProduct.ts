@@ -1,4 +1,4 @@
-import { resolver } from 'blitz'
+import { AuthorizationError, Ctx, resolver } from 'blitz'
 import db from 'db'
 import { z } from 'zod'
 
@@ -9,11 +9,26 @@ const DeleteProduct = z.object({
 const deleteProduct = resolver.pipe(
   resolver.zod(DeleteProduct),
   resolver.authorize(),
-  async ({ id }) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const product = await db.product.deleteMany({ where: { id } })
+  async ({ id }, { session }: Ctx) => {
+    if (!session.userId) throw new AuthorizationError()
+    const user = await db.user.findFirst({
+      where: { id: session.userId },
+      select: {
+        shop: {
+          select: { id: true },
+        },
+      },
+    })
 
-    return product
+    // Find a product with this ID and in this user's shop
+    const product = await db.product.findFirst({
+      where: { id, shopId: user?.shop?.id },
+    })
+    if (!product) throw new Error('Deletion not allowed, product not in shop')
+
+    const deletedProduct = await db.product.deleteMany({ where: { id } })
+
+    return deletedProduct
   }
 )
 

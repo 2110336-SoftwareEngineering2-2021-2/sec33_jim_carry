@@ -91,7 +91,7 @@ export function SelectSection<T extends { id: K }, K>({
             </Link>
           </RadioGroup>
           <div className="w-full px-6">
-            <Button buttonType="transparent" fullWidth>
+            <Button buttonType="transparent" fullWidth onClick={onClose}>
               Cancel
             </Button>
           </div>

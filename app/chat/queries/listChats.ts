@@ -1,4 +1,4 @@
-import { resolver, Ctx } from 'blitz'
+import { resolver } from 'blitz'
 import db, { Chat, ChatMember, Message } from 'db'
 import { z } from 'zod'
 
@@ -25,7 +25,7 @@ export type ChatData = Chat & {
 const listChats = resolver.pipe(
   resolver.zod(CreateChatInput),
   resolver.authorize(),
-  async ({ isShopChat }, { session }: Ctx) => {
+  async ({ isShopChat }, { session }) => {
     const chats = await db.chat.findMany({
       where: {
         memberships: {

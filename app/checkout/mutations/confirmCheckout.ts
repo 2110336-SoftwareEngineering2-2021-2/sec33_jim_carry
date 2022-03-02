@@ -1,4 +1,4 @@
-import { AuthorizationError, Ctx, resolver } from 'blitz'
+import { resolver } from 'blitz'
 import db, { Address, OrderStatus } from 'db'
 
 import { shippingCost } from 'app/core/constants'
@@ -18,10 +18,8 @@ const confirmCheckout = resolver.pipe(
   resolver.authorize(),
   async (
     { addressId, cardId: inputCardId, itemIds },
-    { session: { userId } }: Ctx
+    { session: { userId } }
   ) => {
-    if (!userId) throw new AuthorizationError()
-
     const address = await db.address.findUnique({
       where: {
         id: addressId,

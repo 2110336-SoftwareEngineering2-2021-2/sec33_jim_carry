@@ -1,6 +1,5 @@
-import { AuthorizationError, Ctx, NotFoundError, resolver } from 'blitz'
+import { AuthorizationError, Ctx, resolver } from 'blitz'
 import db from 'db'
-import * as z from 'zod'
 
 /**
  * Get orders for the user

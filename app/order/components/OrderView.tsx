@@ -27,8 +27,8 @@ export function OrderView({ orders }: OrderViewProps) {
   }
   return (
     <div className="flex flex-col divide-y divide-sky-light">
-      {orders.map((e, idx) => (
-        <OrderCard key={idx} order={e} />
+      {orders.map((e) => (
+        <OrderCard key={e.id} order={e} />
       ))}
     </div>
   )

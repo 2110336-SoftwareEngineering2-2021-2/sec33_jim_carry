@@ -3,6 +3,7 @@ import { BlitzPage, Link, Routes, useQuery } from 'blitz'
 import { Suspense } from 'react'
 
 import { Button } from 'app/core/components/Button'
+import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
@@ -25,7 +26,7 @@ const TransactionHistory: BlitzPage = () => {
           </Link>
         }
       />
-      <Suspense fallback={null}>
+      <Suspense fallback={<Spinner />}>
         <TotalBalance />
         <TransactionList />
       </Suspense>

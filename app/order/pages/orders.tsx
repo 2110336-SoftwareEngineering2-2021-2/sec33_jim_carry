@@ -23,7 +23,7 @@ interface OrderPageProps {
 }
 
 const OrdersPage: BlitzPage<OrderPageProps> = ({ orders }) => {
-  const [value, setvalue] = useState<OrderStatus>('PENDING')
+  const [value, setvalue] = useState<OrderStatus>('PAID')
   const filteredOrders = useMemo(() => {
     return orders.filter((order) => order.status === value)
   }, [orders, value])
@@ -37,7 +37,7 @@ const OrdersPage: BlitzPage<OrderPageProps> = ({ orders }) => {
             setvalue(newvalue)
           }}
         >
-          <SegmentedControlItem value={'PENDING'}>Pending</SegmentedControlItem>
+          <SegmentedControlItem value={'PAID'}>Paid</SegmentedControlItem>
           <SegmentedControlItem value={'SHIPPED'}>
             Shipping
           </SegmentedControlItem>

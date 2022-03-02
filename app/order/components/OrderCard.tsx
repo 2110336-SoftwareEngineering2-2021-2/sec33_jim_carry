@@ -10,8 +10,8 @@ export interface OrderCardProps {
 export function OrderCard({ order }: OrderCardProps) {
   const renameStatus = (status: OrderStatus) => {
     switch (status) {
-      case 'PENDING':
-        return 'Pending'
+      case 'PAID':
+        return 'Paid'
       case 'SHIPPED':
         return 'Shipping'
       case 'COMPLETED':

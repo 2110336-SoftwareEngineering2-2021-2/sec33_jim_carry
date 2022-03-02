@@ -14,9 +14,9 @@ const RemoveAddress = z.object({
 const deleteAddress = resolver.pipe(
   resolver.zod(RemoveAddress),
   resolver.authorize(),
-  async ({ id }, ctx) => {
+  async ({ id }, { session }) => {
     const address = await db.address.findFirst({ where: { id } })
-    if (address?.userId !== ctx.session.userId) return new NotFoundError()
+    if (address?.userId !== session.userId) return new NotFoundError()
 
     await db.address.delete({ where: { id } })
   }

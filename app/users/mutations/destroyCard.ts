@@ -11,8 +11,8 @@ import { getCustomer, omise } from 'app/omise'
 const destroyCard = resolver.pipe(
   resolver.zod(z.string().nonempty()),
   resolver.authorize(),
-  async (cardId, ctx) => {
-    const customer = await getCustomer(ctx.session.userId)
+  async (cardId, { session }) => {
+    const customer = await getCustomer(session.userId)
     await omise.customers.destroyCard(customer.id, cardId)
   }
 )

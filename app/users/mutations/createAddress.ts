@@ -11,11 +11,11 @@ import { CreateAddress } from '../validations'
 const createAddress = resolver.pipe(
   resolver.zod(CreateAddress),
   resolver.authorize(),
-  async (address, ctx) => {
+  async (address, { session }) => {
     await db.address.create({
       data: {
         ...address,
-        userId: ctx.session.userId,
+        userId: session.userId,
       },
     })
   }

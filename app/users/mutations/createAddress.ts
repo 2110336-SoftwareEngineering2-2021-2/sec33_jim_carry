@@ -1,4 +1,4 @@
-import { AuthorizationError, Ctx, resolver } from 'blitz'
+import { resolver } from 'blitz'
 import db from 'db'
 
 import { CreateAddress } from '../validations'
@@ -11,13 +11,11 @@ import { CreateAddress } from '../validations'
 const createAddress = resolver.pipe(
   resolver.zod(CreateAddress),
   resolver.authorize(),
-  async (address, ctx: Ctx) => {
-    if (!ctx.session.userId) throw new AuthorizationError()
-
+  async (address, { session }) => {
     await db.address.create({
       data: {
         ...address,
-        userId: ctx.session.userId,
+        userId: session.userId,
       },
     })
   }

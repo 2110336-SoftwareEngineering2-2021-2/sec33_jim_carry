@@ -1,4 +1,4 @@
-import { AuthorizationError, Ctx, resolver } from 'blitz'
+import { resolver } from 'blitz'
 import db from 'db'
 
 import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
@@ -9,8 +9,7 @@ import getWishlist from 'app/wishlist/queries/getWishlist'
  */
 const clearSoldOutWishlist = resolver.pipe(
   resolver.authorize(),
-  async (_ = null, { session }: Ctx) => {
-    if (!session.userId) throw new AuthorizationError()
+  async (_ = null, { session }) => {
     const wishlist = await getWishlist(null, { session })
 
     const soldProducts = wishlist

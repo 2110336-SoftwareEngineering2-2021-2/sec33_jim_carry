@@ -1,10 +1,9 @@
-import { resolver, NotFoundError, Ctx, AuthorizationError } from 'blitz'
+import { resolver, NotFoundError } from 'blitz'
 import db from 'db'
 
 const getShoppingCart = resolver.pipe(
   resolver.authorize(),
-  async (_ = null, { session }: Ctx) => {
-    if (!session.userId) throw new AuthorizationError()
+  async (_ = null, { session }) => {
     const user = await db.user.findFirst({
       where: {
         id: session.userId,

@@ -8,7 +8,7 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["interactiveTransactions"]
+  previewFeatures = ["interactiveTransactions", "extendedIndexes"]
 }
 
 // --------------------------------------
@@ -25,15 +25,19 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   role           Role     @default(USER)
+  totalBalance   Float    @default(1000)
 
   shop         Shop?
   addresses    Address[]
-  wishlist     Product[] @relation(name: "wishlist")
-  shoppingCart Product[] @relation(name: "shoppingCart")
-  following    Shop[]    @relation(name: "follow")
+  wishlist     Product[]     @relation(name: "wishlist")
+  shoppingCart Product[]     @relation(name: "shoppingCart")
+  following    Shop[]        @relation(name: "follow")
   tokens       Token[]
   sessions     Session[]
   Order        Order[]
+  chats        ChatMember[]
+  messages     Message[]
+  Transaction  Transaction[]
 }
 
 model Shop {
@@ -81,7 +85,7 @@ model Product {
   images      String[]
 
   categories        Category[]
-  hashtags          Hashtag[]
+  hashtags          String[]
   wishlistedBy      User[]              @relation(name: "wishlist")
   selectedBy        User[]              @relation(name: "shoppingCart")
   OrderItemSnapshot OrderItemSnapshot[]
@@ -99,13 +103,6 @@ model Category {
   group   CategoryGroup @relation(fields: [groupId], references: [id])
   groupId Int
 
-  name String
-
-  products Product[]
-}
-
-model Hashtag {
-  id   Int    @id @default(autoincrement())
   name String
 
   products Product[]
@@ -129,6 +126,7 @@ model Order {
   addressNote     String?
   receiverName    String
   receiverPhoneNo String
+  Transaction     Transaction[]
 }
 
 model OrderItemSnapshot {
@@ -144,6 +142,40 @@ model OrderItemSnapshot {
   price       Float
   soldPrice   Float
   images      String[]
+}
+
+model Chat {
+  id            Int          @id @default(autoincrement())
+  memberships   ChatMember[]
+  membershipIds Int[]
+
+  messages Message[]
+}
+
+model Message {
+  id       Int  @id @default(autoincrement())
+  chat     Chat @relation(fields: [chatId], references: [id])
+  chatId   Int
+  sender   User @relation(fields: [senderId], references: [id])
+  senderId Int
+
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt(sort: Desc)])
+}
+
+model ChatMember {
+  chat   Chat @relation(fields: [chatId], references: [id])
+  chatId Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  isShop            Boolean
+  lastMessageReadId Int?
+
+  // composite primary key
+  @@id([chatId, userId])
 }
 
 model Session {
@@ -176,6 +208,20 @@ model Token {
   @@unique([hashedToken, type])
 }
 
+model Transaction {
+  id        Int             @id @default(autoincrement())
+  createdAt DateTime        @default(now())
+  amount    Float
+  type      TransactionType
+
+  user        User    @relation(fields: [userId], references: [id])
+  userId      Int
+  Order       Order?  @relation(fields: [orderId], references: [id])
+  orderId     Int?
+  bank        String?
+  bankAccount String?
+}
+
 enum TokenType {
   RESET_PASSWORD
 }
@@ -191,4 +237,9 @@ enum OrderStatus {
   SHIPPED
   COMPLETED
   CANCELLED
+}
+
+enum TransactionType {
+  WITHDRAW
+  ORDER
 }

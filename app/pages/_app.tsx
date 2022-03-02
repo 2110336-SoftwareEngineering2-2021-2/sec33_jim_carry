@@ -13,6 +13,7 @@ import {
 } from 'blitz'
 import SuperJson from 'superjson'
 
+import { useSyncChat } from 'app/chat/context/useChatStore'
 import { LoginPrompt } from 'app/core/components/LoginPrompt'
 import { Redirect } from 'app/core/components/Redirect'
 import { useSyncLoginPrompt } from 'app/core/stores/LoginPromptStore'
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useSyncWishlist()
   useSyncShoppingCart()
   useSyncLoginPrompt()
+  useSyncChat()
   return (
     <ErrorBoundary
       FallbackComponent={RootErrorFallback}

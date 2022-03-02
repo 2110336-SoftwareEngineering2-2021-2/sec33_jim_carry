@@ -12,10 +12,13 @@ import {
   FiHelpCircle,
   FiMapPin,
   FiTruck,
+  FiLayout,
+  FiList,
 } from 'react-icons/fi'
 
 import logout from 'app/auth/mutations/logout'
 import { Avatar } from 'app/core/components/Avatar'
+import { Divider } from 'app/core/components/Divider'
 import { MenuListItem } from 'app/core/components/MenuListItem'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
@@ -41,6 +44,7 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
           <span className="mt-1 text-regular leading-normal font-regular text-ink-darkest">
             {email}
           </span>
+          {/*TODO : Seller Chip*/}
         </div>
       </div>
       <div>
@@ -53,23 +57,32 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
         <Link href={Routes.OrdersPage().pathname} passHref>
           <MenuListItem as="a" icon={<FiTruck />} title="My orders" />
         </Link>
+      </div>
+      <Divider padded />
+      <div>
         {hasShop ? (
-          <Link href={Routes.ManageProductsPage().pathname} passHref>
-            <MenuListItem as="a" icon={<FiGrid />} title="My products" />
-          </Link>
+          <>
+            <MenuListItem icon={<FiLayout />} title="My shop" />
+            <Link href={Routes.ManageProductsPage().pathname} passHref>
+              <MenuListItem as="a" icon={<FiGrid />} title="My products" />
+            </Link>
+            <Link href={Routes.TransactionHistory().pathname} passHref>
+              <MenuListItem as="a" icon={<FiList />} title="My balance" />
+            </Link>
+          </>
         ) : (
           <Link href={Routes.RegisterPage().pathname} passHref>
-            <MenuListItem as="a" icon={<FiGrid />} title="Register shop" />
+            <MenuListItem as="a" icon={<FiLayout />} title="Register shop" />
           </Link>
         )}
+      </div>
+      <Divider padded />
+      <div>
         <MenuListItem icon={<FiHelpCircle />} title="Help" />
+        <Link href={Routes.LogoutPage().pathname} passHref>
+          <MenuListItem as="a" title="Logout" />
+        </Link>
       </div>
-      <div className="px-6">
-        <span className="block w-full h-[1px] bg-sky-lighter" />
-      </div>
-      <Link href={Routes.LogoutPage().pathname} passHref>
-        <MenuListItem as="a" title="Logout" />
-      </Link>
     </div>
   )
 }

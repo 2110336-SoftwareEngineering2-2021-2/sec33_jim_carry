@@ -49,7 +49,7 @@ export function TopBar({
   )
 
   return (
-    <div>
+    <div className="sticky top-0 bg-sky-white z-10">
       <div
         className="
           h-14 flex items-center justify-between gap-3 relative

@@ -6,8 +6,8 @@ import LabeledTextField from 'app/core/components/LabeledTextField'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
-import createShop from 'app/shops/mutations/createShop'
-import { CreateShop } from 'app/shops/validations'
+import createShop from 'app/shop/mutations/createShop'
+import { CreateShop } from 'app/shop/validations'
 
 const RegisterPage: BlitzPage = () => {
   const router = useRouter()

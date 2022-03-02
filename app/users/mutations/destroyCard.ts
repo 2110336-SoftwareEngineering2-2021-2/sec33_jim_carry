@@ -1,4 +1,4 @@
-import { AuthorizationError, Ctx, resolver } from 'blitz'
+import { resolver } from 'blitz'
 import { z } from 'zod'
 
 import { getCustomer, omise } from 'app/omise'
@@ -11,10 +11,8 @@ import { getCustomer, omise } from 'app/omise'
 const destroyCard = resolver.pipe(
   resolver.zod(z.string().nonempty()),
   resolver.authorize(),
-  async (cardId, ctx: Ctx) => {
-    if (!ctx.session.userId) throw new AuthorizationError()
-
-    const customer = await getCustomer(ctx.session.userId)
+  async (cardId, { session }) => {
+    const customer = await getCustomer(session.userId)
     await omise.customers.destroyCard(customer.id, cardId)
   }
 )

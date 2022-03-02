@@ -2,22 +2,38 @@ import { resolver } from 'blitz'
 import db from 'db'
 import { z } from 'zod'
 
-const CreateProduct = z.object({
-  name: z.string(),
-  shopId: z.number(),
-  description: z.string().optional(),
-  price: z.number(),
-  stock: z.number(),
-  hidden: z.boolean(),
-  images: z.string().array(),
-})
+import { ProductFormValues } from '../validations'
+
+const compileInputValues = (values: z.infer<typeof ProductFormValues>) => {
+  const price = parseFloat(values.price)
+  const stock = parseInt(values.stock)
+
+  if (isNaN(price) || isNaN(stock))
+    throw new TypeError('Price and stock must be a number')
+  if (price < 0 || stock < 0)
+    throw new RangeError('Price and stock cannot be negative')
+
+  const hidden = false
+  const hashtags = values.hashtags!.split(',').map((s) => s.trim())
+
+  // TODO : Handle images
+  const images = ['https://picsum.photos/500', 'https://picsum.photos/500']
+  return { ...values, price, stock, hidden, hashtags, images }
+}
 
 const createProduct = resolver.pipe(
-  resolver.zod(CreateProduct),
+  resolver.zod(ProductFormValues),
   resolver.authorize(),
-  async (input) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const product = await db.product.create({ data: input })
+  async (input, { session }) => {
+    const compiledInput = compileInputValues(input)
+    const product = await db.product.create({
+      data: {
+        ...compiledInput,
+        shop: {
+          connect: { userId: session.userId },
+        },
+      },
+    })
 
     return product
   }

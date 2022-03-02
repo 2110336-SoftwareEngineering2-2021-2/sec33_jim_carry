@@ -16,6 +16,7 @@ import { Divider } from 'app/core/components/Divider'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
+import { useShoppingCartStore } from 'app/shoppingCart/context/useShoppingCartStore'
 
 import { CheckoutGroup } from '../components/CheckoutGroup'
 import { SelectSection } from '../components/SelectSection'
@@ -38,12 +39,15 @@ const CheckoutPage: BlitzPage<CheckoutProps> = ({ summary }) => {
 
   const { replace } = useRouter()
 
+  const syncShoppingCart = useShoppingCartStore((store) => store.syncFromStore)
+
   const onCheckout = async () => {
     await confirmCheckoutMutation({
       addressId: addressId!,
       cardId: cardId!,
       itemIds,
     })
+    syncShoppingCart()
     await replace(Routes.OrdersPage().pathname)
   }
 

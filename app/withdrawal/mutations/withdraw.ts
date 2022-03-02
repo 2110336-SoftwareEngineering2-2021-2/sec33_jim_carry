@@ -1,5 +1,5 @@
-import { NotFoundError, resolver } from 'blitz'
-import db from 'db'
+import { resolver } from 'blitz'
+import db, { TransactionType } from 'db'
 
 import { Withdrawal } from '../validations'
 
@@ -11,36 +11,28 @@ import { Withdrawal } from '../validations'
 const withdraw = resolver.pipe(
   resolver.zod(Withdrawal),
   resolver.authorize(),
-  async ({ bank, account, amount }, ctx) => {
+  async (input, { session: { userId } }) => {
     const user = await db.user.findFirst({
-      where: { id: ctx.session.userId },
+      where: { id: userId },
       select: { totalBalance: true },
+      rejectOnNotFound: true,
     })
-    if (!user) {
-      throw new NotFoundError()
+    const remains = user.totalBalance - input.amount
+    if (remains < 0) {
+      throw new Error(`You don't have enough money in your balance`)
     }
-    const balance = user.totalBalance
-    const withdraw = Number(amount)
-    if (withdraw > balance) {
-      throw new Error(
-        'Your total balance is less than the amount of money you wish to withdraw'
-      )
-    }
-    if (withdraw <= 0) {
-      throw new Error('The amount of money to withdraw must be greater than 0')
-    }
-    if (isNaN(withdraw)) {
-      throw new Error('Please fill in a valid amount to withdraw')
-    }
-
-    const remains = balance - withdraw
-    await db.user.update({
-      where: {
-        id: ctx.session.userId,
-      },
-      data: {
-        totalBalance: remains,
-      },
+    return db.$transaction(async (db) => {
+      await db.user.update({
+        where: { id: userId },
+        data: { totalBalance: remains },
+      })
+      return await db.transaction.create({
+        data: {
+          ...input,
+          userId,
+          type: TransactionType.WITHDRAW,
+        },
+      })
     })
   }
 )

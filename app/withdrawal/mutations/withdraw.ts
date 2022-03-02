@@ -1,4 +1,4 @@
-import { AuthorizationError, Ctx, resolver } from 'blitz'
+import { resolver } from 'blitz'
 import db, { TransactionType } from 'db'
 
 import { Withdrawal } from '../validations'
@@ -11,8 +11,7 @@ import { Withdrawal } from '../validations'
 const withdraw = resolver.pipe(
   resolver.zod(Withdrawal),
   resolver.authorize(),
-  async (input, { session: { userId } }: Ctx) => {
-    if (!userId) throw new AuthorizationError()
+  async (input, { session: { userId } }) => {
     const user = await db.user.findFirst({
       where: { id: userId },
       select: { totalBalance: true },

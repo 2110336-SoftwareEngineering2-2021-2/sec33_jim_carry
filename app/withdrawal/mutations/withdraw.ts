@@ -1,4 +1,4 @@
-import { AuthorizationError, Ctx, NotFoundError, resolver } from 'blitz'
+import { NotFoundError, resolver } from 'blitz'
 import db from 'db'
 
 import { Withdrawal } from '../validations'
@@ -11,8 +11,7 @@ import { Withdrawal } from '../validations'
 const withdraw = resolver.pipe(
   resolver.zod(Withdrawal),
   resolver.authorize(),
-  async ({ bank, account, amount }, ctx: Ctx) => {
-    if (!ctx.session.userId) throw new AuthorizationError()
+  async ({ bank, account, amount }, ctx) => {
     const user = await db.user.findFirst({
       where: { id: ctx.session.userId },
       select: { totalBalance: true },

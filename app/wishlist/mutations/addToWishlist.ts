@@ -1,4 +1,4 @@
-import { AuthorizationError, Ctx, resolver } from 'blitz'
+import { resolver } from 'blitz'
 import db from 'db'
 import { z } from 'zod'
 
@@ -9,8 +9,7 @@ const AddToWishlist = z.object({
 const addToWishlist = resolver.pipe(
   resolver.zod(AddToWishlist),
   resolver.authorize(),
-  async ({ productId }, { session }: Ctx) => {
-    if (!session.userId) throw new AuthorizationError()
+  async ({ productId }, { session }) => {
     const user = await db.user.update({
       where: {
         id: session.userId,

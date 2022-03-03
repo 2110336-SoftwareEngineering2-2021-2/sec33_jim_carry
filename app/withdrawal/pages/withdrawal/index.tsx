@@ -1,5 +1,12 @@
 import { RadioGroup } from '@headlessui/react'
-import { BlitzPage, Routes, useMutation, useQuery, useRouter } from 'blitz'
+import {
+  BlitzPage,
+  formatZodError,
+  Routes,
+  useMutation,
+  useQuery,
+  useRouter,
+} from 'blitz'
 import { Suspense, useState } from 'react'
 import { z } from 'zod'
 
@@ -13,7 +20,6 @@ import { setupLayout } from 'app/core/utils/setupLayout'
 import { FormWithdrawal } from 'app/withdrawal/formValidations'
 import withdraw from 'app/withdrawal/mutations/withdraw'
 import getBalance from 'app/withdrawal/queries/getBalance'
-import { Withdrawal } from 'app/withdrawal/validations'
 
 function BalanceComponent() {
   const [balance] = useQuery(getBalance, {})
@@ -93,6 +99,9 @@ const WithdrawalPage: BlitzPage = () => {
               router.push(Routes.FinishWithdrawalPage().pathname)
               setWithdrawalState(0)
             } catch (error: any) {
+              if (error instanceof z.ZodError) {
+                return formatZodError(error)
+              }
               return { [FORM_ERROR]: error.toString() }
             }
           }}

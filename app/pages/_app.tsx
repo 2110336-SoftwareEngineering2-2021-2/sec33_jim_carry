@@ -12,6 +12,7 @@ import {
   Script,
 } from 'blitz'
 import SuperJson from 'superjson'
+import { z } from 'zod'
 
 import { useSyncChat } from 'app/chat/context/useChatStore'
 import { LoginPrompt } from 'app/core/components/LoginPrompt'
@@ -22,6 +23,14 @@ import { useSyncShoppingCart } from 'app/shoppingCart/context/useShoppingCartSto
 import { useSyncWishlist } from 'app/wishlist/context/useWishlistStore'
 
 SuperJson.registerClass(Prisma.Decimal, { identifier: 'DecimalJS' })
+SuperJson.registerCustom<z.ZodError, any[]>(
+  {
+    isApplicable: (e): e is z.ZodError => e instanceof z.ZodError,
+    serialize: (e) => e.issues,
+    deserialize: (issues) => new z.ZodError(issues),
+  },
+  'ZodError'
+)
 
 export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)

@@ -32,13 +32,13 @@ const createChat = resolver.pipe(
               user: {
                 connect: { id: shopOwnerId },
               },
-              isShop: true,
+              type: 'SELLER',
             },
             {
               user: {
                 connect: { id: currentUserId },
               },
-              isShop: false,
+              type: 'BUYER',
             },
           ],
         },

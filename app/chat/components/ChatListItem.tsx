@@ -1,4 +1,4 @@
-import { useSession } from 'blitz'
+import { Link, Routes, useSession } from 'blitz'
 
 import { Avatar } from 'app/core/components/Avatar'
 import { variant } from 'app/core/utils/variant'
@@ -16,19 +16,21 @@ export function ChatListItem({ chat }: ChatListItemProps) {
   const userMembership = chat.memberships.find((m) => m.userId === userId)
   const isRead = userMembership!.lastMessageReadId === chat.messages[0]?.id
   return (
-    <div className="flex flex-row py-4 gap-3">
-      <Avatar src={otherUser.shop!.image} size={48} />
-      {chat.messages.length > 0 && (
-        <>
-          <ChatTextPreview
-            name={otherUser.shop!.name}
-            message={chat.messages[0]!.content}
-            isRead={isRead}
-          />
-          <ChatDate date={chat.messages[0]!.createdAt} isRead={isRead} />
-        </>
-      )}
-    </div>
+    <Link href={Routes.ChatDetailPage({ chatId: chat.id })} passHref>
+      <a className="flex flex-row py-4 gap-3 transition-colors hover:bg-sky-light/30 active:bg-sky-light/70">
+        <Avatar src={otherUser.shop!.image} size={48} />
+        {chat.messages.length > 0 && (
+          <>
+            <ChatTextPreview
+              name={otherUser.shop!.name}
+              message={JSON.stringify(chat.messages[0]!.payload)}
+              isRead={isRead}
+            />
+            <ChatDate date={chat.messages[0]!.createdAt} isRead={isRead} />
+          </>
+        )}
+      </a>
+    </Link>
   )
 }
 
@@ -47,7 +49,7 @@ function ChatTextPreview({
     <div className="flex flex-col w-[calc(100%-132px)]">
       <div className="flex flex-row gap-2 items-center">
         <span
-          className={`text-large leading-normal 
+          className={`text-large leading-normal
         ${variant(isRead, 'font-regular text-ink-light')}
         ${variant(!isRead, 'font-bold text-ink-darkest')}
         `}
@@ -58,7 +60,7 @@ function ChatTextPreview({
       </div>
       {message && (
         <span
-          className={`text-small leading-normal text-ellipsis overflow-hidden whitespace-nowrap 
+          className={`text-small leading-normal text-ellipsis overflow-hidden whitespace-nowrap
           ${variant(isRead, 'font-regular text-ink-light')}
           ${variant(!isRead, 'font-bold text-ink-darkest')}
           `}

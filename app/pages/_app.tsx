@@ -15,6 +15,8 @@ import SuperJson from 'superjson'
 import { z } from 'zod'
 
 import { useSyncChat } from 'app/chat/context/useChatStore'
+import { ObservationProvider } from 'app/chat/realtime/client/ObservationManager'
+import { SocketProvider } from 'app/chat/realtime/client/SocketProvider'
 import { LoginPrompt } from 'app/core/components/LoginPrompt'
 import { Redirect } from 'app/core/components/Redirect'
 import { useSyncLoginPrompt } from 'app/core/stores/LoginPromptStore'
@@ -43,7 +45,11 @@ export default function App({ Component, pageProps }: AppProps) {
       FallbackComponent={RootErrorFallback}
       onReset={useQueryErrorResetBoundary().reset}
     >
-      {getLayout(<Component {...pageProps} />)}
+      <SocketProvider>
+        <ObservationProvider>
+          {getLayout(<Component {...pageProps} />)}
+        </ObservationProvider>
+      </SocketProvider>
       <LoginPrompt />
       <Script src="https://cdn.omise.co/omise.js" />
     </ErrorBoundary>

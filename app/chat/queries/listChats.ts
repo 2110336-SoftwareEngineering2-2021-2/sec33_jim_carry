@@ -1,9 +1,9 @@
 import { resolver } from 'blitz'
-import db, { Chat, ChatMember, Message } from 'db'
+import db, { Chat, ChatMember, ChatMemberType, Message } from 'db'
 import { z } from 'zod'
 
 const CreateChatInput = z.object({
-  isShopChat: z.boolean(),
+  memberType: z.nativeEnum(ChatMemberType),
 })
 
 export type ChatData = Chat & {
@@ -25,13 +25,13 @@ export type ChatData = Chat & {
 const listChats = resolver.pipe(
   resolver.zod(CreateChatInput),
   resolver.authorize(),
-  async ({ isShopChat }, { session }) => {
+  async ({ memberType }, { session }) => {
     const chats = await db.chat.findMany({
       where: {
         memberships: {
           some: {
             userId: session.userId as number,
-            isShop: isShopChat,
+            type: memberType,
           },
         },
       },

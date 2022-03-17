@@ -3,6 +3,7 @@ import { FiMessageCircle } from 'react-icons/fi'
 import { EmptyState } from 'app/core/components/EmptyState'
 
 import { ChatData } from '../queries/listChats'
+import { useObserveChat } from '../realtime/client/useObserveChat'
 import { ChatListItem } from './ChatListItem'
 
 interface ChatListProps {
@@ -10,6 +11,7 @@ interface ChatListProps {
 }
 
 export function ChatList({ chats }: ChatListProps) {
+  useObserveChat(chats.map((chat) => chat.id))
   if (chats.length == 0) {
     return (
       <EmptyState

@@ -18,8 +18,8 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   isLoading: false,
   syncFromStore: async () => {
     set({ isLoading: true })
-    const chats = await invoke(listChats, { isShopChat: false })
-    const shopChats = await invoke(listChats, { isShopChat: true })
+    const chats = await invoke(listChats, { memberType: 'BUYER' })
+    const shopChats = await invoke(listChats, { memberType: 'SELLER' })
     set({ chats })
     set({ shopChats })
     set({ isLoading: false })

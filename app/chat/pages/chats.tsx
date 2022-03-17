@@ -1,4 +1,4 @@
-import { BlitzPage, useQuery } from 'blitz'
+import { BlitzPage } from 'blitz'
 
 import { ChatList } from 'app/chat/components/ChatList'
 import { Spinner } from 'app/core/components/Spinner'

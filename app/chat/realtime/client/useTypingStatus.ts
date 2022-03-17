@@ -28,9 +28,9 @@ export function useTypingStatus(chatId: ChatId) {
   }
 
   useObserveChat([chatId])
-  useSocketEvent('userTyping', ({ chatId: typingChatId, userId }) => {
+  useSocketEvent('userTyping', ({ chatId: typingChatId, userId, isTyping }) => {
     if (typingChatId !== chatId) return
-    timestampsRef.current[userId] = Date.now()
+    timestampsRef.current[userId] = isTyping ? Date.now() : 0
     update()
   })
 

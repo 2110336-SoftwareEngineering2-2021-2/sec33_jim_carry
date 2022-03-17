@@ -22,6 +22,7 @@ interface OnSubmitResult {
 }
 
 export const FORM_ERROR = 'FORM_ERROR'
+export const CLEAR_FORM = 'CLEAR_FORM'
 
 export function Form<S extends z.ZodType<any, any>>({
   children,
@@ -44,6 +45,9 @@ export function Form<S extends z.ZodType<any, any>>({
         onSubmit={ctx.handleSubmit(async (values) => {
           const result = (await onSubmit(values)) || {}
           for (const [key, value] of Object.entries(result)) {
+            if (key === CLEAR_FORM) {
+              ctx.reset()
+            }
             if (key === FORM_ERROR) {
               setFormError(value)
             } else {

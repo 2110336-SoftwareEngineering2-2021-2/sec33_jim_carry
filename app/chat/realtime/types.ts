@@ -5,12 +5,16 @@ export type ChatId = Chat['id']
 export interface ClientEvents {
   setUserId: (userId: number | null) => void
   observeChats: (chatIds: ChatId[]) => void
-  sendTyping: (chatId: ChatId) => void
+  sendTyping: (chatId: ChatId, isTyping: boolean) => void
 }
 
 export interface ServerEvents {
   newMessage: (message: Message) => void
-  userTyping: (args: { chatId: number; userId: number }) => void
+  userTyping: (args: {
+    chatId: number
+    userId: number
+    isTyping: boolean
+  }) => void
 }
 
 export type TextMessage = {

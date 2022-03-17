@@ -20,7 +20,9 @@ export class ChatManager {
     this.io.to(`chat:${message.chatId}`).emit('newMessage', message)
   }
 
-  handleTyping = (chatId: number, userId: number) => {
-    this.io.to(`chat:${chatId}`).emit('userTyping', { chatId, userId })
+  handleTyping = (chatId: number, userId: number, isTyping: boolean) => {
+    this.io
+      .to(`chat:${chatId}`)
+      .emit('userTyping', { chatId, userId, isTyping })
   }
 }

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 
-import Form, { FORM_ERROR } from 'app/core/components/Form'
+import Form, { CLEAR_FORM, FORM_ERROR } from 'app/core/components/Form'
 import LabeledTextField from 'app/core/components/LabeledTextField'
 
 import sendTextMessage from '../mutations/sendTextMessage'
@@ -16,6 +16,7 @@ export interface NewMessageFormProps {
 }
 
 export function NewMessageForm({ chatId }: NewMessageFormProps) {
+  const { socket, connected } = useSocketContext()
   const [sendMessageMutation] = useMutation(sendTextMessage)
   const [focused, setFocused] = useState(false)
 
@@ -26,6 +27,10 @@ export function NewMessageForm({ chatId }: NewMessageFormProps) {
       onSubmit={async (values: z.infer<typeof SendMessageForm>) => {
         try {
           await sendMessageMutation({ chatId, message: values.message })
+          if (connected) {
+            socket.emit('sendTyping', chatId, false)
+          }
+          return { [CLEAR_FORM]: true }
         } catch (error: any) {
           return { [FORM_ERROR]: error.toString() }
         }
@@ -50,9 +55,9 @@ function TypingEmitter({ chatId }: { chatId: ChatId }) {
 
   useEffect(() => {
     if (!connected || !hasValue) return
-    socket.emit('sendTyping', chatId)
+    socket.emit('sendTyping', chatId, true)
     const interval = setInterval(() => {
-      socket.emit('sendTyping', chatId)
+      socket.emit('sendTyping', chatId, true)
     }, 3000)
     return () => clearInterval(interval)
   }, [hasValue, chatId, socket, connected])

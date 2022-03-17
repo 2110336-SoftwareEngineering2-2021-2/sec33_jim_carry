@@ -38,8 +38,8 @@ export class ChatSocket {
     toLeave.forEach((id) => this.socket.leave(`chat:${id}`))
   }
 
-  private sendTyping = (chatId: ChatId) => {
+  private sendTyping = (chatId: ChatId, isTyping: boolean) => {
     if (!this.userId) return
-    this.manager.handleTyping(chatId, this.userId)
+    this.manager.handleTyping(chatId, this.userId, isTyping)
   }
 }

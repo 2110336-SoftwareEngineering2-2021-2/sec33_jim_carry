@@ -37,7 +37,12 @@ const ChatDetailPage: BlitzPage<ChatDetailProps> = ({ chat }) => {
 export const getServerSideProps: GetServerSideProps<ChatDetailProps> = async (
   context
 ) => {
-  const chat = await invokeWithMiddleware(getChat, 2, context)
+  const chatId = context.params?.chatId
+  const chat = await invokeWithMiddleware(
+    getChat,
+    parseInt((chatId as string) ?? ''),
+    context
+  )
   return {
     props: { chat },
   }

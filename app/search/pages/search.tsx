@@ -1,6 +1,7 @@
 import { BlitzPage, Routes, useQuery } from 'blitz'
 import { Suspense, useState } from 'react'
 
+import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
@@ -47,7 +48,7 @@ export const Search: BlitzPage = () => {
       <div className="flex flex-col mx-6">
         <SearchBar value={text} onChange={(e) => setText(e.target.value)} />
       </div>
-      <Suspense fallback={null}>
+      <Suspense fallback={<Spinner />}>
         <SearchComp text={text} />
       </Suspense>
     </>

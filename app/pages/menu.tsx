@@ -13,6 +13,7 @@ import {
   FiMapPin,
   FiTruck,
   FiLayout,
+  FiList,
 } from 'react-icons/fi'
 
 import logout from 'app/auth/mutations/logout'
@@ -64,6 +65,9 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
             <MenuListItem icon={<FiLayout />} title="My shop" />
             <Link href={Routes.ManageProductsPage().pathname} passHref>
               <MenuListItem as="a" icon={<FiGrid />} title="My products" />
+            </Link>
+            <Link href={Routes.TransactionHistory().pathname} passHref>
+              <MenuListItem as="a" icon={<FiList />} title="My balance" />
             </Link>
           </>
         ) : (

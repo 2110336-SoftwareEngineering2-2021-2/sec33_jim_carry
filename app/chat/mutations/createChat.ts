@@ -1,5 +1,5 @@
-import { resolver, Ctx } from 'blitz'
-import db, { Prisma } from 'db'
+import { resolver } from 'blitz'
+import db from 'db'
 import { z } from 'zod'
 
 const CreateChatInput = z.object({
@@ -9,7 +9,7 @@ const CreateChatInput = z.object({
 const createChat = resolver.pipe(
   resolver.zod(CreateChatInput),
   resolver.authorize(),
-  async ({ shopOwnerId }, { session }: Ctx) => {
+  async ({ shopOwnerId }, { session }) => {
     const currentUserId = session.userId as number
     const chat = await db.chat.findFirst({
       where: {

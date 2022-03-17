@@ -12,6 +12,7 @@ import { Suspense, useCallback } from 'react'
 import { FiPlus } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
+import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
@@ -48,7 +49,7 @@ export const AddressesPage: BlitzPage<AddressesPageProps> = ({ addresses }) => {
           </Link>
         }
       />
-      <Suspense fallback={null}>
+      <Suspense fallback={<Spinner />}>
         <AddressList addresses={addresses} onDeleteAddress={onDeleteAddress} />
       </Suspense>
     </div>

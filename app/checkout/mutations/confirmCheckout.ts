@@ -1,9 +1,10 @@
-import { AuthorizationError, Ctx, resolver } from 'blitz'
+import { resolver } from 'blitz'
 import db, { Address, OrderStatus } from 'db'
 
 import { shippingCost } from 'app/core/constants'
 import { groupBy } from 'app/core/utils/groupBy'
 import { getCustomer, omise } from 'app/omise'
+import { transferOrder } from 'app/transaction/mutations/transferOrder'
 
 import { ConfirmCheckout } from '../validations'
 
@@ -18,10 +19,8 @@ const confirmCheckout = resolver.pipe(
   resolver.authorize(),
   async (
     { addressId, cardId: inputCardId, itemIds },
-    { session: { userId } }: Ctx
+    { session: { userId } }
   ) => {
-    if (!userId) throw new AuthorizationError()
-
     const address = await db.address.findUnique({
       where: {
         id: addressId,
@@ -153,8 +152,7 @@ async function createOrder(
         id: order.id,
       },
     })
-
-    // TODO: credit the seller and add to transaction history
+    await transferOrder(db, order)
   })
 
   await db.user.update({

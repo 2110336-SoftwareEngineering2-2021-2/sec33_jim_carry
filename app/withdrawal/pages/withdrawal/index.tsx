@@ -1,5 +1,12 @@
 import { RadioGroup } from '@headlessui/react'
-import { BlitzPage, Routes, useMutation, useQuery, useRouter } from 'blitz'
+import {
+  BlitzPage,
+  formatZodError,
+  Routes,
+  useMutation,
+  useQuery,
+  useRouter,
+} from 'blitz'
 import { Suspense, useState } from 'react'
 import { z } from 'zod'
 
@@ -13,7 +20,6 @@ import { setupLayout } from 'app/core/utils/setupLayout'
 import { FormWithdrawal } from 'app/withdrawal/formValidations'
 import withdraw from 'app/withdrawal/mutations/withdraw'
 import getBalance from 'app/withdrawal/queries/getBalance'
-import { Withdrawal } from 'app/withdrawal/validations'
 
 function BalanceComponent() {
   const [balance] = useQuery(getBalance, {})
@@ -22,22 +28,27 @@ function BalanceComponent() {
   )
 }
 
+const banks = [
+  { id: 1, name: 'กสิกรไทย' },
+  { id: 2, name: 'กรุงเทพ' },
+  { id: 3, name: 'กรุงศรี' },
+  { id: 4, name: 'ซีไอเอ็มบี' },
+  { id: 5, name: 'ทหารไทยธนชาต' },
+  { id: 6, name: 'ไทยพาณิชย์' },
+]
+
 const WithdrawalPage: BlitzPage = () => {
-  const banks = [
-    { id: 1, name: 'กสิกรไทย' },
-    { id: 2, name: 'กรุงเทพ' },
-    { id: 3, name: 'กรุงศรี' },
-    { id: 4, name: 'ซีไอเอ็มบี' },
-    { id: 5, name: 'ทหารไทยธนชาต' },
-    { id: 6, name: 'ไทยพาณิชย์' },
-  ]
   const [bankId, setBankId] = useState(banks[0]?.id)
   const [withdrawalState, setWithdrawalState] = useState(0)
   const [withdrawMutation] = useMutation(withdraw)
   const router = useRouter()
   return (
     <div>
-      <TopBar title={'Withdrawal'} largeTitle />
+      <TopBar
+        title="Withdrawal"
+        largeTitle
+        backHref={Routes.TransactionHistory().pathname}
+      />
       <Suspense fallback="null">
         <div className="px-6 my-3 flex flex-row justify-between">
           <div className="font-medium leading-none text-large">
@@ -46,7 +57,7 @@ const WithdrawalPage: BlitzPage = () => {
           <BalanceComponent />
         </div>
       </Suspense>
-      {withdrawalState == 0 && (
+      {withdrawalState === 0 && (
         <>
           <div className="px-6 mt-9 mb-5 font-medium leading-none text-large">
             Choose your bank account :
@@ -59,36 +70,43 @@ const WithdrawalPage: BlitzPage = () => {
             }}
           >
             {banks.map((item) => (
-              <RadioOption key={item.id as unknown as string} value={item.id}>
+              <RadioOption key={item.id} value={item.id}>
                 {item.name}
               </RadioOption>
             ))}
           </RadioGroup>
           <div className="px-6 my-8">
-            <Button fullWidth onClick={(event) => setWithdrawalState(1)}>
+            <Button fullWidth onClick={() => setWithdrawalState(1)}>
               Continue
             </Button>
           </div>
         </>
       )}
-      {withdrawalState == 1 && (
+      {withdrawalState === 1 && (
         <Form
           className="py-3 px-6 flex flex-col gap-6"
           submitText="Withdraw"
           schema={FormWithdrawal}
           onSubmit={async (values: z.infer<typeof FormWithdrawal>) => {
             try {
-              const bank = banks[(bankId == null ? 1 : bankId) - 1]?.name
-              const vals = { ...values, bank: bank == null ? 'กสิกรไทย' : bank }
+              const bank = banks[(bankId ? bankId : 1) - 1]!.name
+              const vals = {
+                bankAccount: values.bankAccount,
+                amount: Number(values.amount),
+                bank,
+              }
               await withdrawMutation(vals)
               router.push(Routes.FinishWithdrawalPage().pathname)
               setWithdrawalState(0)
             } catch (error: any) {
+              if (error instanceof z.ZodError) {
+                return formatZodError(error)
+              }
               return { [FORM_ERROR]: error.toString() }
             }
           }}
         >
-          <LabeledTextField name="account" label="Account number" />
+          <LabeledTextField name="bankAccount" label="Account number" />
           <LabeledTextField name="amount" label="The amount to withdraw" />
         </Form>
       )}

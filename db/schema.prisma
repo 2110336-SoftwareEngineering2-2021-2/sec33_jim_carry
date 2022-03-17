@@ -8,7 +8,7 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["interactiveTransactions", "extendedIndexes"]
+  previewFeatures = ["interactiveTransactions"]
 }
 
 // --------------------------------------
@@ -29,14 +29,15 @@ model User {
 
   shop         Shop?
   addresses    Address[]
-  wishlist     Product[]    @relation(name: "wishlist")
-  shoppingCart Product[]    @relation(name: "shoppingCart")
-  following    Shop[]       @relation(name: "follow")
+  wishlist     Product[]     @relation(name: "wishlist")
+  shoppingCart Product[]     @relation(name: "shoppingCart")
+  following    Shop[]        @relation(name: "follow")
   tokens       Token[]
   sessions     Session[]
   Order        Order[]
   chats        ChatMember[]
   messages     Message[]
+  Transaction  Transaction[]
 }
 
 model Shop {
@@ -125,6 +126,7 @@ model Order {
   addressNote     String?
   receiverName    String
   receiverPhoneNo String
+  Transaction     Transaction[]
 }
 
 model OrderItemSnapshot {
@@ -160,7 +162,7 @@ model Message {
   content   String
   createdAt DateTime @default(now())
 
-  @@index([createdAt(sort: Desc)])
+  @@index(createdAt)
 }
 
 model ChatMember {
@@ -206,6 +208,20 @@ model Token {
   @@unique([hashedToken, type])
 }
 
+model Transaction {
+  id        Int             @id @default(autoincrement())
+  createdAt DateTime        @default(now())
+  amount    Float
+  type      TransactionType
+
+  user        User    @relation(fields: [userId], references: [id])
+  userId      Int
+  Order       Order?  @relation(fields: [orderId], references: [id])
+  orderId     Int?
+  bank        String?
+  bankAccount String?
+}
+
 enum TokenType {
   RESET_PASSWORD
 }
@@ -221,4 +237,9 @@ enum OrderStatus {
   SHIPPED
   COMPLETED
   CANCELLED
+}
+
+enum TransactionType {
+  WITHDRAW
+  ORDER
 }

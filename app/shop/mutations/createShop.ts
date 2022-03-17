@@ -1,4 +1,4 @@
-import { AuthorizationError, Ctx, resolver } from 'blitz'
+import { resolver } from 'blitz'
 import db from 'db'
 
 import { CreateShop } from '../validations'
@@ -6,9 +6,7 @@ import { CreateShop } from '../validations'
 const createShop = resolver.pipe(
   resolver.zod(CreateShop),
   resolver.authorize(),
-  async (input, { session }: Ctx) => {
-    if (!session.userId) throw new AuthorizationError()
-
+  async (input, { session }) => {
     const { bio, phoneNo, name, image, citizenId } = input
     const totalSale = 0
 

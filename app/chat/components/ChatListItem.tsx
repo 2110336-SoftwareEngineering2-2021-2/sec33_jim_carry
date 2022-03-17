@@ -4,6 +4,8 @@ import { Avatar } from 'app/core/components/Avatar'
 import { variant } from 'app/core/utils/variant'
 
 import { ChatData } from '../queries/listChats'
+import { useChatMessages } from '../realtime/client/useChatMessages'
+import { useTypingStatus } from '../realtime/client/useTypingStatus'
 
 export interface ChatListItemProps {
   chat: ChatData
@@ -12,9 +14,15 @@ export interface ChatListItemProps {
 export function ChatListItem({ chat }: ChatListItemProps) {
   const { userId } = useSession()
   const otherUser = chat.memberships.find((m) => m.userId !== userId)!.user
+  const typings = useTypingStatus(chat.id)
+  const messages = useChatMessages(chat.id, chat.messages)
+  const lastMessage = messages[messages.length - 1]
 
   const userMembership = chat.memberships.find((m) => m.userId === userId)
-  const isRead = userMembership!.lastMessageReadId === chat.messages[0]?.id
+  const isRead = userMembership!.lastMessageReadId === lastMessage?.id
+
+  const othersTyping = typings.some((typingUserId) => typingUserId !== userId)
+
   return (
     <Link href={Routes.ChatDetailPage({ chatId: chat.id })} passHref>
       <a className="flex flex-row py-4 gap-3 transition-colors hover:bg-sky-light/30 active:bg-sky-light/70">
@@ -23,7 +31,11 @@ export function ChatListItem({ chat }: ChatListItemProps) {
           <>
             <ChatTextPreview
               name={otherUser.shop!.name}
-              message={JSON.stringify(chat.messages[0]!.payload)}
+              message={
+                othersTyping
+                  ? `${otherUser.shop!.name} is typing...`
+                  : JSON.stringify(lastMessage?.payload ?? '')
+              }
               isRead={isRead}
             />
             <ChatDate date={chat.messages[0]!.createdAt} isRead={isRead} />

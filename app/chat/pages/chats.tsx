@@ -1,30 +1,63 @@
-import { BlitzPage } from 'blitz'
+import {
+  BlitzPage,
+  GetServerSideProps,
+  invokeWithMiddleware,
+  PromiseReturnType,
+} from 'blitz'
+import { Suspense } from 'react'
+import { FiMessageCircle } from 'react-icons/fi'
 
-import { ChatList } from 'app/chat/components/ChatList'
+import { EmptyState } from 'app/core/components/EmptyState'
 import { Spinner } from 'app/core/components/Spinner'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 
-import { useChatStore } from '../context/useChatStore'
+import { ChatListItem } from '../components/ChatListItem'
+import listChats from '../queries/listChats'
+import { useObserveChat } from '../realtime/client/useObserveChat'
 
-const Chats: BlitzPage = () => {
-  const [chats, isLoading] = useChatStore((state) => [
-    state.chats,
-    state.isLoading,
-  ])
-  if (isLoading) {
-    return <Spinner />
+interface ChatListProps {
+  chats: PromiseReturnType<typeof listChats>
+}
+
+const ChatList: BlitzPage<ChatListProps> = ({ chats }) => {
+  useObserveChat(chats.map((chat) => chat.id))
+  if (chats.length == 0) {
+    return (
+      <EmptyState
+        icon={<FiMessageCircle strokeWidth={0.5} size={84} />}
+        title="You have no chat session."
+        description="When you initiate a conversation with a shop, you will see it here."
+      />
+    )
   }
   return (
-    <main>
-      <ChatList chats={chats} />
-    </main>
+    <Suspense fallback={<Spinner />}>
+      <div className="flex flex-col pt-2 px-6 divide-y divide-sky-lighter">
+        {chats.map((chat) => (
+          <ChatListItem key={chat.id} chat={chat} />
+        ))}
+      </div>
+    </Suspense>
   )
 }
 
-setupAuthRedirect(Chats)
-Chats.getLayout = (page) => (
+export const getServerSideProps: GetServerSideProps<ChatListProps> = async (
+  context
+) => {
+  const chats = await invokeWithMiddleware(
+    listChats,
+    { memberType: 'BUYER' },
+    context
+  )
+  return {
+    props: { chats },
+  }
+}
+
+setupAuthRedirect(ChatList)
+ChatList.getLayout = (page) => (
   <MainPageLayout title="Chats">{page}</MainPageLayout>
 )
 
-export default Chats
+export default ChatList

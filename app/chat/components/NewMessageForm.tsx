@@ -16,7 +16,6 @@ export interface NewMessageFormProps {
 }
 
 export function NewMessageForm({ chatId }: NewMessageFormProps) {
-  const { socket, connected } = useSocketContext()
   const [sendMessageMutation] = useMutation(sendTextMessage)
   const [focused, setFocused] = useState(false)
 
@@ -27,9 +26,6 @@ export function NewMessageForm({ chatId }: NewMessageFormProps) {
       onSubmit={async (values: z.infer<typeof SendMessageForm>) => {
         try {
           await sendMessageMutation({ chatId, message: values.message })
-          if (connected) {
-            socket.emit('sendTyping', chatId, false)
-          }
           return { [CLEAR_FORM]: true }
         } catch (error: any) {
           return { [FORM_ERROR]: error.toString() }
@@ -42,24 +38,35 @@ export function NewMessageForm({ chatId }: NewMessageFormProps) {
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
       />
-      {focused && <TypingEmitter chatId={chatId} />}
+      <TypingEmitter chatId={chatId} focused={focused} />
     </Form>
   )
 }
 
-function TypingEmitter({ chatId }: { chatId: ChatId }) {
+function TypingEmitter({
+  chatId,
+  focused,
+}: {
+  chatId: ChatId
+  focused: boolean
+}) {
   const { socket, connected } = useSocketContext()
   const { watch } = useFormContext()
   const value = watch('message')
   const hasValue = !!value
+  const typing = focused && hasValue
 
   useEffect(() => {
-    if (!connected || !hasValue) return
+    if (!connected) return
+    if (!typing) {
+      socket.emit('sendTyping', chatId, false)
+      return
+    }
     socket.emit('sendTyping', chatId, true)
     const interval = setInterval(() => {
       socket.emit('sendTyping', chatId, true)
     }, 3000)
     return () => clearInterval(interval)
-  }, [hasValue, chatId, socket, connected])
+  }, [typing, chatId, socket, connected])
   return null
 }

@@ -34,7 +34,8 @@ export function NewMessageForm({ chatId }: NewMessageFormProps) {
     >
       <LabeledTextField
         name="message"
-        label="Message"
+        label="Type your message"
+        floatingLabel={false}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
       />

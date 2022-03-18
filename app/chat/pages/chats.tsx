@@ -16,11 +16,9 @@ import { ChatListItem } from '../components/ChatListItem'
 import listChats from '../queries/listChats'
 import { useObserveChat } from '../realtime/client/useObserveChat'
 
-interface ChatListProps {
-  chats: PromiseReturnType<typeof listChats>
-}
+type ChatListProps = PromiseReturnType<typeof listChats>
 
-const ChatList: BlitzPage<ChatListProps> = ({ chats }) => {
+const ChatList: BlitzPage<ChatListProps> = ({ userId, chats }) => {
   useObserveChat(chats.map((chat) => chat.id))
   if (chats.length == 0) {
     return (
@@ -32,26 +30,24 @@ const ChatList: BlitzPage<ChatListProps> = ({ chats }) => {
     )
   }
   return (
-    <Suspense fallback={<Spinner />}>
-      <div className="flex flex-col pt-2 px-6 divide-y divide-sky-lighter">
-        {chats.map((chat) => (
-          <ChatListItem key={chat.id} chat={chat} />
-        ))}
-      </div>
-    </Suspense>
+    <div className="flex flex-col pt-2 px-6 divide-y divide-sky-lighter">
+      {chats.map((chat) => (
+        <ChatListItem userId={userId} key={chat.id} chat={chat} />
+      ))}
+    </div>
   )
 }
 
 export const getServerSideProps: GetServerSideProps<ChatListProps> = async (
   context
 ) => {
-  const chats = await invokeWithMiddleware(
+  const props = await invokeWithMiddleware(
     listChats,
     { memberType: 'BUYER' },
     context
   )
   return {
-    props: { chats },
+    props,
   }
 }
 

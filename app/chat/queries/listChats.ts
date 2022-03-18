@@ -60,7 +60,7 @@ const listChats = resolver.pipe(
       },
     })
 
-    return chats
+    return { userId: session.userId, chats }
   }
 )
 

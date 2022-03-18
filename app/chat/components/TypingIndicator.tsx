@@ -14,9 +14,9 @@ export function TypingIndicator({ size = 'small' }: TypingIndicatorProps) {
   return (
     <div
       className={`
-        flex gap-0.5
+        flex gap-0.5 items-center
         ${variant(size === 'small', `gap-0.5`)}
-        ${variant(size === 'large', `gap-1`)}
+        ${variant(size === 'large', `h-6 gap-1`)}
       `}
     >
       {animationNames.map((animationName, index) => (

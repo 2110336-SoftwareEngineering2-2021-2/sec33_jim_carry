@@ -1,5 +1,5 @@
 import { Message } from '@prisma/client'
-import { Link, Routes, useSession } from 'blitz'
+import { Link, Routes } from 'blitz'
 
 import { Avatar } from 'app/core/components/Avatar'
 import { variant } from 'app/core/utils/variant'
@@ -10,11 +10,11 @@ import { useTypingStatus } from '../realtime/client/useTypingStatus'
 import { TypingIndicator } from './TypingIndicator'
 
 export interface ChatListItemProps {
+  userId: number
   chat: ChatData
 }
 
-export function ChatListItem({ chat }: ChatListItemProps) {
-  const { userId } = useSession()
+export function ChatListItem({ userId, chat }: ChatListItemProps) {
   const otherUser = chat.memberships.find((m) => m.userId !== userId)!.user
   const typings = useTypingStatus(chat.id)
   const messages = useChatMessages(chat.id, chat.messages)

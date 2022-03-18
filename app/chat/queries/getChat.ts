@@ -3,7 +3,7 @@ import db from 'db'
 import { z } from 'zod'
 
 /**
- * Get a specific caht, with all messages.
+ * Get a specific chat, with all messages.
  */
 const getChat = resolver.pipe(
   resolver.zod(z.number()),
@@ -30,7 +30,7 @@ const getChat = resolver.pipe(
       (membership) => membership.userId === userId
     )
     if (!isInChat) throw new NotFoundError('Chat not found')
-    return chat
+    return { userId, chat }
   }
 )
 

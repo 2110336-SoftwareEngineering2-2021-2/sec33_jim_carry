@@ -16,7 +16,20 @@ const getChat = resolver.pipe(
       },
       include: {
         memberships: {
-          select: { userId: true },
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                shop: {
+                  select: {
+                    name: true,
+                    image: true,
+                  },
+                },
+              },
+            },
+          },
         },
         messages: {
           orderBy: {

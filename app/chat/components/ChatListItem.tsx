@@ -7,7 +7,9 @@ import { variant } from 'app/core/utils/variant'
 import { ChatData } from '../queries/listChats'
 import { useChatMessages } from '../realtime/client/useChatMessages'
 import { useTypingStatus } from '../realtime/client/useTypingStatus'
+import { getMemberName } from '../utils'
 import { TypingIndicator } from './TypingIndicator'
+import { MessageItem } from './message/MessageItem'
 
 export interface ChatListItemProps {
   userId: number
@@ -15,7 +17,10 @@ export interface ChatListItemProps {
 }
 
 export function ChatListItem({ userId, chat }: ChatListItemProps) {
-  const otherUser = chat.memberships.find((m) => m.userId !== userId)!.user
+  const otherMember = chat.memberships.find(
+    (member) => member.userId !== userId
+  )
+  const otherName = getMemberName(otherMember)
   const typings = useTypingStatus(chat.id)
   const messages = useChatMessages(chat.id, chat.messages)
   const lastMessage = messages[messages.length - 1]
@@ -26,17 +31,13 @@ export function ChatListItem({ userId, chat }: ChatListItemProps) {
   const othersTyping = typings.some((typingUserId) => typingUserId !== userId)
 
   const messagePreview = lastMessage && (
-    <ChatTextPreview
-      name={otherUser.shop!.name}
-      message={lastMessage}
-      isRead={isRead}
-    />
+    <ChatTextPreview userId={userId} message={lastMessage} isRead={isRead} />
   )
 
   return (
     <Link href={Routes.ChatDetailPage({ chatId: chat.id })} passHref>
       <a className="flex flex-row py-4 gap-3 transition-colors hover:bg-sky-light/30 active:bg-sky-light/70">
-        <Avatar src={otherUser.shop!.image} size={48} />
+        <Avatar src={otherMember?.user.shop!.image} size={48} />
         <div className="flex flex-col w-[calc(100%-132px)]">
           <div className="flex flex-row gap-2 items-center">
             <span
@@ -46,7 +47,7 @@ export function ChatListItem({ userId, chat }: ChatListItemProps) {
                 ${variant(!isRead, 'font-bold text-ink-darkest')}
               `}
             >
-              {otherUser.shop!.name}
+              {otherName}
             </span>
             {!isRead && (
               <div className="bg-primary-base w-3 h-3 rounded-full" />
@@ -62,13 +63,13 @@ export function ChatListItem({ userId, chat }: ChatListItemProps) {
 }
 
 interface ChatTextPreviewProps {
-  name: string
+  userId: number
   message: Message
   isRead?: boolean
 }
 
 function ChatTextPreview({
-  name,
+  userId,
   message,
   isRead = false,
 }: ChatTextPreviewProps) {
@@ -81,7 +82,7 @@ function ChatTextPreview({
         ${variant(!isRead, 'font-bold text-ink-darkest')}
       `}
     >
-      <span>{JSON.stringify(message.payload)}</span>
+      <MessageItem userId={userId} message={message} isPreview />
       <ChatDate date={message.createdAt} isRead={isRead} />
     </div>
   )

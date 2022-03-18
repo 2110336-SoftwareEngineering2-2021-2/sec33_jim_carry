@@ -1,10 +1,9 @@
 import { ChatBubble } from '../ChatBubble'
-import { MessageItemProps } from './types'
+import { MessageItemComponentProps } from './types'
 
-export function TextMessageItem({ userId, message }: MessageItemProps) {
-  return (
-    <ChatBubble isSelf={userId === message.senderId}>
-      {message.payload}
-    </ChatBubble>
-  )
+export function TextMessageItem({
+  isSelf,
+  message,
+}: MessageItemComponentProps) {
+  return <ChatBubble isSelf={isSelf}>{message.payload}</ChatBubble>
 }

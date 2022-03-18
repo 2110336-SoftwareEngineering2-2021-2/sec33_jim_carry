@@ -3,19 +3,32 @@ import { FC } from 'react'
 
 import { ChatBubble } from '../ChatBubble'
 import { TextMessageItem } from './TextMessageItem'
-import { MessageItemProps } from './types'
+import { TextMessagePreview } from './TextMessagePreview'
+import { MessageItemComponentProps, MessageItemProps } from './types'
 
-const componentMap: Record<ChatMessageType, FC<MessageItemProps>> = {
+const itemComponentMap: Record<
+  ChatMessageType,
+  FC<MessageItemComponentProps>
+> = {
   TEXT: TextMessageItem,
 }
 
-export function MessageItem({ userId, message }: MessageItemProps) {
+const previewComponentMap: Record<
+  ChatMessageType,
+  FC<MessageItemComponentProps>
+> = {
+  TEXT: TextMessagePreview,
+}
+
+export function MessageItem({
+  userId,
+  message,
+  isPreview = false,
+}: MessageItemProps) {
+  const isSelf = userId === message.senderId
+  const componentMap = isPreview ? previewComponentMap : itemComponentMap
   const Component = componentMap[message.type]
   if (!Component)
-    return (
-      <ChatBubble isSelf={userId === message.senderId}>
-        Unsupported message
-      </ChatBubble>
-    )
-  return <Component userId={userId} message={message} />
+    return <ChatBubble isSelf={isSelf}>Unsupported message</ChatBubble>
+  return <Component isSelf={isSelf} userId={userId} message={message} />
 }

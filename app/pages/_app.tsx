@@ -14,7 +14,6 @@ import {
 import SuperJson from 'superjson'
 import { z } from 'zod'
 
-import { useSyncChat } from 'app/chat/context/useChatStore'
 import { ObservationProvider } from 'app/chat/realtime/client/ObservationManager'
 import { SocketProvider } from 'app/chat/realtime/client/SocketProvider'
 import { LoginPrompt } from 'app/core/components/LoginPrompt'
@@ -39,7 +38,6 @@ export default function App({ Component, pageProps }: AppProps) {
   useSyncWishlist()
   useSyncShoppingCart()
   useSyncLoginPrompt()
-  useSyncChat()
   return (
     <ErrorBoundary
       FallbackComponent={RootErrorFallback}

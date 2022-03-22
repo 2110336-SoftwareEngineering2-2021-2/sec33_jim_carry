@@ -1,59 +1,75 @@
+import { ChatMember, ChatMemberType } from '@prisma/client'
 import {
   BlitzPage,
   GetServerSideProps,
   invokeWithMiddleware,
   PromiseReturnType,
 } from 'blitz'
-import { Suspense } from 'react'
+import { useMemo } from 'react'
 import { FiMessageCircle } from 'react-icons/fi'
 
 import { EmptyState } from 'app/core/components/EmptyState'
-import { Spinner } from 'app/core/components/Spinner'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 
+import { ChatList } from '../components/ChatList'
 import { ChatListItem } from '../components/ChatListItem'
+import { SellerChatList } from '../components/SellerChatList'
 import listChats from '../queries/listChats'
 import { useObserveChat } from '../realtime/client/useObserveChat'
 
 type ChatListProps = PromiseReturnType<typeof listChats>
 
-const ChatList: BlitzPage<ChatListProps> = ({ userId, chats }) => {
+const ChatListPage: BlitzPage<ChatListProps> = ({ userId, chats, hasShop }) => {
   useObserveChat(chats.map((chat) => chat.id))
-  if (chats.length == 0) {
+  const buyerChats = useMemo(
+    () =>
+      chats.filter((chat) =>
+        matchMemberType(chat.memberships, userId, 'BUYER')
+      ),
+    [userId, chats]
+  )
+  const sellerChats = useMemo(
+    () =>
+      chats.filter((chat) =>
+        matchMemberType(chat.memberships, userId, 'SELLER')
+      ),
+    [userId, chats]
+  )
+  if (hasShop) {
     return (
-      <EmptyState
-        icon={<FiMessageCircle strokeWidth={0.5} size={84} />}
-        title="You have no chat session."
-        description="When you initiate a conversation with a shop, you will see it here."
+      <SellerChatList
+        buyerChats={buyerChats}
+        sellerChats={sellerChats}
+        userId={userId}
       />
     )
   }
-  return (
-    <div className="flex flex-col pt-2 px-6 divide-y divide-sky-lighter">
-      {chats.map((chat) => (
-        <ChatListItem userId={userId} key={chat.id} chat={chat} />
-      ))}
-    </div>
+  return <ChatList chats={buyerChats} userId={userId} />
+}
+
+function matchMemberType(
+  members: ChatMember[],
+  userId: number,
+  type: ChatMemberType
+) {
+  return members.some(
+    (member) => member.userId === userId && member.type === type
   )
 }
 
 export const getServerSideProps: GetServerSideProps<ChatListProps> = async (
   context
 ) => {
-  const props = await invokeWithMiddleware(
-    listChats,
-    { memberType: 'BUYER' },
-    context
-  )
+  const props = await invokeWithMiddleware(listChats, null, context)
   return {
     props,
   }
 }
 
-setupAuthRedirect(ChatList)
-ChatList.getLayout = (page) => (
+setupAuthRedirect(ChatListPage)
+ChatListPage.getLayout = (page) => (
   <MainPageLayout title="Chats">{page}</MainPageLayout>
 )
 
-export default ChatList
+export default ChatListPage

@@ -36,7 +36,7 @@ export function ChatListItem({ userId, chat }: ChatListItemProps) {
 
   return (
     <Link href={Routes.ChatDetailPage({ chatId: chat.id })} passHref>
-      <a className="flex flex-row py-4 gap-3 transition-colors hover:bg-sky-light/30 active:bg-sky-light/70">
+      <a className="flex flex-row px-6 py-4 gap-3 transition-colors hover:bg-sky-light/30 active:bg-sky-light/70">
         <Avatar src={otherMember?.user.shop!.image} size={48} />
         <div className="flex flex-col w-[calc(100%-132px)]">
           <div className="flex flex-row gap-2 items-center">

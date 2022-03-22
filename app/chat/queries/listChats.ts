@@ -1,10 +1,5 @@
 import { resolver } from 'blitz'
-import db, { Chat, ChatMember, ChatMemberType, Message } from 'db'
-import { z } from 'zod'
-
-const CreateChatInput = z.object({
-  memberType: z.nativeEnum(ChatMemberType),
-})
+import db, { Chat, ChatMember, Message } from 'db'
 
 export type ChatData = Chat & {
   memberships: (ChatMember & {
@@ -23,15 +18,17 @@ export type ChatData = Chat & {
  * Get a list of chats, with last message in chat.
  */
 const listChats = resolver.pipe(
-  resolver.zod(CreateChatInput),
   resolver.authorize(),
-  async ({ memberType }, { session }) => {
+  async (_, { session }) => {
+    const shopCount = await db.shop.count({
+      where: { id: session.userId },
+    })
+    const hasShop = shopCount > 0
     const chats = await db.chat.findMany({
       where: {
         memberships: {
           some: {
             userId: session.userId as number,
-            type: memberType,
           },
         },
       },
@@ -60,7 +57,7 @@ const listChats = resolver.pipe(
       },
     })
 
-    return { userId: session.userId, chats }
+    return { userId: session.userId, chats, hasShop }
   }
 )
 

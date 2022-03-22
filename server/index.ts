@@ -6,6 +6,7 @@ import { parse } from 'url'
 
 import { ChatManager } from 'app/chat/realtime/server/ChatManager'
 import { isDevelopment } from 'app/core/environment'
+import * as parser from 'app/core/utils/superjsonParser'
 
 const { PORT = '3000' } = process.env
 const app = blitz({ dev: isDevelopment })
@@ -30,7 +31,9 @@ async function initServer() {
   }).listen(PORT, () => {
     log.success(`Ready on http://localhost:${PORT}`)
   })
-  const ioServer = new SocketIoServer(server)
+  const ioServer = new SocketIoServer(server, {
+    parser,
+  })
   chatManager.initialize(ioServer)
 }
 

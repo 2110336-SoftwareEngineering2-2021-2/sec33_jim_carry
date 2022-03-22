@@ -8,6 +8,8 @@ import {
 } from 'react'
 import { io, Socket } from 'socket.io-client'
 
+import * as parser from 'app/core/utils/superjsonParser'
+
 import { ClientEvents, ServerEvents } from '../types'
 
 export type SocketState = 'connected' | 'disconnected' | 'error'
@@ -33,6 +35,7 @@ export function SocketProvider({ children }: PropsWithChildren<{}>) {
     () =>
       io({
         auth: {},
+        parser,
       }) as Socket<ServerEvents, ClientEvents>
   )
   const { userId } = useSession({ suspense: false })

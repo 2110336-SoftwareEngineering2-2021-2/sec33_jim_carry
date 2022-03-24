@@ -8,6 +8,7 @@ const SearchProducts = z.object({
   skip: z.number(),
   orderBy: z.enum(['name', 'createdAt', 'price', 'rating']),
   orderType: z.enum(['asc', 'desc']),
+  tag: z.string().optional(),
 })
 
 const searchProducts = resolver.pipe(
@@ -35,7 +36,7 @@ const searchProducts = resolver.pipe(
       }
     }
 
-    const queries: Prisma.ProductFindManyArgs = {
+    const queriesWithoutTag: Prisma.ProductFindManyArgs = {
       take: input.take,
       skip: input.skip,
       where: {
@@ -49,6 +50,26 @@ const searchProducts = resolver.pipe(
       },
       orderBy: order,
     }
+
+    const queriesWithTag: Prisma.ProductFindManyArgs = {
+      take: input.take,
+      skip: input.skip,
+      where: {
+        name: {
+          contains: input.name,
+        },
+        hidden: false,
+        hashtags: {
+          has: input.tag,
+        },
+      },
+      include: {
+        shop: true,
+      },
+      orderBy: order,
+    }
+
+    const queries = input.tag == '' ? queriesWithoutTag : queriesWithTag
 
     return await db.product.findMany(queries)
   }

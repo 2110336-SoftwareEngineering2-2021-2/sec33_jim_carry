@@ -1,65 +1,34 @@
+import { Product } from '@prisma/client'
 import { Suspense } from 'react'
+import { FiArrowDown, FiArrowUp, FiSearch } from 'react-icons/fi'
+import { createArrayBindingPattern } from 'typescript'
 
 import { Button } from 'app/core/components/Button'
+import { EmptyState } from 'app/core/components/EmptyState'
 import { Spinner } from 'app/core/components/Spinner'
+import { ProductWithShop } from 'app/core/types/Product'
 import { ProductCard } from 'app/product/components/ProductCard'
 
-// this has some problem
-// export interface SearchWithQueryProps {
-//   order: string
-//   setOrder: (order:string) => void
-//   products: Product[]
-// }
-export const SearchWithQuery = ({ order, setOrder, products }) => {
+export const SearchWithQuery = ({ products }) => {
   return (
     <div>
-      <div className="flex flex-row">
-        {order === 'name' && <Button buttonType="transparent">Name</Button>}
-        {order !== 'name' && (
-          <button
-            className="px-8 text-ink-light"
-            onClick={(e) => setOrder('name')}
-          >
-            Name
-          </button>
-        )}
-        {order === 'createdAt' && (
-          <Button buttonType="transparent"> Date </Button>
-        )}
-        {order !== 'createdAt' && (
-          <button
-            className="px-8 text-ink-light"
-            onClick={(e) => setOrder('createdAt')}
-          >
-            Date
-          </button>
-        )}
-        {order === 'price' && <Button buttonType="transparent"> Price </Button>}
-        {order !== 'price' && (
-          <button
-            className="px-8 text-ink-light"
-            onClick={(e) => setOrder('price')}
-          >
-            Price
-          </button>
-        )}
-        {order === 'rating' && <Button buttonType="transparent">Rating</Button>}
-        {order !== 'rating' && (
-          <button
-            className="px-8 text-ink-light"
-            onClick={(e) => setOrder('rating')}
-          >
-            Rating
-          </button>
-        )}
-      </div>
-
       <Suspense fallback={<Spinner />}>
-        <div className="p-6 flex flex-col space-y-6">
-          {products.map((product) => (
-            <ProductCard product={product} key={product.id} />
-          ))}
-        </div>
+        {products.length > 0 && (
+          <div className="p-6 flex flex-col space-y-6">
+            {products.map((product) => (
+              <ProductCard product={product} key={product.id} />
+            ))}
+          </div>
+        )}
+        {products.length == 0 && (
+          <div className="mt-40">
+            <EmptyState
+              icon={<FiSearch strokeWidth={0.5} size={84} />}
+              title={`No items found`}
+              description={`Please try a different keyword.`}
+            />
+          </div>
+        )}
       </Suspense>
     </div>
   )

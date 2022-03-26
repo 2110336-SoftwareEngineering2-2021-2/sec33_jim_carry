@@ -124,7 +124,6 @@ model Order {
   totalPrice Float
   chargeId   String?
   items      OrderItemSnapshot[]
-  reviewed   Boolean             @default(false)
 
   address         String
   addressNote     String?
@@ -259,6 +258,7 @@ enum OrderStatus {
   SHIPPED
   COMPLETED
   CANCELLED
+  REVIEWED
 }
 
 enum TransactionType {

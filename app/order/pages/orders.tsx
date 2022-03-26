@@ -25,7 +25,11 @@ interface OrderPageProps {
 const OrdersPage: BlitzPage<OrderPageProps> = ({ orders }) => {
   const [value, setvalue] = useState<OrderStatus>('PAID')
   const filteredOrders = useMemo(() => {
-    return orders.filter((order) => order.status === value)
+    return orders.filter(
+      (order) =>
+        order.status === value ||
+        (order.status === 'REVIEWED' && value === 'COMPLETED')
+    )
   }, [orders, value])
   return (
     <div>

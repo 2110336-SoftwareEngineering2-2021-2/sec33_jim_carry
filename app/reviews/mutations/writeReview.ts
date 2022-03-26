@@ -47,6 +47,11 @@ const writeReview = resolver.pipe(
       userId: order.ownerId,
     }))
     await db.review.createMany({ data: reviewsData })
+    await db.order.update({
+      where: { id: orderId },
+      data: { status: 'REVIEWED' },
+    })
+    return reviewsData
   }
 )
 

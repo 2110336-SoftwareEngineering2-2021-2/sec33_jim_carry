@@ -1,8 +1,10 @@
 import { Shop, User } from '@prisma/client'
 import { BlitzPage, Image, Routes, useMutation, useQuery } from 'blitz'
 import { Suspense } from 'react'
+import { FiLayout } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
+import { EmptyState } from 'app/core/components/EmptyState'
 import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
@@ -36,6 +38,12 @@ const ShopRequests = () => {
       {shops.map((shop) => (
         <ShopRequest shop={shop} key={shop.id} mutate={mutate} />
       ))}
+      {shops.length === 0 && (
+        <EmptyState
+          icon={<FiLayout strokeWidth={0.5} size={84} />}
+          title="There is currently no request."
+        />
+      )}
     </div>
   )
 }
@@ -66,12 +74,15 @@ const ShopRequest = ({ shop, mutate }: ShopRequestProps) => {
           <p className="text-small">{shop.bio}</p>
         </div>
         {shop.citizenIdImage ? (
-          <Image
-            src={shop.citizenIdImage}
-            objectFit="cover"
-            alt="citizen id image"
-            className="aspect-square bg-ink-lighter rounded-md w-36"
-          />
+          <div className=" w-36 aspect-square relative">
+            <Image
+              src={shop.citizenIdImage}
+              objectFit="cover"
+              layout="fill"
+              alt="citizen id image"
+              className="bg-ink-lighter rounded-md"
+            />
+          </div>
         ) : (
           <div className="aspect-square bg-ink-lighter rounded-md w-36" />
         )}

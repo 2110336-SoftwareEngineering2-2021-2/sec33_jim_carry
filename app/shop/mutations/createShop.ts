@@ -6,16 +6,19 @@ import { CreateShop } from '../validations'
 const createShop = resolver.pipe(
   resolver.zod(CreateShop),
   resolver.authorize(),
-  async (input, { session }) => {
+  async (input, { session: { userId } }) => {
     const { bio, phoneNo, name, image, citizenId } = input
+    const user = await db.user.findFirst({
+      where: { id: userId },
+      include: { shop: true },
+      rejectOnNotFound: true,
+    })
     const { shop } = await db.user.update({
-      where: {
-        id: session.userId,
-      },
+      where: { id: userId },
       data: {
-        citizenId: citizenId,
+        citizenId,
         shop: {
-          create: {
+          [user.shop ? 'update' : 'create']: {
             bio,
             phoneNo,
             name,

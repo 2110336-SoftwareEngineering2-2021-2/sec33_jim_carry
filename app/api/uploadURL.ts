@@ -19,7 +19,8 @@ const handler: BlitzApiHandler = async (req, res) => {
 
   const bucket = gc.bucket(gcpStorageBucketName)
   const filename = req.query.file as string
-  const file = bucket.file(`images/${filename}`)
+  const folder = req.query.dir as string
+  const file = bucket.file(`${folder}${filename}`)
 
   const [response] = await file.generateSignedPostPolicyV4({
     expires: Date.now() + 10 * 60 * 1000,

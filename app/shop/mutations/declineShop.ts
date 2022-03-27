@@ -10,7 +10,7 @@ const declineShop = resolver.pipe(
   resolver.zod(DeclineShop),
   resolver.authorize(),
   async ({ shopId }) => {
-    return await db.shop.update({
+    return db.shop.update({
       data: {
         shopStatus: ShopStatus.DECLINED,
       },

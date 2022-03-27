@@ -1,23 +1,7 @@
 import { AuthorizationError, resolver } from 'blitz'
 import db from 'db'
-import { z } from 'zod'
 
-const WriteReview = z.object({
-  orderId: z.number(),
-  reviews: z.array(
-    z.object({
-      productId: z.number(),
-      rating: z
-        .number()
-        .refine(
-          (rating) => Number.isInteger(rating) && rating >= 1 && rating <= 5,
-          'Rating must be an integer between 1 and 5'
-        ),
-      title: z.string().nonempty(),
-      comment: z.string(),
-    })
-  ),
-})
+import { WriteReview } from '../validations'
 
 const writeReview = resolver.pipe(
   resolver.zod(WriteReview),

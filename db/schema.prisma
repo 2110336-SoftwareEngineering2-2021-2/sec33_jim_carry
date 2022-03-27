@@ -52,6 +52,9 @@ model Shop {
   rating    Float?
   totalSale Int     @default(0)
 
+  shopStatus     ShopStatus @default(APPROVED)
+  citizenIdImage String?
+
   products  Product[]
   followers User[]    @relation(name: "follow")
   Order     Order[]
@@ -242,4 +245,10 @@ enum OrderStatus {
 enum TransactionType {
   WITHDRAW
   ORDER
+}
+
+enum ShopStatus {
+  REQUESTED
+  APPROVED
+  DECLINED
 }

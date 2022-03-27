@@ -13,6 +13,7 @@ const getReviewsByShop = resolver.pipe(
     const reviews = await db.review.findMany({
       where: { shopId },
       orderBy: { createdAt: 'desc' },
+      include: { user: { select: { name: true } } },
     })
 
     return reviews

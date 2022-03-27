@@ -21,7 +21,7 @@ const config: BlitzConfig = {
   },
   */
   images: {
-    domains: ['images.unsplash.com', 'picsum.photos'],
+    domains: ['images.unsplash.com', 'picsum.photos', 'storage.googleapis.com'],
   },
 }
 module.exports = config

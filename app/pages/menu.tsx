@@ -6,6 +6,7 @@ import {
   Routes,
   useMutation,
 } from 'blitz'
+import { ShopStatus } from 'db'
 import {
   FiCreditCard,
   FiGrid,
@@ -30,7 +31,6 @@ interface MenuProps {
 
 const Menu: BlitzPage<MenuProps> = ({ user }) => {
   const { name, email, profileImage, shop } = user!
-  const hasShop = !!shop
   const [logoutMutation] = useMutation(logout)
 
   return (
@@ -60,16 +60,31 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
       </div>
       <Divider padded />
       <div>
-        {hasShop ? (
-          <>
-            <MenuListItem icon={<FiLayout />} title="My shop" />
-            <Link href={Routes.ManageProductsPage().pathname} passHref>
-              <MenuListItem as="a" icon={<FiGrid />} title="My products" />
-            </Link>
-            <Link href={Routes.TransactionHistory().pathname} passHref>
-              <MenuListItem as="a" icon={<FiList />} title="My balance" />
-            </Link>
-          </>
+        {shop ? (
+          shop.shopStatus === ShopStatus.APPROVED ? (
+            <>
+              <MenuListItem icon={<FiLayout />} title="My shop" />
+              <Link href={Routes.ManageProductsPage().pathname} passHref>
+                <MenuListItem as="a" icon={<FiGrid />} title="My products" />
+              </Link>
+              <Link href={Routes.TransactionHistory().pathname} passHref>
+                <MenuListItem as="a" icon={<FiList />} title="My balance" />
+              </Link>
+            </>
+          ) : shop.shopStatus === ShopStatus.DECLINED ? (
+            <>
+              <MenuListItem as="a" title="Your request has been declined" />
+              <Link href={Routes.RegisterPage().pathname} passHref>
+                <MenuListItem
+                  as="a"
+                  icon={<FiLayout />}
+                  title="Register new shop"
+                />
+              </Link>
+            </>
+          ) : shop.shopStatus === ShopStatus.REQUESTED ? (
+            <MenuListItem as="a" title="Your registration is in progress" />
+          ) : null
         ) : (
           <Link href={Routes.RegisterPage().pathname} passHref>
             <MenuListItem as="a" icon={<FiLayout />} title="Register shop" />

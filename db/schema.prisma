@@ -53,6 +53,9 @@ model Shop {
   rating    Float?
   totalSale Int     @default(0)
 
+  shopStatus     ShopStatus @default(APPROVED)
+  citizenIdImage String?
+
   products  Product[]
   followers User[]    @relation(name: "follow")
   Order     Order[]
@@ -276,4 +279,10 @@ enum ChatMemberType {
 enum ChatMessageType {
   TEXT
   PRODUCT_LINK
+}
+
+enum ShopStatus {
+  REQUESTED
+  APPROVED
+  DECLINED
 }

@@ -1,5 +1,5 @@
 import { resolver } from 'blitz'
-import db from 'db'
+import db, { ShopStatus } from 'db'
 
 import { CreateShop } from '../validations'
 
@@ -8,8 +8,6 @@ const createShop = resolver.pipe(
   resolver.authorize(),
   async (input, { session }) => {
     const { bio, phoneNo, name, image, citizenId } = input
-    const totalSale = 0
-
     const { shop } = await db.user.update({
       where: {
         id: session.userId,
@@ -22,7 +20,8 @@ const createShop = resolver.pipe(
             phoneNo,
             name,
             image,
-            totalSale,
+            totalSale: 0,
+            shopStatus: ShopStatus.REQUESTED,
           },
         },
       },

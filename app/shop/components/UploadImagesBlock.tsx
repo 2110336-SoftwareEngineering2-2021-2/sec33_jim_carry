@@ -8,31 +8,34 @@ import { gcpStorageUrl } from 'app/core/constants'
 // TODO : Handle delete image
 const uploadImage = async (e) => {
   const file = e.target.files[0]
-  const filename = encodeURIComponent(file.name)
+  if (file) {
+    const filename = encodeURIComponent(file.name)
 
-  // Get signed url from GCP Storage
-  const res = await fetch(`/api/uploadURL?file=${filename}`)
-  const { url, fields } = await res.json()
-  console.log(url, fields)
+    // Get signed url from GCP Storage
+    const res = await fetch(
+      `/api/uploadURL?file=${filename}&dir=${encodeURIComponent('images/')}`
+    )
+    const { url, fields } = await res.json()
 
-  const formData = new FormData()
-  const formArray: [string, string | File][] = Object.entries({
-    ...fields,
-    file,
-  })
-  formArray.forEach(([key, value]) => {
-    formData.append(key, value)
-  })
+    const formData = new FormData()
+    const formArray: [string, string | File][] = Object.entries({
+      ...fields,
+      file,
+    })
+    formArray.forEach(([key, value]) => {
+      formData.append(key, value)
+    })
 
-  const upload = await fetch(url, {
-    method: 'POST',
-    body: formData,
-  })
+    const upload = await fetch(url, {
+      method: 'POST',
+      body: formData,
+    })
 
-  if (upload.ok) {
-    console.log(upload)
-  } else {
-    console.error('Upload failed')
+    if (upload.ok) {
+      console.log(upload)
+    } else {
+      console.error('Upload failed')
+    }
   }
 }
 

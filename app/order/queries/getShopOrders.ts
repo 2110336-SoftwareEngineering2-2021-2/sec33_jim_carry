@@ -1,4 +1,4 @@
-import { resolver, NotFoundError, AuthorizationError, Ctx } from 'blitz'
+import { resolver, NotFoundError, AuthorizationError } from 'blitz'
 import db, { Prisma } from 'db'
 
 const getShopOrders = resolver.pipe(
@@ -7,13 +7,20 @@ const getShopOrders = resolver.pipe(
     // Authorize user
     if (!userId) throw new AuthorizationError()
     //get Shop from userId
-    const shop: Prisma.Shop = await db.shop.findFirst({
+    const shop = await db.shop.findFirst({
       where: { userId },
-      include: { order: true },
+      include: {
+        Order: {
+          include: {
+            owner: true,
+            items: true,
+          },
+        },
+      },
     })
     if (!shop) throw new NotFoundError('User Shop Not Found')
 
-    return shop.order
+    return shop.Order
   }
 )
 

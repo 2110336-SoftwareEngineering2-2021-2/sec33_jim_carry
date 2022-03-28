@@ -2,7 +2,7 @@ import { Button } from 'app/core/components/Button'
 
 export const SearchWithTag = ({ tags, tag, setTag }) => {
   return (
-    <div className="flex flex-row overflow-x-auto mx-6">
+    <div className="flex flex-row overflow-x-auto no-scrollbar mx-6">
       {tags.map((item) => (
         <>
           {item.name != tag && (

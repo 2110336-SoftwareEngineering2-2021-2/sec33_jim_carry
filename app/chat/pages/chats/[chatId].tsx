@@ -6,7 +6,6 @@ import {
   PromiseReturnType,
   Routes,
   useMutation,
-  useParam,
   useRouter,
   useRouterQuery,
 } from 'blitz'

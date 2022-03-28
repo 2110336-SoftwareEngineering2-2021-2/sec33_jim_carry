@@ -31,6 +31,13 @@ const listChats = resolver.pipe(
             userId: session.userId as number,
           },
         },
+        messages: {
+          some: {
+            id: {
+              gte: 0,
+            },
+          },
+        },
       },
       include: {
         memberships: {

@@ -12,7 +12,7 @@ import {
 import { CSSProperties } from 'react'
 
 import { ChatBubble } from 'app/chat/components/ChatBubble'
-import { MessageListener } from 'app/chat/components/MessageListenerProps'
+import { MessageListener } from 'app/chat/components/MessageListener'
 import { NewMessageForm } from 'app/chat/components/NewMessageForm'
 import { ProductLink } from 'app/chat/components/ProductLink'
 import { TypingIndicator } from 'app/chat/components/TypingIndicator'

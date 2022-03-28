@@ -11,6 +11,10 @@ const SearchProducts = z.object({
   tag: z.string().optional(),
 })
 
+/**
+ * Search products with a name and a criterion, which is used to specify the output's order (or additionally with a tag of a product)
+ * @returns An array of products sorting according to the criterion
+ */
 const searchProducts = resolver.pipe(
   resolver.zod(SearchProducts),
   async (input) => {
@@ -42,7 +46,7 @@ const searchProducts = resolver.pipe(
       where: {
         name: {
           contains: input.name,
-          mode: 'insensitive', 
+          mode: 'insensitive',
         },
         hidden: false,
       },

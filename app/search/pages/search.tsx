@@ -1,4 +1,4 @@
-import { BlitzPage, Routes, useQuery } from 'blitz'
+import { BlitzPage, Head, Routes, useQuery } from 'blitz'
 import { Suspense, useState } from 'react'
 import { FiArrowDown, FiArrowUp, FiSearch } from 'react-icons/fi'
 
@@ -75,6 +75,9 @@ export const Search: BlitzPage = () => {
 
   return (
     <>
+      <Head>
+        <title> Search</title>
+      </Head>
       <TopBar backHref={Routes.Home().pathname} title="" />
       <div className="flex flex-col mx-6">
         <SearchBar value={text} onChange={(e) => setText(e.target.value)} />

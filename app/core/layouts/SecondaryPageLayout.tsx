@@ -1,10 +1,11 @@
-import { BlitzLayout } from 'blitz'
+import { BlitzLayout, Head } from 'blitz'
 import { CSSProperties } from 'react'
 
 import { Container } from '../components/Container'
 import { variant } from '../utils/variant'
 
 export interface SecondaryPageLayoutProps {
+  title?: string
   fillHeight?: boolean
 }
 
@@ -17,13 +18,19 @@ export const SecondaryPageLayout: BlitzLayout<SecondaryPageLayoutProps> = ({
   children,
   ...props
 }) => {
-  const { fillHeight = false } = props
+  const { title, fillHeight = false } = props
   return (
-    <Container
-      style={fillHeight ? fillHeightStyles : undefined}
-      className={`${variant(fillHeight, `flex flex-col`)}`}
-    >
-      {children}
-    </Container>
+    <>
+      <Head>
+        <title>{title ?? 'MayDay'}</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Container
+        style={fillHeight ? fillHeightStyles : undefined}
+        className={`${variant(fillHeight, `flex flex-col`)}`}
+      >
+        {children}
+      </Container>
+    </>
   )
 }

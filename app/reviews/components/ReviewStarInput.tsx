@@ -16,13 +16,9 @@ export function ReviewStarInput({ orderItem }: ReviewStarInputProps) {
     formState: { errors },
   } = useFormContext()
   const name = `rating-${orderItem.productId}`
-  let stars: boolean[] = [true, true, true, true, true]
-  const update = () => {
-    for (let i = 0; i < 5; i++) {
-      stars[i] = i + 1 <= rating
-    }
-  }
-  update()
+  const stars = Array(5)
+    .fill(true)
+    .map((_, index) => index + 1 <= rating)
 
   const error = Array.isArray(errors[name])
     ? errors[name].join(', ')

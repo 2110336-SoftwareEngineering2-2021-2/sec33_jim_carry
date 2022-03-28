@@ -9,7 +9,7 @@ import {
   useRouter,
   useRouterQuery,
 } from 'blitz'
-import { CSSProperties } from 'react'
+import { CSSProperties, Fragment } from 'react'
 
 import { ChatBubble } from 'app/chat/components/ChatBubble'
 import { MessageListener } from 'app/chat/components/MessageListener'
@@ -82,20 +82,19 @@ const ChatDetailPage: BlitzPage<ChatDetailProps> = ({
             const groupedWithTop = isSameGroup(message, previousMessage)
             const groupedWithBottom = isSameGroup(nextMessage, message)
             return (
-              <>
+              <Fragment key={message.id}>
                 <MessageDivider
                   previousMessage={previousMessage}
                   nextMessage={message}
                 />
                 <MessageItem
-                  key={message.id}
                   userId={userId}
                   message={message}
                   isPreview={false}
                   groupedWithTop={groupedWithTop}
                   groupedWithBottom={groupedWithBottom}
                 />
-              </>
+              </Fragment>
             )
           })}
           {othersTyping && (

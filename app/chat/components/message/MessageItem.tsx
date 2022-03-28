@@ -2,6 +2,8 @@ import { ChatMessageType } from '@prisma/client'
 import { FC } from 'react'
 
 import { ChatBubble } from '../ChatBubble'
+import { ProductLinkMesasgeItem } from './ProductLinkMessageItem'
+import { ProductLinkMessagePreview } from './ProductLinkMessagePreview'
 import { TextMessageItem } from './TextMessageItem'
 import { TextMessagePreview } from './TextMessagePreview'
 import { MessageItemComponentProps, MessageItemProps } from './types'
@@ -11,6 +13,7 @@ const itemComponentMap: Record<
   FC<MessageItemComponentProps>
 > = {
   TEXT: TextMessageItem,
+  PRODUCT_LINK: ProductLinkMesasgeItem,
 }
 
 const previewComponentMap: Record<
@@ -18,6 +21,7 @@ const previewComponentMap: Record<
   FC<MessageItemComponentProps>
 > = {
   TEXT: TextMessagePreview,
+  PRODUCT_LINK: ProductLinkMessagePreview,
 }
 
 export function MessageItem({

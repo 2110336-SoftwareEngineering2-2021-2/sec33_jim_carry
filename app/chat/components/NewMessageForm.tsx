@@ -18,9 +18,10 @@ import { SendMessageForm } from '../realtime/validations'
 
 export interface NewMessageFormProps {
   chatId: ChatId
+  onBeforeSend?: () => Promise<void>
 }
 
-export function NewMessageForm({ chatId }: NewMessageFormProps) {
+export function NewMessageForm({ chatId, onBeforeSend }: NewMessageFormProps) {
   const [sendMessageMutation] = useMutation(sendTextMessage)
   const [focused, setFocused] = useState(false)
 
@@ -29,6 +30,9 @@ export function NewMessageForm({ chatId }: NewMessageFormProps) {
       schema={SendMessageForm}
       onSubmit={async (values: z.infer<typeof SendMessageForm>) => {
         try {
+          if (onBeforeSend) {
+            await onBeforeSend()
+          }
           await sendMessageMutation({ chatId, message: values.message })
           return { [CLEAR_FORM]: true, [FOCUS_FIELD]: 'message' }
         } catch (error: any) {

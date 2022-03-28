@@ -1,16 +1,23 @@
-import { ChatMember, Message } from '@prisma/client'
 import {
   BlitzPage,
   GetServerSideProps,
   invokeWithMiddleware,
   PromiseReturnType,
+  Routes,
+  useMutation,
+  useParam,
+  useRouter,
+  useRouterQuery,
 } from 'blitz'
 import { CSSProperties } from 'react'
 
 import { ChatBubble } from 'app/chat/components/ChatBubble'
+import { MessageListener } from 'app/chat/components/MessageListenerProps'
 import { NewMessageForm } from 'app/chat/components/NewMessageForm'
+import { ProductLink } from 'app/chat/components/ProductLink'
 import { TypingIndicator } from 'app/chat/components/TypingIndicator'
 import { MessageItem } from 'app/chat/components/message/MessageItem'
+import sendProductLink from 'app/chat/mutations/sendProductLink'
 import getChat from 'app/chat/queries/getChat'
 import { useChatMessages } from 'app/chat/realtime/client/useChatMessages'
 import { useTypingStatus } from 'app/chat/realtime/client/useTypingStatus'
@@ -26,7 +33,11 @@ const containerStyles: CSSProperties = {
   maxHeight: 'calc(-webkit-fill-available - 153px)',
 }
 
-const ChatDetailPage: BlitzPage<ChatDetailProps> = ({ userId, chat }) => {
+const ChatDetailPage: BlitzPage<ChatDetailProps> = ({
+  userId,
+  chat,
+  product,
+}) => {
   const typings = useTypingStatus(chat.id)
   const messages = useChatMessages(chat.id, chat.messages, true)
   const otherMember = chat.memberships.find(
@@ -34,6 +45,15 @@ const ChatDetailPage: BlitzPage<ChatDetailProps> = ({ userId, chat }) => {
   )
   const otherName = getMemberName(otherMember) ?? undefined
   const othersTyping = typings.some((typingUserId) => typingUserId !== userId)
+  const [sendProductLinkMutation] = useMutation(sendProductLink)
+
+  const onBeforeSend = async () => {
+    if (!product) return
+    await sendProductLinkMutation({ chatId: chat.id, productId: product.id })
+  }
+
+  const { productId } = useRouterQuery()
+  const router = useRouter()
 
   return (
     <>
@@ -51,9 +71,32 @@ const ChatDetailPage: BlitzPage<ChatDetailProps> = ({ userId, chat }) => {
               <TypingIndicator size="large" />
             </ChatBubble>
           )}
+          {productId && product && (
+            <>
+              <MessageListener
+                chatId={chat.id}
+                messageType="PRODUCT_LINK"
+                onMessage={() => {
+                  router.replace(
+                    Routes.ChatDetailPage({ chatId: chat.id }),
+                    undefined,
+                    { shallow: true }
+                  )
+                }}
+              />
+              <ProductLink
+                data={{
+                  id: product.id,
+                  name: product.name,
+                  price: product.price,
+                  imageUrl: product.images[0],
+                }}
+              />
+            </>
+          )}
         </div>
       </div>
-      <NewMessageForm chatId={chat.id} />
+      <NewMessageForm chatId={chat.id} onBeforeSend={onBeforeSend} />
     </>
   )
 }
@@ -61,10 +104,11 @@ const ChatDetailPage: BlitzPage<ChatDetailProps> = ({ userId, chat }) => {
 export const getServerSideProps: GetServerSideProps<ChatDetailProps> = async (
   context
 ) => {
-  const chatId = context.params?.chatId
+  const chatId = parseInt((context.params?.chatId as string) ?? '')
+  const productId = parseInt((context.query?.productId as string) ?? '')
   const props = await invokeWithMiddleware(
     getChat,
-    parseInt((chatId as string) ?? ''),
+    { chatId, productId: !isNaN(productId) ? productId : undefined },
     context
   )
   return {

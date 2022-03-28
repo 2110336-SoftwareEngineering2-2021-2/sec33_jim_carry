@@ -12,6 +12,7 @@ const ChatWithPage: BlitzPage = () => {
 }
 
 export const getServerSideProps: GetServerSideProps<{}> = async (context) => {
+  const { shopId: _, ...query } = context.query
   const shopId = context.params?.shopId
   const chat = await invokeWithMiddleware(
     createChat,
@@ -20,7 +21,7 @@ export const getServerSideProps: GetServerSideProps<{}> = async (context) => {
   )
   return {
     redirect: {
-      destination: Routes.ChatDetailPage({ chatId: chat.id }),
+      destination: Routes.ChatDetailPage({ chatId: chat.id, ...query }),
     },
     props: {},
   }

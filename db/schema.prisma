@@ -253,4 +253,5 @@ enum ChatMemberType {
 
 enum ChatMessageType {
   TEXT
+  PRODUCT_LINK
 }

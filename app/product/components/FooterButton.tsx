@@ -27,7 +27,7 @@ export function FooterButton({ product }: FooterButtonProps) {
   )
   return (
     <div className="flex flex-row px-6 py-3 space-x-4 sticky bottom-0 bg-[#FFFFFF]">
-      <ChatWithButton shopId={product.shopId} />
+      <ChatWithButton shopId={product.shopId} productId={product.id} />
       <Button
         buttonType={inCart ? 'outline' : 'primary'}
         size="large"

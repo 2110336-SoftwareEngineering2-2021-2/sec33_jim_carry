@@ -1,14 +1,15 @@
 import { NotFoundError, resolver } from 'blitz'
 import db from 'db'
-import { z } from 'zod'
+
+import { GetChat } from '../validations'
 
 /**
  * Get a specific chat, with all messages.
  */
 const getChat = resolver.pipe(
-  resolver.zod(z.number()),
+  resolver.zod(GetChat),
   resolver.authorize(),
-  async (chatId, { session }) => {
+  async ({ chatId, productId }, { session }) => {
     const userId = session.userId
     const chat = await db.chat.findUnique({
       where: {
@@ -39,11 +40,19 @@ const getChat = resolver.pipe(
       },
       rejectOnNotFound: true,
     })
+
+    const product = productId
+      ? await db.product.findUnique({
+          where: { id: productId },
+          rejectOnNotFound: true,
+        })
+      : null
+
     const isInChat = chat.memberships.some(
       (membership) => membership.userId === userId
     )
     if (!isInChat) throw new NotFoundError('Chat not found')
-    return { userId, chat }
+    return { userId, chat, product }
   }
 )
 

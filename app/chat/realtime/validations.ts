@@ -13,3 +13,8 @@ export const MarkAsRead = z.object({
   chatId: z.number(),
   messageId: z.number(),
 })
+
+export const SendProductLink = z.object({
+  chatId: z.number(),
+  productId: z.number(),
+})

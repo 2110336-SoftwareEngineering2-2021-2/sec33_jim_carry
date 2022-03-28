@@ -17,7 +17,7 @@ type ShowReviewsProps = ShowReviewsByProductProps | ShowReviewsByShopProps
 
 export default function ShowReviews({ productId, shopId }: ShowReviewsProps) {
   const by = productId ? 'product' : 'shop'
-  const id = productId ?? shopId
+  const id = productId ?? shopId!
   const [reviews] = useQuery(getReviews, { by, id })
   const avgRating =
     reviews.reduce((acc, cur) => acc + cur.rating, 0) / reviews.length

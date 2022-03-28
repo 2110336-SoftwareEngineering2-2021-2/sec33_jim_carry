@@ -39,7 +39,7 @@ export function ProductCard({ product }: { product: ProductWithShop }) {
         <div className="flex justify-between items-center">
           <span className="text-title3 font-sans text-primary-dark">{`฿${product.price}`}</span>
           <div className="flex">
-            <ChatWithButton shopId={product.shopId} />
+            <ChatWithButton shopId={product.shopId} buttonType="transparent" />
             <Button
               iconOnly
               buttonType="transparent"

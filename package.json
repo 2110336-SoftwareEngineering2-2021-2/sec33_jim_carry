@@ -68,7 +68,7 @@
     "typescript": "~4.5"
   },
   "engines": {
-    "node": ">=16 <16"
+    "node": ">=16 <17"
   },
   "private": true
 }

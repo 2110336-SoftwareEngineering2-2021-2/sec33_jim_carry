@@ -5,6 +5,7 @@ import {
   invokeWithMiddleware,
   PromiseReturnType,
 } from 'blitz'
+import { CSSProperties } from 'react'
 
 import { ChatBubble } from 'app/chat/components/ChatBubble'
 import { NewMessageForm } from 'app/chat/components/NewMessageForm'
@@ -20,6 +21,11 @@ import { setupLayout } from 'app/core/utils/setupLayout'
 
 type ChatDetailProps = PromiseReturnType<typeof getChat>
 
+const containerStyles: CSSProperties = {
+  height: 'calc(100vh - 153px)',
+  maxHeight: 'calc(-webkit-fill-available - 153px)',
+}
+
 const ChatDetailPage: BlitzPage<ChatDetailProps> = ({ userId, chat }) => {
   const typings = useTypingStatus(chat.id)
   const messages = useChatMessages(chat.id, chat.messages, true)
@@ -30,20 +36,25 @@ const ChatDetailPage: BlitzPage<ChatDetailProps> = ({ userId, chat }) => {
   const othersTyping = typings.some((typingUserId) => typingUserId !== userId)
 
   return (
-    <div>
+    <>
       <TopBar title={otherName} />
-      <div className="flex flex-col gap-1 mb-4">
-        {messages.map((message) => (
-          <MessageItem key={message.id} userId={userId} message={message} />
-        ))}
-        {othersTyping && (
-          <ChatBubble isSelf={false}>
-            <TypingIndicator size="large" />
-          </ChatBubble>
-        )}
+      <div
+        style={containerStyles}
+        className="flex-1 flex flex-col-reverse overflow-y-scroll"
+      >
+        <div className="flex flex-col gap-1 px-6 py-4">
+          {messages.map((message) => (
+            <MessageItem key={message.id} userId={userId} message={message} />
+          ))}
+          {othersTyping && (
+            <ChatBubble isSelf={false}>
+              <TypingIndicator size="large" />
+            </ChatBubble>
+          )}
+        </div>
       </div>
       <NewMessageForm chatId={chat.id} />
-    </div>
+    </>
   )
 }
 
@@ -62,6 +73,8 @@ export const getServerSideProps: GetServerSideProps<ChatDetailProps> = async (
 }
 
 setupAuthRedirect(ChatDetailPage)
-setupLayout(ChatDetailPage)
+setupLayout(ChatDetailPage, {
+  fillHeight: true,
+})
 
 export default ChatDetailPage

@@ -1,10 +1,11 @@
 import { useQuery } from 'blitz'
 
+import ShowReviews from 'app/reviews/components/ShowReviews'
+
 import getProduct from '../queries/getProduct'
 import { Description } from './Description'
 import { FooterButton } from './FooterButton'
 import { ProductPicture } from './ProductPicture'
-import ProductReviews from './ProductReviews'
 import { ProductTitle } from './ProductTitle'
 import { Seller } from './Seller'
 
@@ -30,7 +31,7 @@ export function ProductView({ pid }: ProductViewProps) {
           tags={product.hashtags}
           description={product.description ?? ''}
         />
-        <ProductReviews pid={pid} />
+        <ShowReviews productId={pid} />
       </div>
       <FooterButton product={product} />
     </div>

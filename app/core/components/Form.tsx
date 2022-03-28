@@ -23,6 +23,7 @@ interface OnSubmitResult {
 
 export const FORM_ERROR = 'FORM_ERROR'
 export const CLEAR_FORM = 'CLEAR_FORM'
+export const FOCUS_FIELD = 'FOCUS_FIELD'
 
 export function Form<S extends z.ZodType<any, any>>({
   children,
@@ -56,6 +57,14 @@ export function Form<S extends z.ZodType<any, any>>({
                 message: value,
               })
             }
+            if (key == FOCUS_FIELD) {
+            }
+          }
+          const focusField = result[FOCUS_FIELD]
+          if (focusField) {
+            try {
+              ctx.setFocus(focusField)
+            } catch (e) {}
           }
         })}
         className="form"

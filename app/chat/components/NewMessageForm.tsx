@@ -3,7 +3,12 @@ import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 
-import Form, { CLEAR_FORM, FORM_ERROR } from 'app/core/components/Form'
+import { Divider } from 'app/core/components/Divider'
+import Form, {
+  CLEAR_FORM,
+  FOCUS_FIELD,
+  FORM_ERROR,
+} from 'app/core/components/Form'
 import LabeledTextField from 'app/core/components/LabeledTextField'
 
 import sendTextMessage from '../mutations/sendTextMessage'
@@ -21,24 +26,27 @@ export function NewMessageForm({ chatId }: NewMessageFormProps) {
 
   return (
     <Form
-      submitText="Send"
       schema={SendMessageForm}
       onSubmit={async (values: z.infer<typeof SendMessageForm>) => {
         try {
           await sendMessageMutation({ chatId, message: values.message })
-          return { [CLEAR_FORM]: true }
+          return { [CLEAR_FORM]: true, [FOCUS_FIELD]: 'message' }
         } catch (error: any) {
           return { [FORM_ERROR]: error.toString() }
         }
       }}
     >
-      <LabeledTextField
-        name="message"
-        label="Type your message"
-        floatingLabel={false}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-      />
+      <Divider dividerColor="bg-sky-lighter" />
+      <div className="p-6">
+        <LabeledTextField
+          className="rounded-full"
+          name="message"
+          label="Type your message"
+          floatingLabel={false}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+        />
+      </div>
       <TypingEmitter chatId={chatId} focused={focused} />
     </Form>
   )

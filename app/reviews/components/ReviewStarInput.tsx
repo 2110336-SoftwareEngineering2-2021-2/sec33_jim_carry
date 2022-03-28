@@ -23,12 +23,10 @@ export function ReviewStarInput({ orderItem }: ReviewStarInputProps) {
     }
   }
   update()
-  console.log(errors)
 
   const error = Array.isArray(errors[name])
     ? errors[name].join(', ')
     : errors[name]?.message || errors[name]
-  console.log(error)
 
   const starsElement = stars.map((isFilled, index) => {
     const id = `${name}-star-${index + 1}`

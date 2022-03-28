@@ -1,3 +1,4 @@
+import { Message } from '@prisma/client'
 import {
   BlitzPage,
   GetServerSideProps,
@@ -16,6 +17,7 @@ import { MessageListener } from 'app/chat/components/MessageListenerProps'
 import { NewMessageForm } from 'app/chat/components/NewMessageForm'
 import { ProductLink } from 'app/chat/components/ProductLink'
 import { TypingIndicator } from 'app/chat/components/TypingIndicator'
+import { MessageDivider } from 'app/chat/components/message/MessageDivider'
 import { MessageItem } from 'app/chat/components/message/MessageItem'
 import sendProductLink from 'app/chat/mutations/sendProductLink'
 import getChat from 'app/chat/queries/getChat'
@@ -31,6 +33,15 @@ type ChatDetailProps = PromiseReturnType<typeof getChat>
 const containerStyles: CSSProperties = {
   height: 'calc(100vh - 153px)',
   maxHeight: 'calc(-webkit-fill-available - 153px)',
+}
+
+const dummyMessage: Message = {
+  id: 0,
+  chatId: 0,
+  senderId: 0,
+  type: 'TEXT',
+  payload: '',
+  createdAt: new Date(0),
 }
 
 const ChatDetailPage: BlitzPage<ChatDetailProps> = ({
@@ -63,9 +74,25 @@ const ChatDetailPage: BlitzPage<ChatDetailProps> = ({
         className="flex-1 flex flex-col-reverse overflow-y-scroll"
       >
         <div className="flex flex-col gap-1 px-6 py-4">
-          {messages.map((message) => (
-            <MessageItem key={message.id} userId={userId} message={message} />
-          ))}
+          {messages.map((message, index) => {
+            if (index === 0) {
+              return null
+            }
+            const previousMessage = messages[index - 1]!
+            return (
+              <>
+                <MessageDivider
+                  previousMessage={previousMessage}
+                  nextMessage={message}
+                />
+                <MessageItem
+                  key={message.id}
+                  userId={userId}
+                  message={message}
+                />
+              </>
+            )
+          })}
           {othersTyping && (
             <ChatBubble isSelf={false}>
               <TypingIndicator size="large" />
@@ -111,6 +138,7 @@ export const getServerSideProps: GetServerSideProps<ChatDetailProps> = async (
     { chatId, productId: !isNaN(productId) ? productId : undefined },
     context
   )
+  props.chat.messages.unshift(dummyMessage)
   return {
     props,
   }

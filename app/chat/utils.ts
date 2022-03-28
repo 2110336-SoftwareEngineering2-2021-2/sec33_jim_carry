@@ -20,7 +20,7 @@ export function getDateFormat(date: Date) {
   const showDate = !isSameDay(date, now)
   const showYear = !isSameYear(date, now)
   const dateFormat = showYear ? 'MMM d yyyy' : 'MMM d'
-  return `${showDate ? `${dateFormat}, ` : ''}hh:mm a`
+  return `${showDate ? `${dateFormat}, ` : ''}h:mm a`
 }
 
 export function isSameGroup(message?: Message, previousMessage?: Message) {

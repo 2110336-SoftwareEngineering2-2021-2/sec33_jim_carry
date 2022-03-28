@@ -2,21 +2,31 @@ import { resolver } from 'blitz'
 import db from 'db'
 import { z } from 'zod'
 
-const CreateChatInput = z.object({
-  shopOwnerId: z.number(),
-})
-
 const createChat = resolver.pipe(
-  resolver.zod(CreateChatInput),
+  resolver.zod(z.number()),
   resolver.authorize(),
-  async ({ shopOwnerId }, { session }) => {
+  async (shopId, { session }) => {
     const currentUserId = session.userId as number
+
+    const { userId: shopOwnerId } = await db.shop.findUnique({
+      where: {
+        id: shopId,
+      },
+      select: {
+        userId: true,
+      },
+      rejectOnNotFound: true,
+    })
+
     const chat = await db.chat.findFirst({
       where: {
         AND: [
           { memberships: { some: { userId: shopOwnerId } } },
           { memberships: { some: { userId: currentUserId } } },
         ],
+      },
+      select: {
+        id: true,
       },
     })
 
@@ -42,6 +52,9 @@ const createChat = resolver.pipe(
             },
           ],
         },
+      },
+      select: {
+        id: true,
       },
     })
     return newChat

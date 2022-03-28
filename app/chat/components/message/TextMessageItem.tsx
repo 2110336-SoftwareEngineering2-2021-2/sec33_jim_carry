@@ -5,5 +5,9 @@ export function TextMessageItem({
   isSelf,
   message,
 }: MessageItemComponentProps) {
-  return <ChatBubble isSelf={isSelf}>{message.payload}</ChatBubble>
+  return (
+    <ChatBubble isSelf={isSelf} createdAt={message.createdAt}>
+      {message.payload}
+    </ChatBubble>
+  )
 }

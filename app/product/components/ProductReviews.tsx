@@ -14,8 +14,8 @@ export default function ProductReviews({ pid }: ProductReviewsProps) {
     reviews.reduce((acc, cur) => acc + cur.rating, 0) / reviews.length
   const noRating = reviews.length === 0 ? true : false
   return (
-    <div className="flex flex-col px-6 py-4 gap-4 divide-y divide-sky-lighter">
-      <div className="flex flex-col gap-2">
+    <div className="flex flex-col px-6 divide-y divide-sky-lighter">
+      <div className="flex flex-col gap-2 py-4">
         <h4 className="title3 text-ink-darkest">Reviews</h4>
         <div className="flex flex-row items-end gap-2">
           <Star rating={avgRating} noRating={noRating} />
@@ -31,7 +31,7 @@ export default function ProductReviews({ pid }: ProductReviewsProps) {
       </div>
       {reviews.map((review) => {
         return (
-          <div key={review.id} className="flex flex-col gap-2 py-5">
+          <div key={review.id} className="flex flex-col gap-2 py-4">
             <h5 className="text-regular leading-none font-medium text-ink-darkest">
               {review.title}
             </h5>

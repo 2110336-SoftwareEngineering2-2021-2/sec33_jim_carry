@@ -28,11 +28,21 @@ export function MessageItem({
   userId,
   message,
   isPreview = false,
+  groupedWithTop = false,
+  groupedWithBottom = false,
 }: MessageItemProps) {
   const isSelf = userId === message.senderId
   const componentMap = isPreview ? previewComponentMap : itemComponentMap
   const Component = componentMap[message.type]
   if (!Component)
     return <ChatBubble isSelf={isSelf}>Unsupported message</ChatBubble>
-  return <Component isSelf={isSelf} userId={userId} message={message} />
+  return (
+    <Component
+      isSelf={isSelf}
+      userId={userId}
+      message={message}
+      groupedWithTop={groupedWithTop}
+      groupedWithBottom={groupedWithBottom}
+    />
+  )
 }

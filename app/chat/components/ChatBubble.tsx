@@ -8,9 +8,17 @@ import { getDateFormat } from '../utils'
 export type ChatBubbleProps = PropsWithChildren<{
   isSelf: boolean
   createdAt?: Date
+  groupedWithTop?: boolean
+  groupedWithBottom?: boolean
 }>
 
-export function ChatBubble({ isSelf, createdAt, children }: ChatBubbleProps) {
+export function ChatBubble({
+  isSelf,
+  createdAt,
+  groupedWithTop = false,
+  groupedWithBottom = false,
+  children,
+}: ChatBubbleProps) {
   const title = createdAt
     ? format(createdAt, getDateFormat(createdAt))
     : undefined
@@ -29,6 +37,10 @@ export function ChatBubble({ isSelf, createdAt, children }: ChatBubbleProps) {
           ${variant(isSelf, `bg-primary-base text-sky-white`)}
           ${variant(!isSelf, `bg-sky-lighter text-ink-darkest`)}
           rounded-[20px]
+          ${variant(isSelf && groupedWithTop, `rounded-tr`)}
+          ${variant(isSelf && groupedWithBottom, `rounded-br`)}
+          ${variant(!isSelf && groupedWithTop, `rounded-tl`)}
+          ${variant(!isSelf && groupedWithBottom, `rounded-bl`)}
         `}
       >
         {children}

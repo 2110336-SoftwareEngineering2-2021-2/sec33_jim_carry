@@ -22,7 +22,7 @@ import sendProductLink from 'app/chat/mutations/sendProductLink'
 import getChat from 'app/chat/queries/getChat'
 import { useChatMessages } from 'app/chat/realtime/client/useChatMessages'
 import { useTypingStatus } from 'app/chat/realtime/client/useTypingStatus'
-import { getMemberName } from 'app/chat/utils'
+import { getMemberName, isSameGroup } from 'app/chat/utils'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
@@ -78,6 +78,9 @@ const ChatDetailPage: BlitzPage<ChatDetailProps> = ({
               return null
             }
             const previousMessage = messages[index - 1]!
+            const nextMessage = messages[index + 1]
+            const groupedWithTop = isSameGroup(message, previousMessage)
+            const groupedWithBottom = isSameGroup(nextMessage, message)
             return (
               <>
                 <MessageDivider
@@ -88,6 +91,9 @@ const ChatDetailPage: BlitzPage<ChatDetailProps> = ({
                   key={message.id}
                   userId={userId}
                   message={message}
+                  isPreview={false}
+                  groupedWithTop={groupedWithTop}
+                  groupedWithBottom={groupedWithBottom}
                 />
               </>
             )

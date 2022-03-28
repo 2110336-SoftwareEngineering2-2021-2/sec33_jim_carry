@@ -1,5 +1,5 @@
-import { ChatMember } from '@prisma/client'
-import { isSameDay, isSameYear } from 'date-fns'
+import { ChatMember, Message } from '@prisma/client'
+import { differenceInMinutes, isSameDay, isSameYear } from 'date-fns'
 
 type ChatMemberWithName = ChatMember & {
   user: {
@@ -21,4 +21,16 @@ export function getDateFormat(date: Date) {
   const showYear = !isSameYear(date, now)
   const dateFormat = showYear ? 'MMM d yyyy' : 'MMM d'
   return `${showDate ? `${dateFormat}, ` : ''}hh:mm a`
+}
+
+export function isSameGroup(message?: Message, previousMessage?: Message) {
+  if (!message || !previousMessage) return false
+  const minutes = differenceInMinutes(
+    message.createdAt,
+    previousMessage.createdAt
+  )
+  if (minutes >= 3) return false
+  if (message.senderId !== previousMessage.senderId) return false
+  if (message.type !== previousMessage.type) return false
+  return true
 }

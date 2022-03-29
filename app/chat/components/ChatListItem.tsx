@@ -1,71 +1,89 @@
-import { useSession } from 'blitz'
+import { Message } from '@prisma/client'
+import { Link, Routes } from 'blitz'
 
 import { Avatar } from 'app/core/components/Avatar'
 import { variant } from 'app/core/utils/variant'
 
 import { ChatData } from '../queries/listChats'
+import { useChatMessages } from '../realtime/client/useChatMessages'
+import { useTypingStatus } from '../realtime/client/useTypingStatus'
+import { getMemberName } from '../utils'
+import { TypingIndicator } from './TypingIndicator'
+import { MessageItem } from './message/MessageItem'
 
 export interface ChatListItemProps {
+  userId: number
   chat: ChatData
 }
 
-export function ChatListItem({ chat }: ChatListItemProps) {
-  const { userId } = useSession()
-  const otherUser = chat.memberships.find((m) => m.userId !== userId)!.user
+export function ChatListItem({ userId, chat }: ChatListItemProps) {
+  const otherMember = chat.memberships.find(
+    (member) => member.userId !== userId
+  )
+  const otherName = getMemberName(otherMember)
+  const typings = useTypingStatus(chat.id)
+  const messages = useChatMessages(chat.id, chat.messages)
+  const lastMessage = messages[messages.length - 1]
 
   const userMembership = chat.memberships.find((m) => m.userId === userId)
-  const isRead = userMembership!.lastMessageReadId === chat.messages[0]?.id
+  const isRead = userMembership!.lastMessageReadId === lastMessage?.id
+
+  const othersTyping = typings.some((typingUserId) => typingUserId !== userId)
+
+  const messagePreview = lastMessage && (
+    <ChatTextPreview userId={userId} message={lastMessage} isRead={isRead} />
+  )
+
   return (
-    <div className="flex flex-row py-4 gap-3">
-      <Avatar src={otherUser.shop!.image} size={48} />
-      {chat.messages.length > 0 && (
-        <>
-          <ChatTextPreview
-            name={otherUser.shop!.name}
-            message={chat.messages[0]!.content}
-            isRead={isRead}
-          />
-          <ChatDate date={chat.messages[0]!.createdAt} isRead={isRead} />
-        </>
-      )}
-    </div>
+    <Link href={Routes.ChatDetailPage({ chatId: chat.id })} passHref>
+      <a className="flex flex-row px-6 py-4 gap-3 transition-colors hover:bg-sky-light/30 active:bg-sky-light/70">
+        <Avatar src={otherMember?.user.shop!.image} size={48} />
+        <div className="flex flex-col w-[calc(100%-132px)]">
+          <div className="flex flex-row gap-2 items-center">
+            <span
+              className={`
+                text-large leading-normal
+                ${variant(isRead, 'font-regular text-ink-light')}
+                ${variant(!isRead, 'font-bold text-ink-darkest')}
+              `}
+            >
+              {otherName}
+            </span>
+            {!isRead && (
+              <div className="bg-primary-base w-3 h-3 rounded-full" />
+            )}
+          </div>
+          <div className="h-5 flex items-center">
+            {othersTyping ? <TypingIndicator /> : messagePreview}
+          </div>
+        </div>
+      </a>
+    </Link>
   )
 }
 
 interface ChatTextPreviewProps {
-  name: string
-  message?: string
+  userId: number
+  message: Message
   isRead?: boolean
 }
 
 function ChatTextPreview({
-  name,
+  userId,
   message,
   isRead = false,
 }: ChatTextPreviewProps) {
   return (
-    <div className="flex flex-col w-[calc(100%-132px)]">
-      <div className="flex flex-row gap-2 items-center">
-        <span
-          className={`text-large leading-normal 
+    <div
+      className={`
+        flex items-center gap-1
+        text-small leading-normal text-ellipsis overflow-hidden whitespace-nowrap
         ${variant(isRead, 'font-regular text-ink-light')}
         ${variant(!isRead, 'font-bold text-ink-darkest')}
-        `}
-        >
-          {name}
-        </span>
-        {!isRead && <div className="bg-primary-base w-3 h-3 rounded-full" />}
-      </div>
-      {message && (
-        <span
-          className={`text-small leading-normal text-ellipsis overflow-hidden whitespace-nowrap 
-          ${variant(isRead, 'font-regular text-ink-light')}
-          ${variant(!isRead, 'font-bold text-ink-darkest')}
-          `}
-        >
-          {message}
-        </span>
-      )}
+      `}
+    >
+      <MessageItem userId={userId} message={message} isPreview />
+      <ChatDate date={message.createdAt} isRead={isRead} />
     </div>
   )
 }
@@ -76,16 +94,7 @@ interface ChatDateProps {
 }
 
 function ChatDate({ date, isRead = false }: ChatDateProps) {
-  return (
-    <div
-      className={`text-small
-      ${variant(isRead, 'font-regular text-ink-light')}
-      ${variant(!isRead, 'font-bold text-ink-darkest')}
-      `}
-    >
-      {formatDate(date)}
-    </div>
-  )
+  return <span>· {formatDate(date)}</span>
 }
 
 function formatDate(date: Date) {

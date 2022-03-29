@@ -9,8 +9,8 @@ import getWishlist from 'app/wishlist/queries/getWishlist'
  */
 const clearSoldOutWishlist = resolver.pipe(
   resolver.authorize(),
-  async (_ = null, { session }) => {
-    const wishlist = await getWishlist(null, { session })
+  async (_ = null, ctx) => {
+    const wishlist = await getWishlist(null, ctx)
 
     const soldProducts = wishlist
       .filter((product) => isProductSoldOut(product))
@@ -20,7 +20,7 @@ const clearSoldOutWishlist = resolver.pipe(
 
     const user = await db.user.update({
       where: {
-        id: session.userId,
+        id: ctx.session.userId,
       },
       data: {
         wishlist: {

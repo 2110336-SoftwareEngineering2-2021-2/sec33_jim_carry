@@ -4,6 +4,10 @@ This is a [Blitz.js](https://github.com/blitz-js/blitz) app.
 
 # **MayDay**
 
+- Production (`master`) : https://mayday.suphon.dev
+- Development (`dev`) : https://dev.mayday.suphon.dev
+- API Documentation : https://mayday-api.surge.sh
+
 ## Getting Started
 
 Install your app.
@@ -19,6 +23,14 @@ Ensure the `.env.local` file has required environment variables:
 ```
 GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID"
 GOOGLE_CLIENT_SECRET="YOUR_GOOGLE_CLIENT_SECRET"
+
+GCP_STORAGE_PROJECT_ID="YOUR_GCP_STORAGE_PROJECT_ID"
+GCP_STORAGE_CLIENT_EMAIL="YOUR_GCP_STORAGE_CLIENT_EMAIL"
+GCP_STORAGE_PRIVATE_KEY="YOUR_GCP_STORAGE_PRIVATE_KEY"
+GCP_STORAGE_BUCKET_NAME="YOUR_GCP_STORAGE_BUCKET_NAME"
+
+OMISE_PUBLIC_KEY="YOUR_OMISE_PUBLIC_KEY"
+OMISE_SECRET_KEY="YOUR_OMISE_SECRET_KEY"
 ```
 
 Note: `DATABASE_URL` for development and production should already be set up.

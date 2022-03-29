@@ -4,6 +4,7 @@ import getProduct from '../queries/getProduct'
 import { Description } from './Description'
 import { FooterButton } from './FooterButton'
 import { ProductPicture } from './ProductPicture'
+import ProductReviews from './ProductReviews'
 import { ProductTitle } from './ProductTitle'
 import { Seller } from './Seller'
 
@@ -29,6 +30,7 @@ export function ProductView({ pid }: ProductViewProps) {
           tags={product.hashtags}
           description={product.description ?? ''}
         />
+        <ProductReviews pid={pid} />
       </div>
       <FooterButton product={product} />
     </div>

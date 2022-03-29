@@ -47,7 +47,7 @@ export const MainPageLayout: BlitzLayout<MainPageLayoutProps> = ({
               icon={<FiHeart />}
             />
             <NavBarTarget
-              to={Routes.Chats()}
+              to={Routes.ChatListPage()}
               title="Chats"
               icon={<FiMessageCircle />}
             />

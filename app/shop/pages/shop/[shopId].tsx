@@ -2,32 +2,17 @@ import {
   BlitzPage,
   GetServerSideProps,
   invokeWithMiddleware,
-  Link,
   PromiseReturnType,
-  Routes,
-  useMutation,
-  useRouter,
   useSession,
 } from 'blitz'
-import { Suspense, useCallback, useMemo, useState } from 'react'
-import { FiGrid, FiEdit2 } from 'react-icons/fi'
+import { Suspense } from 'react'
+import { FiEdit2 } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
-import { EmptyState } from 'app/core/components/EmptyState'
-import {
-  SegmentedControl,
-  SegmentedControlItem,
-} from 'app/core/components/SegmentedControl'
 import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
-import { useCurrentUser } from 'app/core/hooks/useCurrentUser'
-import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
-import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
-import deleteProduct from 'app/product/mutations/deleteProduct'
-import { ShopProduct } from 'app/shop/components/ShopProduct'
 import getShopProfile from 'app/shop/queries/getShopProfile'
-import getCurrentUser from 'app/users/queries/getCurrentUser'
 
 interface ShopProfilePageProps {
   shop: PromiseReturnType<typeof getShopProfile>

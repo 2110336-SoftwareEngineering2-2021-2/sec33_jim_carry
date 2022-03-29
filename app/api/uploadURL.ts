@@ -8,15 +8,15 @@ import {
   gcpStorageProjectId,
 } from 'app/core/environment'
 
-const handler: BlitzApiHandler = async (req, res) => {
-  const gc = new Storage({
-    projectId: gcpStorageProjectId,
-    credentials: {
-      client_email: gcpStorageClientEmail,
-      private_key: gcpStoragePrivateKey,
-    },
-  })
+const gc = new Storage({
+  projectId: gcpStorageProjectId,
+  credentials: {
+    client_email: gcpStorageClientEmail,
+    private_key: gcpStoragePrivateKey,
+  },
+})
 
+const handler: BlitzApiHandler = async (req, res) => {
   const bucket = gc.bucket(gcpStorageBucketName)
   const filename = req.query.file as string
   const folder = req.query.dir as string

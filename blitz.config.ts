@@ -6,6 +6,10 @@ const config: BlitzConfig = {
       cookiePrefix: 'mayday',
       isAuthorized: simpleRolesIsAuthorized,
     }),
+    (req, res, next) => {
+      res.blitzCtx.chatManager = req.chatManager
+      return next()
+    },
   ],
   env: {
     APP_ORIGIN: process.env.APP_ORIGIN,

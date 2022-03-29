@@ -1,7 +1,15 @@
-import { BlitzPage } from "blitz"
+import { BlitzPage } from 'blitz'
 
-import { SecondaryPageLayout } from "../layouts/SecondaryPageLayout"
+import {
+  SecondaryPageLayout,
+  SecondaryPageLayoutProps,
+} from '../layouts/SecondaryPageLayout'
 
-export function setupLayout(page: BlitzPage) {
-  page.getLayout = (page) => <SecondaryPageLayout>{page}</SecondaryPageLayout>
+export function setupLayout(
+  page: BlitzPage,
+  props: SecondaryPageLayoutProps = {}
+) {
+  page.getLayout = (page) => (
+    <SecondaryPageLayout {...props}>{page}</SecondaryPageLayout>
+  )
 }

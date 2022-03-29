@@ -15,6 +15,7 @@ export interface LabeledTextFieldProps
   labelProps?: ComponentPropsWithoutRef<'label'>
   asTextArea?: boolean
   caption?: string
+  floatingLabel?: boolean
 }
 
 export const LabeledTextField = forwardRef<
@@ -30,6 +31,7 @@ export const LabeledTextField = forwardRef<
       name,
       asTextArea,
       caption,
+      floatingLabel = true,
       ...props
     },
     ref
@@ -53,13 +55,15 @@ export const LabeledTextField = forwardRef<
             disabled={isSubmitting}
             {...register(name)}
             fullWidth
-            floatingLabel
+            floatingLabel={floatingLabel}
             hasError={!!error}
             {...props}
           />
-          <FloatingLabel htmlFor={name} {...labelProps}>
-            {label}
-          </FloatingLabel>
+          {floatingLabel && (
+            <FloatingLabel htmlFor={name} {...labelProps}>
+              {label}
+            </FloatingLabel>
+          )}
         </div>
 
         {caption && (

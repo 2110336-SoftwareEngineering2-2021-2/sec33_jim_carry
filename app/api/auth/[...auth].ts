@@ -20,7 +20,7 @@ const authApi = passportAuth({
         {
           clientID: googleClientId,
           clientSecret: googleClientSecret,
-          callbackURL: `${appOrigin}/api/auth/google/callback`,
+          callbackURL: `/api/auth/google/callback`,
         },
         async function (accessToken, refreshToken, profile, cb) {
           if (!profile.emails || !profile.emails[0]) {

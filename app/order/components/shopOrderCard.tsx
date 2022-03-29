@@ -20,44 +20,61 @@ export function ShopOrderCard({ order }) {
         return 'Pending'
     }
   }
-  const { id, owner, status, items, totalPrice, address } = order
+  const {
+    id,
+    owner,
+    status,
+    items,
+    totalPrice,
+    address,
+    receiverName,
+    receiverPhoneNo,
+  } = order
   const { name, profileImage } = owner
 
   return (
     <div className="flex flex-col px-6 py-3 ">
-      <div className="flex flex-row items-center justify-between space-x-2">
-        <Avatar src={profileImage} size={24} />
-        <p className="text-large font-bold grow truncate">{name}</p>
-        <p className="text-large font-bold text-primary-base">
-          {renameStatus(status)}
-        </p>
-      </div>
-      <div className="flex flex-row justify-between">
-        <p className="text-large font-bold text-ink-light">Order ID</p>
-        <p className="text-large font-bold">{id}</p>
-      </div>
-      <Divider />
-      <div>
-        <div className="flex flex-row items-left">
-          <p className="text-title3 text-left">Ship To</p>
-        </div>
-        <div className="flex flex-row itens-left">
-          <p className="text-small leading-tight font-regular text-ink-lighter">
-            {address}
+      <div className="flex flex-col px-2 py-3 ">
+        <div className="flex flex-row items-center justify-between space-x-2">
+          <Avatar src={profileImage} size={24} />
+          <p className="text-large font-bold grow truncate">{name}</p>
+          <p className="text-large font-bold text-primary-base">
+            {renameStatus(status)}
           </p>
         </div>
+        <div className="flex flex-row justify-between">
+          <p className="text-regular font-bold text-ink-light">Order ID</p>
+          <p className="text-regular font-bold">{id}</p>
+        </div>
+        <Divider className="mx-2 my-3" />
+        <div>
+          <div className="flex flex-row items-left">
+            <p className="text-large font-bold text-left">Ship To</p>
+          </div>
+          <div className="flex flex-row items-left">
+            <p className="text-small leading-tight font-regular text-ink-lighter">
+              {receiverName} | {receiverPhoneNo}
+            </p>
+          </div>
+          <div className="flex flex-row items-left">
+            <p className="text-small leading-tight font-regular text-ink-lighter">
+              {address}
+            </p>
+          </div>
+        </div>
+        <Divider className="mx-2 my-3" />
+        <div>
+          {items.map((e, idx) => (
+            <OrderProduct key={idx} item={e} />
+          ))}
+        </div>
+        <Divider className="mx-2 my-3" />
+        <div className="flex flex-row justify-between">
+          <p className="text-large font-bold">Total</p>
+          <p className="text-large font-bold">฿{totalPrice}</p>
+        </div>
       </div>
       <Divider />
-      <div>
-        {items.map((e, idx) => (
-          <OrderProduct key={idx} item={e} />
-        ))}
-      </div>
-      <Divider />
-      <div className="flex flex-row justify-between">
-        <p className="text-large font-bold">Total</p>
-        <p className="text-large font-bold">฿{totalPrice}</p>
-      </div>
     </div>
   )
 }

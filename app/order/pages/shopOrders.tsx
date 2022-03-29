@@ -16,6 +16,7 @@ import {
   SegmentedControlItem,
 } from 'app/core/components/SegmentedControl'
 import { Spinner } from 'app/core/components/Spinner'
+import { TopBar } from 'app/core/components/TopBar'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
 import { ProductWithShop } from 'app/core/types/Product'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
@@ -44,6 +45,7 @@ const ShopOrderPage: BlitzPage<ShopOrderProps> = ({ shopOrders }) => {
       : processed
   return (
     <div>
+      <TopBar title="Ordered Products" largeTitle />
       <div className="p-6 pb-2">
         <SegmentedControl
           value={value}
@@ -51,7 +53,7 @@ const ShopOrderPage: BlitzPage<ShopOrderProps> = ({ shopOrders }) => {
         >
           <SegmentedControlItem value="all">{`All (${shopOrders.length})`}</SegmentedControlItem>
           <SegmentedControlItem value="to process">
-            {`TO Process (${toProcess.length})`}
+            {`To Process (${toProcess.length})`}
           </SegmentedControlItem>
           <SegmentedControlItem value="processed">{`Processed (${processed.length})`}</SegmentedControlItem>
         </SegmentedControl>

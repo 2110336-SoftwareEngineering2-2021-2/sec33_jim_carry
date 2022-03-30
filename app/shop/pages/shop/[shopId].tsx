@@ -12,6 +12,7 @@ import { Button } from 'app/core/components/Button'
 import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupLayout } from 'app/core/utils/setupLayout'
+import { ShopBio } from 'app/shop/components/shop/ShopBio'
 import { ShopStats } from 'app/shop/components/shop/ShopStats'
 import getShopProfile from 'app/shop/queries/getShopProfile'
 
@@ -53,6 +54,7 @@ const ShopContainer = ({ shop }: ShopProfilePageProps) => {
   return (
     <div className="px-6 py-4 space-y-6">
       <ShopStats shop={shop} />
+      <ShopBio bio={shop.bio} rating={shop.rating} />
     </div>
   )
 }

@@ -12,11 +12,7 @@ export default async function getCurrentUser(_ = null, { session }: Ctx) {
       email: true,
       role: true,
       profileImage: true,
-      shop: {
-        select: {
-          id: true,
-        },
-      },
+      shop: true,
     },
   })
 

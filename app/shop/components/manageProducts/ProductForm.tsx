@@ -50,7 +50,9 @@ export const ProductForm = ({ onSubmit, initialValues }: ProductFormProps) => {
         asTextArea
         style={{ height: 144 }}
       />
-      <UploadImagesBlock />
+      <UploadImagesBlock
+        initialValue={initialValues ? initialValues?.images : []}
+      />
     </Form>
   )
 }

@@ -1,13 +1,29 @@
 import { resolver } from 'blitz'
 import db from 'db'
+import { z } from 'zod'
 
-import { TransformedProductFormValues } from '../validations'
+import { ProductFormValues } from '../validations'
+
+const compileInputValues = (values: z.infer<typeof ProductFormValues>) => {
+  const price = parseFloat(values.price)
+  const stock = parseInt(values.stock)
+
+  if (isNaN(price) || isNaN(stock))
+    throw new TypeError('Price and stock must be a number')
+  if (price < 0 || stock < 0)
+    throw new RangeError('Price and stock cannot be negative')
+
+  const hidden = false
+  const hashtags = values.hashtags!.split(',').map((s) => s.trim())
+
+  return { ...values, price, stock, hidden, hashtags }
+}
 
 const createProduct = resolver.pipe(
-  resolver.zod(TransformedProductFormValues),
+  resolver.zod(ProductFormValues),
   resolver.authorize(),
   async (input, { session }) => {
-    const compiledInput = { ...input, hidden: false }
+    const compiledInput = compileInputValues(input)
     const product = await db.product.create({
       data: {
         ...compiledInput,
@@ -16,9 +32,7 @@ const createProduct = resolver.pipe(
         },
       },
     })
-
     return product
   }
 )
-
 export default createProduct

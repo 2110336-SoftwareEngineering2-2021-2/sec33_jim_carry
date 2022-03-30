@@ -5,11 +5,12 @@ import { EmptyState } from 'app/core/components/EmptyState'
 import { ChatData } from '../queries/listChats'
 import { ChatListItem } from './ChatListItem'
 
-interface ChatListProps {
+export interface ChatListProps {
   chats: ChatData[]
+  userId: number
 }
 
-export function ChatList({ chats }: ChatListProps) {
+export function ChatList({ chats, userId }: ChatListProps) {
   if (chats.length == 0) {
     return (
       <EmptyState
@@ -20,9 +21,9 @@ export function ChatList({ chats }: ChatListProps) {
     )
   }
   return (
-    <div className="flex flex-col pt-2 px-6 divide-y divide-sky-lighter">
+    <div className="flex flex-col pt-2 divide-y divide-sky-lighter">
       {chats.map((chat) => (
-        <ChatListItem key={chat.id} chat={chat} />
+        <ChatListItem userId={userId} key={chat.id} chat={chat} />
       ))}
     </div>
   )

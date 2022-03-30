@@ -1,4 +1,4 @@
-import { Image, Link, Routes } from 'blitz'
+import { Head, Image, Link, Routes } from 'blitz'
 import { ReactNode } from 'react'
 import { FiChevronLeft } from 'react-icons/fi'
 
@@ -50,6 +50,11 @@ export function TopBar({
 
   return (
     <div className="sticky top-0 bg-sky-white z-10">
+      {title && (
+        <Head>
+          <title>{title}</title>
+        </Head>
+      )}
       <div
         className="
           h-14 flex items-center justify-between gap-3 relative

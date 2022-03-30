@@ -41,6 +41,7 @@ const searchProducts = resolver.pipe(
       where: {
         name: {
           contains: input.name,
+          mode: 'insensitive',
         },
         hidden: false,
       },

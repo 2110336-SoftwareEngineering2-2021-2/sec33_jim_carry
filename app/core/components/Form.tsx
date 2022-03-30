@@ -22,6 +22,8 @@ interface OnSubmitResult {
 }
 
 export const FORM_ERROR = 'FORM_ERROR'
+export const CLEAR_FORM = 'CLEAR_FORM'
+export const FOCUS_FIELD = 'FOCUS_FIELD'
 
 export function Form<S extends z.ZodType<any, any>>({
   children,
@@ -44,6 +46,9 @@ export function Form<S extends z.ZodType<any, any>>({
         onSubmit={ctx.handleSubmit(async (values) => {
           const result = (await onSubmit(values)) || {}
           for (const [key, value] of Object.entries(result)) {
+            if (key === CLEAR_FORM) {
+              ctx.reset()
+            }
             if (key === FORM_ERROR) {
               setFormError(value)
             } else {
@@ -52,6 +57,14 @@ export function Form<S extends z.ZodType<any, any>>({
                 message: value,
               })
             }
+            if (key == FOCUS_FIELD) {
+            }
+          }
+          const focusField = result[FOCUS_FIELD]
+          if (focusField) {
+            try {
+              ctx.setFocus(focusField)
+            } catch (e) {}
           }
         })}
         className="form"

@@ -1,11 +1,10 @@
 import { Avatar } from 'app/core/components/Avatar'
+import { Star } from 'app/core/components/Star'
 import { shortenAmount } from 'app/core/utils/shortenAmount'
-
-import { Star } from './Star'
 
 export interface SellerProps {
   name: string
-  rating: number
+  rating: number | null
   amount: number
   pic: string | null
 }
@@ -17,7 +16,7 @@ export function Seller({ name, rating, amount, pic }: SellerProps) {
       <div className="flex flex-col">
         <p className="text-ink-light">{name}</p>
         <div className="flex flex-row items-center space-x-1">
-          <Star rating={rating} />
+          <Star rating={rating!} noRating={rating === null} />
           <p className="text-tiny text-ink-light">{`${rating} · ${shortenAmount(
             amount
           )} sold`}</p>

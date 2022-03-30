@@ -27,7 +27,7 @@ export function ProductView({ pid }: ProductViewProps) {
           <a>
             <Seller
               name={product.shop.name}
-              rating={product.shop.rating ?? 0}
+              rating={product.shop.rating}
               amount={product.shop.totalSale}
               pic={product.shop.image}
             />

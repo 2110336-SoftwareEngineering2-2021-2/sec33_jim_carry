@@ -35,7 +35,6 @@ export const SearchBar = ({
         onChange={onChange}
         disabled={disabled}
       />
-      <FiMic />
     </div>
   )
 }

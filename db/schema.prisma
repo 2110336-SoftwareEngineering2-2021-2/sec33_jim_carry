@@ -270,6 +270,12 @@ enum TransactionType {
   ORDER
 }
 
+enum ShopStatus {
+  REQUESTED
+  APPROVED
+  DECLINED
+}
+
 enum ChatMemberType {
   BUYER
   SELLER
@@ -279,10 +285,4 @@ enum ChatMemberType {
 enum ChatMessageType {
   TEXT
   PRODUCT_LINK
-}
-
-enum ShopStatus {
-  REQUESTED
-  APPROVED
-  DECLINED
 }

@@ -1,3 +1,7 @@
+import { FiSearch } from 'react-icons/fi'
+
+import { EmptyState } from 'app/core/components/EmptyState'
+
 import { SearchRecommendationCateogry } from './SearchRecommendationCategory'
 
 export const SearchWithoutQuery = () => {
@@ -35,14 +39,22 @@ export const SearchWithoutQuery = () => {
     },
   ]
   return (
-    <div>
-      <SearchRecommendationCateogry name="Woman's wear" frames={FrameTest} />
-      <SearchRecommendationCateogry name="Man's wear" frames={FrameTest} />
-      <SearchRecommendationCateogry
-        name="Bags & Accessories"
-        frames={FrameTest}
+    <div className="mt-40">
+      <EmptyState
+        icon={<FiSearch strokeWidth={0.5} size={84} />}
+        title={`Type to begin searching`}
       />
-      <SearchRecommendationCateogry name="Shoes" frames={FrameTest} />
     </div>
+
+    // category code
+    // <div>
+    //   <SearchRecommendationCateogry name="Woman's wear" frames={FrameTest} />
+    //   <SearchRecommendationCateogry name="Man's wear" frames={FrameTest} />
+    //   <SearchRecommendationCateogry
+    //     name="Bags & Accessories"
+    //     frames={FrameTest}
+    //   />
+    //   <SearchRecommendationCateogry name="Shoes" frames={FrameTest} />
+    // </div>
   )
 }

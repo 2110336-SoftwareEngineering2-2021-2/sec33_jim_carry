@@ -9,7 +9,7 @@ import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 import createProduct from 'app/product/mutations/createProduct'
 import { ProductFormValues } from 'app/product/validations'
-import { ProductForm } from 'app/shop/components/ProductForm'
+import { ProductForm } from 'app/shop/components/manageProducts/ProductForm'
 
 const CreateProductPage: BlitzPage = () => {
   return (

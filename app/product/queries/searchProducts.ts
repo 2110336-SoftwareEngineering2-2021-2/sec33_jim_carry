@@ -8,8 +8,13 @@ const SearchProducts = z.object({
   skip: z.number(),
   orderBy: z.enum(['name', 'createdAt', 'price', 'rating']),
   orderType: z.enum(['asc', 'desc']),
+  tag: z.string().optional(),
 })
 
+/**
+ * Search products with a name and a criterion, which is used to specify the output's order (or additionally with a tag of a product)
+ * @returns An array of products sorting according to the criterion
+ */
 const searchProducts = resolver.pipe(
   resolver.zod(SearchProducts),
   async (input) => {
@@ -35,12 +40,13 @@ const searchProducts = resolver.pipe(
       }
     }
 
-    const queries: Prisma.ProductFindManyArgs = {
+    const queriesWithoutTag: Prisma.ProductFindManyArgs = {
       take: input.take,
       skip: input.skip,
       where: {
         name: {
           contains: input.name,
+          mode: 'insensitive',
         },
         hidden: false,
       },
@@ -49,6 +55,27 @@ const searchProducts = resolver.pipe(
       },
       orderBy: order,
     }
+
+    const queriesWithTag: Prisma.ProductFindManyArgs = {
+      take: input.take,
+      skip: input.skip,
+      where: {
+        name: {
+          contains: input.name,
+          mode: 'insensitive',
+        },
+        hidden: false,
+        hashtags: {
+          has: input.tag,
+        },
+      },
+      include: {
+        shop: true,
+      },
+      orderBy: order,
+    }
+
+    const queries = input.tag == '' ? queriesWithoutTag : queriesWithTag
 
     return await db.product.findMany(queries)
   }

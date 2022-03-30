@@ -1,5 +1,6 @@
 import { useQuery } from 'blitz'
 
+import { Spinner } from 'app/core/components/Spinner'
 import { Star } from 'app/core/components/Star'
 import getReviews from 'app/reviews/queries/getReviews'
 
@@ -18,7 +19,10 @@ type ShowReviewsProps = ShowReviewsByProductProps | ShowReviewsByShopProps
 export default function ShowReviews({ productId, shopId }: ShowReviewsProps) {
   const by = productId ? 'product' : 'shop'
   const id = productId ?? shopId!
-  const [reviews] = useQuery(getReviews, { by, id })
+  const [reviews, { isLoading }] = useQuery(getReviews, { by, id })
+
+  if (isLoading) return <Spinner />
+
   const avgRating =
     reviews.reduce((acc, cur) => acc + cur.rating, 0) / reviews.length
   const noRating = reviews.length === 0 ? true : false

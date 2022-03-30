@@ -22,10 +22,10 @@ import { ShopBio } from 'app/shop/components/shop/ShopBio'
 import { ShopButtons } from 'app/shop/components/shop/ShopButtons'
 import { ShopProducts } from 'app/shop/components/shop/ShopProducts'
 import { ShopStats } from 'app/shop/components/shop/ShopStats'
-import getShopProfile from 'app/shop/queries/getShopProfile'
+import getShop from 'app/shop/queries/getShop'
 
 interface ShopProfilePageProps {
-  shop: PromiseReturnType<typeof getShopProfile>
+  shop: PromiseReturnType<typeof getShop>
 }
 
 const ShopProfilePage: BlitzPage<ShopProfilePageProps> = ({ shop }) => {
@@ -48,7 +48,7 @@ const ShopTopBar = ({ shop }: ShopProfilePageProps) => {
       title={shop.name}
       actions={
         isOwner && (
-          // <Link href={Routes.CreateProductPage().pathname} passHref>
+          // <Link href={Routes.EditShopPage().pathname} passHref>
           <Button as="a" buttonType="transparent" size="large" iconOnly>
             <FiEdit2 className="text-ink-dark" />
           </Button>
@@ -65,7 +65,7 @@ const ShopContainer = ({ shop }: ShopProfilePageProps) => {
   return (
     <div className="px-6 py-4 space-y-6">
       <ShopStats shop={shop} />
-      <ShopBio bio={shop.bio} reviews={shop.reviews} />
+      <ShopBio shopId={shop.id} bio={shop.bio} />
       <ShopButtons shopId={shop.id} isOwner={isOwner} />
       <Divider />
     </div>
@@ -88,7 +88,7 @@ const ShopProductsOrReview = ({ shop }: ShopProfilePageProps) => {
         </SegmentedControl>
       </div>
       <Suspense fallback={Spinner}>
-        {tab === 'products' && <ShopProducts products={shop.products} />}
+        {tab === 'products' && <ShopProducts shopId={shop.id} />}
         {tab === 'reviews' && <ShowReviews shopId={shop.id} />}
       </Suspense>
     </div>
@@ -98,7 +98,7 @@ const ShopProductsOrReview = ({ shop }: ShopProfilePageProps) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const shopId = parseInt(context.query.shopId as string)
   const shop = await invokeWithMiddleware(
-    getShopProfile,
+    getShop,
     {
       id: shopId,
     },

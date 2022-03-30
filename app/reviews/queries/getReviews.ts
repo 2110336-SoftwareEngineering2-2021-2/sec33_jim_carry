@@ -9,7 +9,6 @@ const GetReviewsInput = z.object({
 
 const getReviews = resolver.pipe(
   resolver.zod(GetReviewsInput),
-  resolver.authorize(),
   async ({ id, by }) => {
     let reviews
     if (by === 'product') {

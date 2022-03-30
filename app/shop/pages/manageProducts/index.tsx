@@ -25,7 +25,7 @@ import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 import deleteProduct from 'app/product/mutations/deleteProduct'
 import getProducts from 'app/product/queries/getProducts'
-import { ShopProduct } from 'app/shop/components/ShopProduct'
+import { ShopProduct } from 'app/shop/components/manageProducts/ShopProduct'
 import getCurrentUser from 'app/users/queries/getCurrentUser'
 
 interface ManageProductsPageProps {

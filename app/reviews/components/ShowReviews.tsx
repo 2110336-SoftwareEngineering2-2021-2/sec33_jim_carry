@@ -1,6 +1,6 @@
 import { useQuery } from 'blitz'
 
-import { Star } from 'app/product/components/Star'
+import { Star } from 'app/core/components/Star'
 import getReviews from 'app/reviews/queries/getReviews'
 
 interface ShowReviewsByProductProps {

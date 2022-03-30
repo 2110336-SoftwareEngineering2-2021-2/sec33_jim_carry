@@ -18,7 +18,7 @@ export function Star({ rating, noRating }: StarProps) {
       key={index}
       className={`${
         noRating
-          ? 'fill-ink-lighter stroke-ink-lighter'
+          ? 'stroke-ink-lighter'
           : value
           ? 'fill-yellow stroke-yellow '
           : 'stroke-yellow '

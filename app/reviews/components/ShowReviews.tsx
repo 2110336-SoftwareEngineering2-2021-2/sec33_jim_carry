@@ -34,7 +34,7 @@ export default function ShowReviews({ productId, shopId }: ShowReviewsProps) {
           <div className="flex flex-row items-end gap-2">
             <Star rating={avgRating} noRating={noRating} />
             <p className="text-tiny leading-none font-regular text-ink-darkest">
-              {noRating ? 'No Reviews' : `${avgRating}/5`}
+              {noRating ? 'No reviews' : `${avgRating}/5`}
             </p>
             <p className="text-tiny leading-none font-regular text-ink-lighter">
               {noRating

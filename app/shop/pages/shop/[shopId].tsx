@@ -60,11 +60,13 @@ const ShopTopBar = ({ shop }: ShopProfilePageProps) => {
 }
 
 const ShopContainer = ({ shop }: ShopProfilePageProps) => {
+  const { userId } = useSession()
+  const isOwner = shop.userId === userId
   return (
     <div className="px-6 py-4 space-y-6">
       <ShopStats shop={shop} />
       <ShopBio bio={shop.bio} reviews={shop.reviews} />
-      <ShopButtons shopId={shop.id} />
+      <ShopButtons shopId={shop.id} isOwner={isOwner} />
       <Divider />
     </div>
   )

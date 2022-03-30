@@ -63,7 +63,9 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
         {shop ? (
           shop.shopStatus === ShopStatus.APPROVED ? (
             <>
-              <MenuListItem icon={<FiLayout />} title="My shop" />
+              <Link href={Routes.ShopOrderPage().pathname} passHref>
+                <MenuListItem icon={<FiLayout />} title="My shop orders" />
+              </Link>  
               <Link href={Routes.ManageProductsPage().pathname} passHref>
                 <MenuListItem as="a" icon={<FiGrid />} title="My products" />
               </Link>

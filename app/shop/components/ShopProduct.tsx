@@ -12,7 +12,6 @@ interface ShopProductProps {
   onDelete: (number) => void
 }
 
-// TODO : add amount in stock
 export const ShopProduct = ({ product, onDelete }: ShopProductProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const handleDialogClose = () => setIsDialogOpen(false)

@@ -51,7 +51,7 @@ export const ProductForm = ({ onSubmit, initialValues }: ProductFormProps) => {
         style={{ height: 144 }}
       />
       <UploadImagesBlock
-        initialValue={initialValues ? initialValues?.images : []} // TODO : Maybe might not need to specify initial values?
+        initialValue={initialValues ? initialValues?.images : []}
       />
     </Form>
   )

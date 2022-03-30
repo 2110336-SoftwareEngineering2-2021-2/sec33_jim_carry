@@ -57,12 +57,17 @@ const ChatDetailPage: BlitzPage<ChatDetailProps> = ({
   const othersTyping = typings.some((typingUserId) => typingUserId !== userId)
   const [sendProductLinkMutation] = useMutation(sendProductLink)
 
+  const { productId } = useRouterQuery()
+  const productLinkData = productId ? product : null
+
   const onBeforeSend = async () => {
-    if (!product) return
-    await sendProductLinkMutation({ chatId: chat.id, productId: product.id })
+    if (!productLinkData) return
+    await sendProductLinkMutation({
+      chatId: chat.id,
+      productId: productLinkData.id,
+    })
   }
 
-  const { productId } = useRouterQuery()
   const router = useRouter()
 
   return (
@@ -102,7 +107,7 @@ const ChatDetailPage: BlitzPage<ChatDetailProps> = ({
               <TypingIndicator size="large" />
             </ChatBubble>
           )}
-          {productId && product && (
+          {productLinkData && (
             <>
               <MessageListener
                 chatId={chat.id}
@@ -117,10 +122,10 @@ const ChatDetailPage: BlitzPage<ChatDetailProps> = ({
               />
               <ProductLink
                 data={{
-                  id: product.id,
-                  name: product.name,
-                  price: product.price,
-                  imageUrl: product.images[0],
+                  id: productLinkData.id,
+                  name: productLinkData.name,
+                  price: productLinkData.price,
+                  imageUrl: productLinkData.images[0],
                 }}
               />
             </>

@@ -31,8 +31,8 @@ interface ShopProfilePageProps {
 const ShopProfilePage: BlitzPage<ShopProfilePageProps> = ({ shop }) => {
   return (
     <div>
+      <ShopTopBar shop={shop} />
       <Suspense fallback={<Spinner />}>
-        <ShopTopBar shop={shop} />
         <ShopContainer shop={shop} />
         <ShopProductsOrReview shop={shop} />
       </Suspense>
@@ -41,22 +41,7 @@ const ShopProfilePage: BlitzPage<ShopProfilePageProps> = ({ shop }) => {
 }
 
 const ShopTopBar = ({ shop }: ShopProfilePageProps) => {
-  const { userId } = useSession()
-  const isOwner = shop.userId === userId
-  return (
-    <TopBar
-      title={shop.name}
-      actions={
-        isOwner && (
-          // <Link href={Routes.EditShopPage().pathname} passHref>
-          <Button as="a" buttonType="transparent" size="large" iconOnly>
-            <FiEdit2 className="text-ink-dark" />
-          </Button>
-          // </Link>
-        )
-      }
-    />
-  )
+  return <TopBar title={shop.name} />
 }
 
 const ShopContainer = ({ shop }: ShopProfilePageProps) => {

@@ -1,4 +1,4 @@
-import { Image } from 'blitz'
+import { Image, Link, Routes } from 'blitz'
 import { Product } from 'db'
 
 interface ShopProductsCardProps {
@@ -7,17 +7,21 @@ interface ShopProductsCardProps {
 
 export const ShopProductCard = ({ product }: ShopProductsCardProps) => {
   return (
-    <div className="w-full h-40 relative z-0">
-      <Image
-        src={product.images[0] ?? ''}
-        alt={product.name}
-        layout="fill"
-        objectFit="cover"
-        className="z-0"
-      />
-      <ProductStock stock={product.stock} />
-      <ProductPrice price={product.price} />
-    </div>
+    <Link href={Routes.ProductDetail({ pid: product.id })} passHref>
+      <a>
+        <div className="w-full h-40 relative z-0">
+          <Image
+            src={product.images[0] ?? ''}
+            alt={product.name}
+            layout="fill"
+            objectFit="cover"
+            className="z-0"
+          />
+          <ProductStock stock={product.stock} />
+          <ProductPrice price={product.price} />
+        </div>
+      </a>
+    </Link>
   )
 }
 

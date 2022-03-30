@@ -7,7 +7,7 @@ const getShopOrders = resolver.pipe(
     // Authorize user
     if (!userId) throw new AuthorizationError()
     //get Shop from userId
-    const shop = await db.shop.findFirst({
+    const shop = await db.shop.findUnique({
       where: { userId },
       include: {
         Order: {
@@ -17,8 +17,8 @@ const getShopOrders = resolver.pipe(
           },
         },
       },
+      rejectOnNotFound: true,
     })
-    if (!shop) throw new NotFoundError('User Shop Not Found')
 
     return shop.Order
   }

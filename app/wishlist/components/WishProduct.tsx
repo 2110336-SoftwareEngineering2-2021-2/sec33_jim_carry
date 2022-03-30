@@ -33,7 +33,17 @@ export function WishProduct({ product }: { product: ProductWithShop }) {
       </Link>
       <div className="flex flex-col space-y-2">
         <span className="text-small font-sans font-bold">{product.name}</span>
-        <span className="text-tiny text-ink-light font-sans font-regular">{`฿ ${product.price} · by ${product.shop.name}`}</span>
+        <span className="text-tiny text-ink-light font-sans font-regular">
+          {`฿ ${product.price} · by `}
+          <Link
+            href={Routes.ShopProfilePage({ shopId: product.shopId })}
+            passHref
+          >
+            <a className="text-tiny text-ink-light font-sans font-regular">
+              {product.shop.name}
+            </a>
+          </Link>
+        </span>
         <div className="flex space-x-4">
           <Button
             buttonType={inBag && !sold ? 'outline' : 'primary'}

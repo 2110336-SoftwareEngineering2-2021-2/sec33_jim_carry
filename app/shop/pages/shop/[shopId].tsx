@@ -5,11 +5,15 @@ import {
   PromiseReturnType,
   useSession,
 } from 'blitz'
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import { FiEdit2 } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
 import { Divider } from 'app/core/components/Divider'
+import {
+  SegmentedControl,
+  SegmentedControlItem,
+} from 'app/core/components/SegmentedControl'
 import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupLayout } from 'app/core/utils/setupLayout'
@@ -66,10 +70,21 @@ const ShopContainer = ({ shop }: ShopProfilePageProps) => {
 }
 
 const ShopProductsOrReview = ({ shop }: ShopProfilePageProps) => {
-  // const [tab, setTab] = React.useState('products')
+  const [tab, setTab] = useState('products')
   return (
     <div>
-      <ShopProducts products={shop.products} />
+      <div className="px-4">
+        <SegmentedControl
+          value={tab}
+          onChange={(newTab) => {
+            setTab(newTab)
+          }}
+        >
+          <SegmentedControlItem value="products">Products</SegmentedControlItem>
+          <SegmentedControlItem value="reviews">Reviews</SegmentedControlItem>
+        </SegmentedControl>
+      </div>
+      {tab === 'products' && <ShopProducts products={shop.products} />}
     </div>
   )
 }

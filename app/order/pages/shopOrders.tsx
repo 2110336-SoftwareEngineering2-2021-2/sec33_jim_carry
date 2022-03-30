@@ -4,21 +4,16 @@ import {
   GetServerSideProps,
   invokeWithMiddleware,
   PromiseReturnType,
-  useQuery,
 } from 'blitz'
 import { useMemo, useState } from 'react'
 import { FiTruck } from 'react-icons/fi'
 
-import { Button } from 'app/core/components/Button'
 import { EmptyState } from 'app/core/components/EmptyState'
 import {
   SegmentedControl,
   SegmentedControlItem,
 } from 'app/core/components/SegmentedControl'
-import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
-import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
-import { ProductWithShop } from 'app/core/types/Product'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 

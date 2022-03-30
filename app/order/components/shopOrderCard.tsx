@@ -64,8 +64,8 @@ export function ShopOrderCard({ order }) {
         </div>
         <Divider className="mx-2 my-3" />
         <div>
-          {items.map((e, idx) => (
-            <OrderProduct key={idx} item={e} />
+          {items.map((item) => (
+            <OrderProduct key={item.id} item={item} />
           ))}
         </div>
         <Divider className="mx-2 my-3" />

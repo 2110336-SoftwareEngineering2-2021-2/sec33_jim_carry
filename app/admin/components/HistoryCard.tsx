@@ -24,7 +24,23 @@ export function HistoryCard({ transaction }: HistoryCardProps) {
           ฿{transaction.amount}
         </p>
       </div>
-      <p>{transaction.createdAt.toLocaleString()}</p>
+      <p>{`${transaction.createdAt
+        .getDay()
+        .toString()
+        .padStart(2, '0')}/${transaction.createdAt
+        .getMonth()
+        .toString()
+        .padStart(2, '0')}/${transaction.createdAt.getFullYear()}
+      ${transaction.createdAt
+        .getHours()
+        .toString()
+        .padStart(2, '0')}:${transaction.createdAt
+        .getMinutes()
+        .toString()
+        .padStart(2, '0')}:${transaction.createdAt
+        .getSeconds()
+        .toString()
+        .padStart(2, '0')}`}</p>
     </div>
   )
 }

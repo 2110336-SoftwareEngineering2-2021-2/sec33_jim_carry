@@ -1,19 +1,31 @@
-import { useQuery } from 'blitz'
+import { Order, Shop, Transaction, User } from '@prisma/client'
+import { FiSearch, FiTruck } from 'react-icons/fi'
 
-import getAdminTransactions from '../queries/getAdminTransactions'
+import { EmptyState } from 'app/core/components/EmptyState'
+
 import { HistoryCard } from './HistoryCard'
 
-export function AdminHistoryView() {
-  const [transactions] = useQuery(getAdminTransactions, {})
-  console.log(transactions)
+export interface AdminHistoryViewProps {
+  transactions: (Transaction & {
+    Order: (Order & { shop: Shop }) | null
+    user: User
+  })[]
+}
 
+export function AdminHistoryView({ transactions }: AdminHistoryViewProps) {
+  if (transactions.length === 0) {
+    return (
+      <EmptyState
+        icon={<FiSearch strokeWidth={0.75} size={84} />}
+        title={`No result`}
+      />
+    )
+  }
   return (
     <div>
-      <ul>
-        {transactions.map((e) => (
-          <HistoryCard key={e.id} transaction={e} />
-        ))}
-      </ul>
+      {transactions.map((e) => (
+        <HistoryCard key={e.id} transaction={e} />
+      ))}
     </div>
   )
 }

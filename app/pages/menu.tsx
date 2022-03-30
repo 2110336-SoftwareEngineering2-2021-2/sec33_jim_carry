@@ -17,6 +17,7 @@ import {
   FiLayout,
   FiList,
 } from 'react-icons/fi'
+import { RiFileList3Line } from 'react-icons/ri'
 
 import logout from 'app/auth/mutations/logout'
 import { Avatar } from 'app/core/components/Avatar'
@@ -71,7 +72,10 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
                 />
               </Link>
               <Link href={Routes.ShopOrderPage().pathname} passHref>
-                <MenuListItem icon={<FiLayout />} title="My shop orders" />
+                <MenuListItem
+                  icon={<RiFileList3Line />}
+                  title="My shop orders"
+                />
               </Link>
               <Link href={Routes.ManageProductsPage().pathname} passHref>
                 <MenuListItem as="a" icon={<FiGrid />} title="My products" />

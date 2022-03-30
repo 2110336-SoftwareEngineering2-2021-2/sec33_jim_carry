@@ -16,9 +16,7 @@ const compileInputValues = (values: z.infer<typeof ProductFormValues>) => {
   const hidden = false
   const hashtags = values.hashtags!.split(',').map((s) => s.trim())
 
-  // TODO : Handle images
-  const images = ['https://picsum.photos/500', 'https://picsum.photos/500']
-  return { ...values, price, stock, hidden, hashtags, images }
+  return { ...values, price, stock, hidden, hashtags }
 }
 
 const updateProduct = resolver.pipe(
@@ -34,7 +32,6 @@ const updateProduct = resolver.pipe(
         },
       },
     })
-
     // Find a product with this ID and in this user's shop
     const product = await db.product.findFirst({
       where: { id, shopId: user?.shop?.id },
@@ -46,9 +43,7 @@ const updateProduct = resolver.pipe(
       where: { id },
       data: compiledInput,
     })
-
     return updatedProduct
   }
 )
-
 export default updateProduct

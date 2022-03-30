@@ -16,9 +16,7 @@ const compileInputValues = (values: z.infer<typeof ProductFormValues>) => {
   const hidden = false
   const hashtags = values.hashtags!.split(',').map((s) => s.trim())
 
-  // TODO : Handle images
-  const images = ['https://picsum.photos/500', 'https://picsum.photos/500']
-  return { ...values, price, stock, hidden, hashtags, images }
+  return { ...values, price, stock, hidden, hashtags }
 }
 
 const createProduct = resolver.pipe(
@@ -34,9 +32,7 @@ const createProduct = resolver.pipe(
         },
       },
     })
-
     return product
   }
 )
-
 export default createProduct

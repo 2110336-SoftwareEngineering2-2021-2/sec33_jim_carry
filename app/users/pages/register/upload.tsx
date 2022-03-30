@@ -7,12 +7,14 @@ import { TopBar } from 'app/core/components/TopBar'
 import createUploadURL from 'app/core/mutations/createUploadURL'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
+import updateIdImage from 'app/shop/mutations/updateIdImage'
 import { getImageUrl } from 'app/users/utils/getImageUrl'
 
 const UploadIdPage: BlitzPage = () => {
   const [imageUrl, setImageUrl] = useState<string>()
   const inputRef = useRef<HTMLInputElement>(null)
   const [createUploadURLMutation] = useMutation(createUploadURL)
+  const [updateIdImageMutation] = useMutation(updateIdImage)
   const uploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -31,7 +33,9 @@ const UploadIdPage: BlitzPage = () => {
       method: 'POST',
       body: formData,
     })
-    setImageUrl(getImageUrl(filename, 'userIds'))
+    const imageUrl = getImageUrl(filename, 'userIds')
+    await updateIdImageMutation({ citizenIdImage: imageUrl })
+    setImageUrl(imageUrl)
   }
 
   return (

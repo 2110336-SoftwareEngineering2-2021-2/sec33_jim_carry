@@ -83,7 +83,7 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
               </Link>
             </>
           ) : shop.shopStatus === ShopStatus.REQUESTED ? (
-            <MenuListItem as="div" title="Your registration is in progress" />
+            <MenuListItem as="a" title="Your registration is in progress" />
           ) : null
         ) : (
           <Link href={Routes.RegisterPage().pathname} passHref>

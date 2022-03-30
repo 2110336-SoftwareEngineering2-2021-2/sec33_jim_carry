@@ -1,5 +1,6 @@
 import { useQuery } from 'blitz'
 
+import { Spinner } from 'app/core/components/Spinner'
 import { Star } from 'app/core/components/Star'
 import getReviews from 'app/reviews/queries/getReviews'
 
@@ -18,7 +19,10 @@ type ShowReviewsProps = ShowReviewsByProductProps | ShowReviewsByShopProps
 export default function ShowReviews({ productId, shopId }: ShowReviewsProps) {
   const by = productId ? 'product' : 'shop'
   const id = productId ?? shopId!
-  const [reviews] = useQuery(getReviews, { by, id })
+  const [reviews, { isLoading }] = useQuery(getReviews, { by, id })
+
+  if (isLoading) return <Spinner />
+
   const avgRating =
     reviews.reduce((acc, cur) => acc + cur.rating, 0) / reviews.length
   const noRating = reviews.length === 0 ? true : false
@@ -30,7 +34,7 @@ export default function ShowReviews({ productId, shopId }: ShowReviewsProps) {
           <div className="flex flex-row items-end gap-2">
             <Star rating={avgRating} noRating={noRating} />
             <p className="text-tiny leading-none font-regular text-ink-darkest">
-              {noRating ? 'No Reviews' : `${avgRating}/5`}
+              {noRating ? 'No reviews' : `${avgRating}/5`}
             </p>
             <p className="text-tiny leading-none font-regular text-ink-lighter">
               {noRating

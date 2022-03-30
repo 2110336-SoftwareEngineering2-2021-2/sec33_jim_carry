@@ -7,17 +7,13 @@ const GetShop = z.object({
   id: z.number().optional().refine(Boolean, 'Required'),
 })
 
-const getShop = resolver.pipe(
-  resolver.zod(GetShop),
-  resolver.authorize(),
-  async ({ id }) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const shop = await db.shop.findFirst({ where: { id } })
+const getShop = resolver.pipe(resolver.zod(GetShop), async ({ id }) => {
+  // TODO: in multi-tenant app, you must add validation to ensure correct tenant
+  const shop = await db.shop.findFirst({ where: { id } })
 
-    if (!shop) throw new NotFoundError()
+  if (!shop) throw new NotFoundError()
 
-    return shop
-  }
-)
+  return shop
+})
 
 export default getShop

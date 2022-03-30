@@ -2,19 +2,18 @@ import { resolver, NotFoundError } from 'blitz'
 import db from 'db'
 import { z } from 'zod'
 
-const GetShop = z.object({
-  id: z.number().optional().refine(Boolean, 'Required'),
+const CountFavoritesInput = z.object({
+  shopId: z.number(),
 })
 
-const getShop = resolver.pipe(
-  resolver.zod(GetShop),
-  resolver.authorize(),
-  async ({ id }) => {
+const countFavorites = resolver.pipe(
+  resolver.zod(CountFavoritesInput),
+  async ({ shopId }) => {
     const shop = await db.shop.findFirst({
-      where: { id },
+      where: {
+        id: shopId,
+      },
       include: {
-        products: true,
-        reviews: true,
         _count: {
           select: {
             followers: true,
@@ -25,8 +24,8 @@ const getShop = resolver.pipe(
 
     if (!shop) throw new NotFoundError()
 
-    return shop
+    return shop._count.followers
   }
 )
 
-export default getShop
+export default countFavorites

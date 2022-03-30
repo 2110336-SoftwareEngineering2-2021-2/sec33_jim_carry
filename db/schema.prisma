@@ -183,8 +183,9 @@ model Message {
   sender   User @relation(fields: [senderId], references: [id])
   senderId Int
 
-  content   String
-  createdAt DateTime @default(now())
+  type      ChatMessageType
+  payload   Json
+  createdAt DateTime        @default(now())
 
   @@index(createdAt)
 }
@@ -195,7 +196,7 @@ model ChatMember {
   user   User @relation(fields: [userId], references: [id])
   userId Int
 
-  isShop            Boolean
+  type              ChatMemberType
   lastMessageReadId Int?
 
   // composite primary key
@@ -273,4 +274,15 @@ enum ShopStatus {
   REQUESTED
   APPROVED
   DECLINED
+}
+
+enum ChatMemberType {
+  BUYER
+  SELLER
+  ADMIN
+}
+
+enum ChatMessageType {
+  TEXT
+  PRODUCT_LINK
 }

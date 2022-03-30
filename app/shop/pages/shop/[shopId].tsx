@@ -17,6 +17,7 @@ import {
 import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
 import { setupLayout } from 'app/core/utils/setupLayout'
+import ShowReviews from 'app/reviews/components/ShowReviews'
 import { ShopBio } from 'app/shop/components/shop/ShopBio'
 import { ShopButtons } from 'app/shop/components/shop/ShopButtons'
 import { ShopProducts } from 'app/shop/components/shop/ShopProducts'
@@ -84,7 +85,10 @@ const ShopProductsOrReview = ({ shop }: ShopProfilePageProps) => {
           <SegmentedControlItem value="reviews">Reviews</SegmentedControlItem>
         </SegmentedControl>
       </div>
-      {tab === 'products' && <ShopProducts products={shop.products} />}
+      <Suspense fallback={Spinner}>
+        {tab === 'products' && <ShopProducts products={shop.products} />}
+        {tab === 'reviews' && <ShowReviews shopId={shop.id} />}
+      </Suspense>
     </div>
   )
 }

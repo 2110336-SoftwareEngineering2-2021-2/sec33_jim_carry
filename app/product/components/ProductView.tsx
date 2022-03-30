@@ -1,4 +1,4 @@
-import { useQuery } from 'blitz'
+import { Link, Routes, useQuery } from 'blitz'
 
 import getProduct from '../queries/getProduct'
 import { Description } from './Description'
@@ -20,12 +20,19 @@ export function ProductView({ pid }: ProductViewProps) {
       <ProductPicture imgSrc={product.images} />
       <div className="flex flex-col divide-y divide-sky-lighter">
         <ProductTitle product={product} />
-        <Seller
-          name={product.shop.name}
-          rating={product.shop.rating ?? 5}
-          amount={product.shop.totalSale}
-          pic={product.shop.image}
-        />
+        <Link
+          href={Routes.ShopProfilePage({ shopId: product.shopId })}
+          passHref
+        >
+          <a>
+            <Seller
+              name={product.shop.name}
+              rating={product.shop.rating ?? 0}
+              amount={product.shop.totalSale}
+              pic={product.shop.image}
+            />
+          </a>
+        </Link>
         <Description
           tags={product.hashtags}
           description={product.description ?? ''}

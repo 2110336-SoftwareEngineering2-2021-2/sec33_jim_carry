@@ -3,7 +3,7 @@ import { z } from 'zod'
 import Form, { FORM_ERROR } from 'app/core/components/Form'
 import LabeledTextField from 'app/core/components/LabeledTextField'
 import { ProductFormValues } from 'app/product/validations'
-import { UploadImagesBlock } from 'app/shop/components/UploadImagesBlock'
+import { UploadImagesBlock } from 'app/shop/components/manageProducts/UploadImagesBlock'
 
 interface ProductFormProps {
   onSubmit: (ProductFormValues) => void

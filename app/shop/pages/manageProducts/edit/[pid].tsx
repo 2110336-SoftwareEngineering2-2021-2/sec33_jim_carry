@@ -17,7 +17,7 @@ import { setupLayout } from 'app/core/utils/setupLayout'
 import updateProduct from 'app/product/mutations/updateProduct'
 import getProduct from 'app/product/queries/getProduct'
 import { ProductFormValues } from 'app/product/validations'
-import { ProductForm } from 'app/shop/components/ProductForm'
+import { ProductForm } from 'app/shop/components/manageProducts/ProductForm'
 
 const UpdateProductPage: BlitzPage = () => {
   return (

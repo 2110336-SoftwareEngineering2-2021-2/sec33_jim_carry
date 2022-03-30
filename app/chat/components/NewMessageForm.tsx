@@ -30,6 +30,8 @@ export function NewMessageForm({ chatId, onBeforeSend }: NewMessageFormProps) {
       schema={SendMessageForm}
       onSubmit={async (values: z.infer<typeof SendMessageForm>) => {
         try {
+          const message = values.message.trim()
+          if (message === '') return
           if (onBeforeSend) {
             await onBeforeSend()
           }

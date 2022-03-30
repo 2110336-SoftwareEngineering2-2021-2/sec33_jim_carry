@@ -41,6 +41,8 @@ export function SocketProvider({ children }: PropsWithChildren<{}>) {
   const { userId } = useSession({ suspense: false })
 
   useEffect(() => {
+    setConnected(socket.connected)
+
     socket.on('connect', () => {
       setState('connected')
       setConnected(true)

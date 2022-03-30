@@ -54,7 +54,15 @@ export function ProductCard({ product }: { product: ProductWithShop }) {
           </div>
         </div>
         <span className="font-regular text-tiny text-ink-light">
-          {`1h ago · by ${product.shop.name}`}
+          {`1h ago · by `}
+          <Link
+            href={Routes.ShopProfilePage({ shopId: product.shopId })}
+            passHref
+          >
+            <a className="font-regular text-tiny text-ink-light">
+              {product.shop.name}
+            </a>
+          </Link>
         </span>
       </div>
     </div>

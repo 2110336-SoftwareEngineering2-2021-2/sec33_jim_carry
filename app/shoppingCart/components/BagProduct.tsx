@@ -26,11 +26,16 @@ export function BagProduct({ product }: { product: ProductWithShop }) {
         </div>
       </Link>
       <div className="flex-1 flex flex-row space-x-4">
-        <div className="flex-1 flex flex-col space-y-1">
+        <div className="flex-1 flex flex-col space-y-1.5">
           <span className="text-small font-sans font-bold">{product.name}</span>
-          <span className="text-tiny text-ink-light font-sans font-regular">
-            {product.shop.name}
-          </span>
+          <Link
+            href={Routes.ShopProfilePage({ shopId: product.shopId })}
+            passHref
+          >
+            <a className="text-tiny text-ink-light font-sans font-regular">
+              {product.shop.name}
+            </a>
+          </Link>
           <span
             className={`text-large ${
               !isProductSoldOut(product) ? 'text-primary-dark' : 'text-sky-dark'

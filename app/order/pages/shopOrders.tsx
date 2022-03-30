@@ -74,7 +74,7 @@ const ShopOrderList = ({ shopOrders, value }) => {
   return (
     <div className="flex flex-col p-6 space-y-6">
       {shopOrders.map((order) => (
-        <ShopOrderCard key={order.owner.id} order={order} />
+        <ShopOrderCard key={order.id} order={order} />
       ))}
     </div>
   )

@@ -47,6 +47,7 @@ const UpdateProductForm = () => {
         stock: product.stock.toString(),
         hashtags: product.hashtags.join(', '),
         description: product.description ? product.description : '',
+        images: [product.images[0]!, ...product.images.slice(1)],
       }}
       onSubmit={async (values: z.infer<typeof ProductFormValues>) => {
         await updateProductMutation({ id: pid, data: values })

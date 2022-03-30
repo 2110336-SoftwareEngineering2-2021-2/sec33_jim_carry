@@ -17,6 +17,14 @@ const mockImageUrls = [
   'https://images.unsplash.com/photo-1585218356057-dc0e8d3558bb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
 ]
 
+const hashtags = [
+  ['Bags'],
+  ['Watches'],
+  ['Watches'],
+  ['Cameras'],
+  ['Shoes', 'Nike'],
+]
+
 function shiftImages(shiftAmount: number) {
   const result: string[] = []
   const count = mockImageUrls.length
@@ -40,6 +48,7 @@ const seed = async () => {
       stock: i,
       hidden: false,
       images: shiftImages(i),
+      hashtags: hashtags[(i - 1) % 5],
     })
   }
 

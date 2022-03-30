@@ -73,7 +73,7 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
             </>
           ) : shop.shopStatus === ShopStatus.DECLINED ? (
             <>
-              <MenuListItem as="a" title="Your request has been declined" />
+              <MenuListItem as="div" title="Your request has been declined" />
               <Link href={Routes.RegisterPage().pathname} passHref>
                 <MenuListItem
                   as="a"
@@ -83,7 +83,7 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
               </Link>
             </>
           ) : shop.shopStatus === ShopStatus.REQUESTED ? (
-            <MenuListItem as="a" title="Your registration is in progress" />
+            <MenuListItem as="div" title="Your registration is in progress" />
           ) : null
         ) : (
           <Link href={Routes.RegisterPage().pathname} passHref>

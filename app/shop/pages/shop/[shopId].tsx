@@ -62,7 +62,7 @@ const ShopContainer = ({ shop }: ShopProfilePageProps) => {
   return (
     <div className="px-6 py-4 space-y-6">
       <ShopStats shop={shop} />
-      <ShopBio bio={shop.bio} rating={shop.rating} />
+      <ShopBio bio={shop.bio} reviews={shop.reviews} />
       <ShopButtons shopId={shop.id} />
       <Divider />
     </div>

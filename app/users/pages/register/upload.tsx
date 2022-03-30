@@ -4,24 +4,21 @@ import { FiImage } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
 import { TopBar } from 'app/core/components/TopBar'
+import createUploadURL from 'app/core/mutations/createUploadURL'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
-import updateIdImage from 'app/shop/mutations/updateIdImage'
 import { getImageUrl } from 'app/users/utils/getImageUrl'
 
 const UploadIdPage: BlitzPage = () => {
   const [imageUrl, setImageUrl] = useState<string>()
   const inputRef = useRef<HTMLInputElement>(null)
-  const [updateIdImageMutation] = useMutation(updateIdImage)
+  const [createUploadURLMutation] = useMutation(createUploadURL)
   const uploadImage = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
-
-    const filename = encodeURIComponent(file.name)
-    const res = await fetch(
-      `/api/uploadURL?file=${filename}&dir=${encodeURIComponent('userIds/')}`
-    )
-    const { url, fields } = await res.json()
+    const { url, fields, filename } = await createUploadURLMutation({
+      path: `userIds/`,
+    })
     const formData = new FormData()
     const formArray: [string, string | File][] = Object.entries({
       ...fields,
@@ -34,9 +31,7 @@ const UploadIdPage: BlitzPage = () => {
       method: 'POST',
       body: formData,
     })
-    const imageUrl = getImageUrl(file.name, 'userIds')
-    await updateIdImageMutation({ citizenIdImage: imageUrl })
-    setImageUrl(imageUrl)
+    setImageUrl(getImageUrl(filename, 'userIds'))
   }
 
   return (

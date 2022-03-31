@@ -18,7 +18,7 @@ export function Dropdownlist({ data, firstVal, onChange }: DropdownlistProps) {
     <div className="w-fit grow">
       <Listbox value={selectedOption} onChange={onChangeHandler}>
         <div className="relative mt-1">
-          <Listbox.Button className="relative z-10 w-full py-2 pl-3 pr-10 text-left bg-sky-lightest rounded-lg shadow-md">
+          <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-sky-lightest rounded-lg shadow-md">
             <span className="block truncate">{selectedOption}</span>
           </Listbox.Button>
           <Transition
@@ -27,7 +27,7 @@ export function Dropdownlist({ data, firstVal, onChange }: DropdownlistProps) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-20 w-full py-1 mt-1 overflow-auto text-base bg-sky-lightest rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-sky-lightest rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {data.map((month, idx) => (
                 <Listbox.Option
                   key={idx}

@@ -49,7 +49,7 @@ export function TopBar({
   )
 
   return (
-    <div className="sticky top-0 bg-sky-white z-10">
+    <div className="sticky top-0 bg-sky-white z-20">
       {title && (
         <Head>
           <title>{title}</title>

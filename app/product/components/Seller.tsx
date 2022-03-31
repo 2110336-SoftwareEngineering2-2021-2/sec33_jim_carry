@@ -17,9 +17,9 @@ export function Seller({ name, rating, amount, pic }: SellerProps) {
         <p className="text-ink-light">{name}</p>
         <div className="flex flex-row items-center space-x-1">
           <Star rating={rating!} noRating={rating === null} />
-          <p className="text-tiny text-ink-light">{`${rating} · ${shortenAmount(
-            amount
-          )} sold`}</p>
+          <p className="text-tiny text-ink-light">{`${
+            rating === null ? 'No review' : rating.toFixed(1)
+          } · ${shortenAmount(amount)} sold`}</p>
         </div>
       </div>
     </div>

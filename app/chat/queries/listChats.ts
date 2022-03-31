@@ -21,7 +21,7 @@ const listChats = resolver.pipe(
   resolver.authorize(),
   async (_, { session }) => {
     const shopCount = await db.shop.count({
-      where: { id: session.userId },
+      where: { userId: session.userId },
     })
     const hasShop = shopCount > 0
     const chats = await db.chat.findMany({

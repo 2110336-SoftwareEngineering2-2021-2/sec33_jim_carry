@@ -1,6 +1,8 @@
 import { Link, Routes, useQuery } from 'blitz'
 
+import countOrders from 'app/order/queries/countSoldOrders'
 import ShowReviews from 'app/reviews/components/ShowReviews'
+import getReviews from 'app/reviews/queries/getReviews'
 
 import getProduct from '../queries/getProduct'
 import { Description } from './Description'
@@ -15,6 +17,16 @@ export interface ProductViewProps {
 
 export function ProductView({ pid }: ProductViewProps) {
   const [product] = useQuery(getProduct, { id: pid })
+  const [reviews] = useQuery(getReviews, { by: 'shop', id: product.shopId })
+  const [soldCount] = useQuery(countOrders, {
+    where: {
+      shopId: product.shopId,
+      status: { not: 'CANCELLED' },
+    },
+  })
+  const rating =
+    reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
+  const noRating = reviews.length === 0 ? true : false
 
   return (
     <div>
@@ -28,9 +40,10 @@ export function ProductView({ pid }: ProductViewProps) {
           <a>
             <Seller
               name={product.shop.name}
-              rating={product.shop.rating}
-              amount={product.shop.totalSale}
+              rating={rating}
+              amount={soldCount}
               pic={product.shop.image}
+              noRating={noRating}
             />
           </a>
         </Link>

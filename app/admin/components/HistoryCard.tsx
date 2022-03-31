@@ -1,4 +1,5 @@
 import { Order, Shop, Transaction, User } from '@prisma/client'
+import { format } from 'date-fns'
 
 export interface HistoryCardProps {
   transaction: Transaction & {
@@ -9,38 +10,26 @@ export interface HistoryCardProps {
 
 export function HistoryCard({ transaction }: HistoryCardProps) {
   return (
-    <div className="flex flex-row justify-between px-5 py-2">
-      <div className="flex flex-col">
-        <p className="text-large font-bold">{transaction.user.name}</p>
-        <p className="text-large font-bold">
-          {transaction.type == 'ORDER' ? 'รายการโอนเข้า' : 'รายการถอน'}
+    <div className="flex flex-col px-4 py-2">
+      <div className="flex flex-row items-center space-x-2">
+        <p className="text-large font-bold grow truncate">
+          {transaction.user.name}
         </p>
-        <p>
-          {transaction.type == 'ORDER'
-            ? `Order: ${transaction.orderId}`
-            : `Account: xxx-x-x${transaction.bankAccount!.slice(5, 9)}-x`}
-        </p>
-        <p className="text-primary-base text-large font-medium">
-          ฿{transaction.amount}
+        <p className="text-ink-light min-w-max">
+          {format(transaction.createdAt, 'dd/MM/yyyy HH:mm:ss')}
         </p>
       </div>
-      <p>{`${transaction.createdAt
-        .getDay()
-        .toString()
-        .padStart(2, '0')}/${transaction.createdAt
-        .getMonth()
-        .toString()
-        .padStart(2, '0')}/${transaction.createdAt.getFullYear()}
-      ${transaction.createdAt
-        .getHours()
-        .toString()
-        .padStart(2, '0')}:${transaction.createdAt
-        .getMinutes()
-        .toString()
-        .padStart(2, '0')}:${transaction.createdAt
-        .getSeconds()
-        .toString()
-        .padStart(2, '0')}`}</p>
+      <p className="text-large font-bold">
+        {transaction.type == 'ORDER' ? 'รายการโอนเข้า' : 'รายการถอน'}
+      </p>
+      <p>
+        {transaction.type == 'ORDER'
+          ? `Order: ${transaction.orderId}`
+          : `Account: xxx-x-x${transaction.bankAccount!.slice(5, 9)}-x`}
+      </p>
+      <p className="text-primary-base text-large font-medium">
+        ฿{transaction.amount}
+      </p>
     </div>
   )
 }

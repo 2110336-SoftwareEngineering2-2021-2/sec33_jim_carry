@@ -1,6 +1,12 @@
 import { resolver, NotFoundError, Ctx, AuthorizationError } from 'blitz'
 import db from 'db'
 
+/**
+ * Get all transactions
+ *
+ * @returns All transactions
+ */
+
 const getAdminTransactions = resolver.pipe(
   resolver.authorize(),
   async (_ = null, { session }: Ctx) => {

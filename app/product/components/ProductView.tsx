@@ -1,4 +1,4 @@
-import { Link, Routes, useQuery } from 'blitz'
+import { Head, Link, Routes, useQuery } from 'blitz'
 
 import countOrders from 'app/order/queries/countSoldOrders'
 import ShowReviews from 'app/reviews/components/ShowReviews'
@@ -30,6 +30,9 @@ export function ProductView({ pid }: ProductViewProps) {
 
   return (
     <div>
+      <Head>
+        <title>{product.name}</title>
+      </Head>
       <ProductPicture imgSrc={product.images} />
       <div className="flex flex-col divide-y divide-sky-lighter">
         <ProductTitle product={product} />

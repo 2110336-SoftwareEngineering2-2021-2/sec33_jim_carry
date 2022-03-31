@@ -26,6 +26,7 @@ export function ProductView({ pid }: ProductViewProps) {
   })
   const rating =
     reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
+  const noRating = reviews.length === 0 ? true : false
 
   return (
     <div>
@@ -42,6 +43,7 @@ export function ProductView({ pid }: ProductViewProps) {
               rating={rating}
               amount={soldCount}
               pic={product.shop.image}
+              noRating={noRating}
             />
           </a>
         </Link>

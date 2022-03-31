@@ -63,6 +63,21 @@ module.exports = {
       lineHeight: {
         14: '3.5rem',
       },
+      aspectRatio: {
+        '4/3': '4 / 3',
+      },
+      animation: {
+        'typing-indicator-1': '1s blink infinite',
+        'typing-indicator-2': '1s blink infinite 0.333s',
+        'typing-indicator-3': '1s blink infinite 0.667s',
+      },
+      keyframes: {
+        blink: {
+          '50%': {
+            opacity: 1,
+          },
+        },
+      },
     },
   },
   plugins: [],

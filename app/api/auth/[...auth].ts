@@ -6,6 +6,7 @@ import {
   appOrigin,
   googleClientId,
   googleClientSecret,
+  prodAppOrigin,
 } from 'app/core/environment'
 
 const authApi = passportAuth({
@@ -20,7 +21,7 @@ const authApi = passportAuth({
         {
           clientID: googleClientId,
           clientSecret: googleClientSecret,
-          callbackURL: `${appOrigin}/api/auth/google/callback`,
+          callbackURL: `${prodAppOrigin ?? ''}/api/auth/google/callback`,
         },
         async function (accessToken, refreshToken, profile, cb) {
           if (!profile.emails || !profile.emails[0]) {

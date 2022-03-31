@@ -6,6 +6,10 @@ const config: BlitzConfig = {
       cookiePrefix: 'mayday',
       isAuthorized: simpleRolesIsAuthorized,
     }),
+    (req, res, next) => {
+      res.blitzCtx.chatManager = req.chatManager
+      return next()
+    },
   ],
   env: {
     APP_ORIGIN: process.env.APP_ORIGIN,
@@ -21,7 +25,7 @@ const config: BlitzConfig = {
   },
   */
   images: {
-    domains: ['images.unsplash.com', 'picsum.photos'],
+    domains: ['images.unsplash.com', 'picsum.photos', 'storage.googleapis.com'],
   },
 }
 module.exports = config

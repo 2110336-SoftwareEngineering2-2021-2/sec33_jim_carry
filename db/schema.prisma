@@ -38,6 +38,7 @@ model User {
   chats        ChatMember[]
   messages     Message[]
   Transaction  Transaction[]
+  reviews      Review[]
 }
 
 model Shop {
@@ -52,9 +53,13 @@ model Shop {
   rating    Float?
   totalSale Int     @default(0)
 
+  shopStatus     ShopStatus @default(APPROVED)
+  citizenIdImage String?
+
   products  Product[]
   followers User[]    @relation(name: "follow")
   Order     Order[]
+  reviews   Review[]
 }
 
 model Address {
@@ -89,6 +94,7 @@ model Product {
   wishlistedBy      User[]              @relation(name: "wishlist")
   selectedBy        User[]              @relation(name: "shoppingCart")
   OrderItemSnapshot OrderItemSnapshot[]
+  reviews           Review[]
 }
 
 model CategoryGroup {
@@ -144,6 +150,24 @@ model OrderItemSnapshot {
   images      String[]
 }
 
+model Review {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  shop      Shop     @relation(fields: [shopId], references: [id])
+  shopId    Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+
+  rating  Float
+  title   String
+  comment String
+}
+
 model Chat {
   id            Int          @id @default(autoincrement())
   memberships   ChatMember[]
@@ -159,8 +183,9 @@ model Message {
   sender   User @relation(fields: [senderId], references: [id])
   senderId Int
 
-  content   String
-  createdAt DateTime @default(now())
+  type      ChatMessageType
+  payload   Json
+  createdAt DateTime        @default(now())
 
   @@index(createdAt)
 }
@@ -171,7 +196,7 @@ model ChatMember {
   user   User @relation(fields: [userId], references: [id])
   userId Int
 
-  isShop            Boolean
+  type              ChatMemberType
   lastMessageReadId Int?
 
   // composite primary key
@@ -237,9 +262,27 @@ enum OrderStatus {
   SHIPPED
   COMPLETED
   CANCELLED
+  REVIEWED
 }
 
 enum TransactionType {
   WITHDRAW
   ORDER
+}
+
+enum ShopStatus {
+  REQUESTED
+  APPROVED
+  DECLINED
+}
+
+enum ChatMemberType {
+  BUYER
+  SELLER
+  ADMIN
+}
+
+enum ChatMessageType {
+  TEXT
+  PRODUCT_LINK
 }

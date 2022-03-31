@@ -26,7 +26,7 @@ const RegisterPage: BlitzPage = () => {
           onSubmit={async (values: z.infer<typeof CreateShop>) => {
             try {
               await createShopMutation(values)
-              router.push(Routes.FinishRegisterPage().pathname)
+              router.push(Routes.UploadIdPage().pathname)
             } catch (error: any) {
               return { [FORM_ERROR]: error.toString() }
             }

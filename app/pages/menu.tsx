@@ -6,6 +6,8 @@ import {
   Routes,
   useMutation,
 } from 'blitz'
+import { ShopStatus } from 'db'
+import { AiOutlineShop } from 'react-icons/ai'
 import {
   FiCreditCard,
   FiGrid,
@@ -15,6 +17,7 @@ import {
   FiLayout,
   FiList,
 } from 'react-icons/fi'
+import { RiFileList3Line } from 'react-icons/ri'
 
 import logout from 'app/auth/mutations/logout'
 import { Avatar } from 'app/core/components/Avatar'
@@ -30,7 +33,6 @@ interface MenuProps {
 
 const Menu: BlitzPage<MenuProps> = ({ user }) => {
   const { name, email, profileImage, shop } = user!
-  const hasShop = !!shop
   const [logoutMutation] = useMutation(logout)
 
   return (
@@ -60,16 +62,42 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
       </div>
       <Divider padded />
       <div>
-        {hasShop ? (
-          <>
-            <MenuListItem icon={<FiLayout />} title="My shop" />
-            <Link href={Routes.ManageProductsPage().pathname} passHref>
-              <MenuListItem as="a" icon={<FiGrid />} title="My products" />
-            </Link>
-            <Link href={Routes.TransactionHistory().pathname} passHref>
-              <MenuListItem as="a" icon={<FiList />} title="My balance" />
-            </Link>
-          </>
+        {shop ? (
+          shop.shopStatus === ShopStatus.APPROVED ? (
+            <>
+              <Link href={Routes.ShopProfilePage({ shopId: shop.id })} passHref>
+                <MenuListItem
+                  icon={<AiOutlineShop />}
+                  title="My shop profile"
+                />
+              </Link>
+              <Link href={Routes.ShopOrderPage().pathname} passHref>
+                <MenuListItem
+                  icon={<RiFileList3Line />}
+                  title="My shop orders"
+                />
+              </Link>
+              <Link href={Routes.ManageProductsPage().pathname} passHref>
+                <MenuListItem as="a" icon={<FiGrid />} title="My products" />
+              </Link>
+              <Link href={Routes.TransactionHistory().pathname} passHref>
+                <MenuListItem as="a" icon={<FiList />} title="My balance" />
+              </Link>
+            </>
+          ) : shop.shopStatus === ShopStatus.DECLINED ? (
+            <>
+              <MenuListItem as="div" title="Your request has been declined" />
+              <Link href={Routes.RegisterPage().pathname} passHref>
+                <MenuListItem
+                  as="a"
+                  icon={<FiLayout />}
+                  title="Register new shop"
+                />
+              </Link>
+            </>
+          ) : shop.shopStatus === ShopStatus.REQUESTED ? (
+            <MenuListItem as="div" title="Your registration is in progress" />
+          ) : null
         ) : (
           <Link href={Routes.RegisterPage().pathname} passHref>
             <MenuListItem as="a" icon={<FiLayout />} title="Register shop" />

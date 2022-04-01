@@ -31,6 +31,17 @@ const OrdersPage: BlitzPage<OrderPageProps> = ({ orders }) => {
         (order.status === 'REVIEWED' && value === 'COMPLETED')
     )
   }, [orders, value])
+  let counts: number[] = []
+  const filters = ['PAID', 'SHIPPED', 'COMPLETED', 'CANCELLED']
+  filters.forEach((filter) => {
+    counts.push(
+      orders.filter(
+        (order) =>
+          order.status === filter ||
+          (order.status === 'REVIEWED' && value === 'COMPLETED')
+      ).length
+    )
+  })
   return (
     <div>
       <TopBar title="My Orders" largeTitle />
@@ -41,15 +52,17 @@ const OrdersPage: BlitzPage<OrderPageProps> = ({ orders }) => {
             setvalue(newvalue)
           }}
         >
-          <SegmentedControlItem value={'PAID'}>Paid</SegmentedControlItem>
+          <SegmentedControlItem value={'PAID'}>
+            {`Paid (${counts[0]})`}
+          </SegmentedControlItem>
           <SegmentedControlItem value={'SHIPPED'}>
-            Shipping
+            {`Shipping (${counts[1]})`}
           </SegmentedControlItem>
           <SegmentedControlItem value={'COMPLETED'}>
-            Completed
+            {`Completed (${counts[2]})`}
           </SegmentedControlItem>
           <SegmentedControlItem value={'CANCELLED'}>
-            Canceled
+            {`Canceled (${counts[3]})`}
           </SegmentedControlItem>
         </SegmentedControl>
       </div>

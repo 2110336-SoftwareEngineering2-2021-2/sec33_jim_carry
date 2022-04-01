@@ -38,7 +38,7 @@ const OrdersPage: BlitzPage<OrderPageProps> = ({ orders }) => {
       orders.filter(
         (order) =>
           order.status === filter ||
-          (order.status === 'REVIEWED' && value === 'COMPLETED')
+          (order.status === 'REVIEWED' && filter === 'COMPLETED')
       ).length
     )
   })

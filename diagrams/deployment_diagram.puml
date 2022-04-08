@@ -1,0 +1,27 @@
+@startuml Deployment Diagram
+
+node Railway <<cloud>> {
+  node mayday <<project>> {
+    node app as appContainer <<container>> {
+      node "Node.js" <<execution environment>>{
+        artifact "mayday app server" as maydayApp <<artifact>>
+      }
+    }
+
+    node db <<container>> {
+      artifact PostgreSQL <<artifact>>
+    }
+
+    appContainer -- db
+  }
+}
+
+node "User's device" <<device>> as device {
+  node "browser" <<execution environment>> {
+    artifact "Frontend Assets" <<artifact>>
+  }
+}
+
+appContainer -- device
+
+@enduml

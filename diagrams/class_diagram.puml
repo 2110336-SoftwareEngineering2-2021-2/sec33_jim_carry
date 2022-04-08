@@ -1,0 +1,61 @@
+@startuml Class Diagram
+
+class OrderController {
+
+}
+
+class Order {
+  + id: number
+  + owner: User
+  + shop: Shop
+
+  + status: OrderStatus
+  + totalPrice: number
+  + chargeId: string
+  + items: OrderItemSnapshot
+
+  + address: string
+  + addressNote: string
+  + receiverName: string
+  + receiverPhoneNo: string
+
+  + transaction: Transaction[]
+}
+
+class OrderItemSnapshot {
+  + id: number
+  + order: Order
+  + product: Product
+
+  + name: string
+  + description: string
+  + price: float
+  + soldPrice: float
+  + images: string[]
+}
+
+class Review {
+  + id: number
+  + shop: Shop
+  + user: User
+  + product: Product
+  + rating: float
+  + title: string
+  + comment: string
+}
+
+class User {}
+
+class Product {}
+
+class Shop {}
+
+User *-- Order
+User *-- Shop
+Order *-- OrderItemSnapshot
+Shop *-- Product
+Product *-- Review
+Shop *-- Review
+Product *-- OrderItemSnapshot
+
+@enduml

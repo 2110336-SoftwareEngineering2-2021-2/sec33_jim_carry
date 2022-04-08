@@ -3,6 +3,11 @@ import db from 'db'
 
 import { SendTextMessage } from '../realtime/validations'
 
+/**
+ * Send a text message to a chat
+ *
+ * @param input - chat id and message
+ */
 const sendTextMessage = resolver.pipe(
   resolver.zod(SendTextMessage),
   resolver.authorize(),

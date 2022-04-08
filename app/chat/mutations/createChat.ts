@@ -2,6 +2,11 @@ import { resolver } from 'blitz'
 import db from 'db'
 import { z } from 'zod'
 
+/**
+ * Get the id of the chat between the user and a shop. If such chat doesn't exist, a new one is created.
+ *
+ * @param shopId - The shop id to chat with
+ */
 const createChat = resolver.pipe(
   resolver.zod(z.number()),
   resolver.authorize(),

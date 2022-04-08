@@ -3,6 +3,11 @@ import db from 'db'
 
 import { SendProductLink } from '../realtime/validations'
 
+/**
+ * Send a product link and preview to a chat
+ *
+ * @param input - chat id and product id
+ */
 const sendProductLink = resolver.pipe(
   resolver.zod(SendProductLink),
   resolver.authorize(),

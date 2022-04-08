@@ -1,6 +1,11 @@
 import { Ctx } from 'blitz'
 import db from 'db'
 
+/**
+ * Get the logged in user info
+ *
+ * @returns The user info
+ */
 export default async function getCurrentUser(_ = null, { session }: Ctx) {
   if (!session.userId) return null
 

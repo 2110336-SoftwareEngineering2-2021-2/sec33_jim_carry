@@ -7,6 +7,9 @@ const GetRatingInput = z.object({
   id: z.number(),
 })
 
+/**
+ * Get average rating from all reviews for a product or shop
+ */
 const getRating = resolver.pipe(
   resolver.zod(GetRatingInput),
   async ({ id, by }) => {

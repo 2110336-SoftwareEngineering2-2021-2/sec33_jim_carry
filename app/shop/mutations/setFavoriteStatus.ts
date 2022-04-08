@@ -2,13 +2,16 @@ import { resolver } from 'blitz'
 import db, { Prisma } from 'db'
 import { z } from 'zod'
 
-export const CreateShop = z.object({
+export const SetFavoriteStatus = z.object({
   shopId: z.number(),
   favorite: z.boolean(),
 })
 
-const createShop = resolver.pipe(
-  resolver.zod(CreateShop),
+/**
+ * Set current user's favorite status for a shop
+ */
+const setFavoriteStatus = resolver.pipe(
+  resolver.zod(SetFavoriteStatus),
   resolver.authorize(),
   async ({ shopId, favorite }, { session }) => {
     const followers: Prisma.UserUpdateManyWithoutFollowingInput = favorite
@@ -34,4 +37,4 @@ const createShop = resolver.pipe(
   }
 )
 
-export default createShop
+export default setFavoriteStatus

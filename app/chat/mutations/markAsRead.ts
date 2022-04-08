@@ -3,6 +3,11 @@ import db from 'db'
 
 import { MarkAsRead } from '../realtime/validations'
 
+/**
+ * Mark a message as read
+ *
+ * @param input - chat id and message id
+ */
 const markAsRead = resolver.pipe(
   resolver.zod(MarkAsRead),
   resolver.authorize(),

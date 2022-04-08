@@ -19,6 +19,19 @@ const compileInputValues = (values: z.infer<typeof ProductFormValues>) => {
   return { ...values, price, stock, hidden, hashtags }
 }
 
+/**
+ * Update the values of an existing product in the user's shop.
+ * @param input.id - product id of the product to be updated.
+ * @param input.data - the updated values of the product.
+ * @param input.data.name - product name, required.
+ * @param input.data.price - product price, required. The input string is parsed into a float.
+ * @param input.data.stock - number of products in stock, required. The input string is parsed into an integer.
+ * @param input.data.hashtags - hashtags associated with this product, separated by a comma e.g. in the format `hashtag1, hashtag2, hashtag3`. The input string is parsed into an array of strings. Optional.
+ * @param input.data.description - product description, optional.
+ * @param input.data.images - images of this product, in the format of an array of GCP Storage urls. At least 1 image is required.
+ * @returns The updated product.
+ */
+
 const updateProduct = resolver.pipe(
   resolver.zod(UpdateProduct),
   resolver.authorize(),

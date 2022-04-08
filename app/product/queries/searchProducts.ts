@@ -13,6 +13,9 @@ const SearchProducts = z.object({
 
 /**
  * Search products with a name and a criterion, which is used to specify the output's order (or additionally with a tag of a product)
+ *
+ * @param input search parameter including name, take, skip, and tag with Order Option including orderBy, and orderType
+ *
  * @returns An array of products sorting according to the criterion
  */
 const searchProducts = resolver.pipe(

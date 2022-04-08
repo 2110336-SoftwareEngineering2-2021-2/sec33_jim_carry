@@ -1,6 +1,11 @@
 import { resolver, NotFoundError, AuthorizationError } from 'blitz'
 import db, { Prisma } from 'db'
 
+/**
+ * Get Orders from user's shop
+ *
+ * @returns An array of Orders if user has the shop
+ */
 const getShopOrders = resolver.pipe(
   resolver.authorize(),
   async (_ = null, { session: { userId } }) => {

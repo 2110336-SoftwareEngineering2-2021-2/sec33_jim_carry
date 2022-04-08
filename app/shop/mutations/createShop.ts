@@ -3,6 +3,13 @@ import db, { ShopStatus } from 'db'
 
 import { CreateShop } from '../validations'
 
+/**
+ * Create Shop for User when the user register it.
+ *
+ * @param input Shop information including bio, phoneNo, name, image, and citizenId
+ *
+ * @returns The Shop that user has created
+ */
 const createShop = resolver.pipe(
   resolver.zod(CreateShop),
   resolver.authorize(),

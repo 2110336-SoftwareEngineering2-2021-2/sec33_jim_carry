@@ -1,61 +1,94 @@
 @startuml Class Diagram
 
-class OrderController {
+namespace Order {
+  class Order <<Entity>> {
+    + id: number
+    + owner: User
+    + shop: Shop
 
+    + status: OrderStatus
+    + totalPrice: number
+    + chargeId: string
+    + items: OrderItemSnapshot
+
+    + address: string
+    + addressNote: string
+    + receiverName: string
+    + receiverPhoneNo: string
+
+    + transaction: Transaction[]
+  }
+
+  class OrderItemSnapshot <<Entity>> {
+    + id: number
+    + order: Order
+    + product: Product
+
+    + name: string
+    + description: string
+    + price: float
+    + soldPrice: float
+    + images: string[]
+  }
+
+  Order "1..1" -- "0..*" OrderItemSnapshot: contains >
+
+  class OrderQueries <<Controller>> {
+    + int countSoldOrders()
+    + Order getOrder()
+    + Order[] getOrders()
+    + Order[] getShopOrders()
+  }
+
+  class OrderMutations <<Controller>> {
+    + Order updateOrderStatus()
+  }
+
+  OrderQueries "1..1" -- "0..*" Order: queries >
+  OrderMutations "1..1" -- "1..*" Order: mutates >
 }
 
-class Order {
-  + id: number
-  + owner: User
-  + shop: Shop
+namespace Review {
+  class Review <<Entity>> {
+    + id: number
+    + shop: Shop
+    + user: User
+    + product: Product
+    + rating: float
+    + title: string
+    + comment: string
+  }
 
-  + status: OrderStatus
-  + totalPrice: number
-  + chargeId: string
-  + items: OrderItemSnapshot
+  class ReviewQueries <<Controller>> {
+    + (double, int) getRating()
+    + Review[] getReviews()
+  }
 
-  + address: string
-  + addressNote: string
-  + receiverName: string
-  + receiverPhoneNo: string
+  class ReviewMutations <<Controller>> {
+    + Review writeReview()
+  }
 
-  + transaction: Transaction[]
+  ReviewQueries "1..1" -- "0..*" Review: queries >
+  ReviewMutations "1..1" -- "1..*" Review: mutates >
+  ReviewMutations "1..1" -- "1..*" Order.Order: queries and mutates >
 }
 
-class OrderItemSnapshot {
-  + id: number
-  + order: Order
-  + product: Product
 
-  + name: string
-  + description: string
-  + price: float
-  + soldPrice: float
-  + images: string[]
-}
+class ProductDetailPage <<Boundary>> {}
+class ShopProfilePage <<Boundary>> {}
+class WriteReviewPage <<Boundary>> {}
+class ShopOrderDetailPage <<Boundary>> {}
+class ShopOrderListPage <<Boundary>> {}
+class UserOrderListPage <<Boundary>> {}
 
-class Review {
-  + id: number
-  + shop: Shop
-  + user: User
-  + product: Product
-  + rating: float
-  + title: string
-  + comment: string
-}
+ProductDetailPage "0..*" -- "1..1" Review.ReviewQueries: >
+ShopProfilePage "0..*" -- "1..1" Review.ReviewQueries: >
+WriteReviewPage "0..*" -- "1..1" Review.ReviewMutations: >
 
-class User {}
+ShopOrderDetailPage "0..*" -- "1..1" Order.OrderQueries: >
+ShopOrderListPage "0..*" -- "1..1" Order.OrderQueries: >
+UserOrderListPage "0..*" -- "1..1" Order.OrderQueries: >
+ShopOrderDetailPage "0..*" -- "1..1" Order.OrderMutations: >
 
-class Product {}
-
-class Shop {}
-
-User *-- Order
-User *-- Shop
-Order *-- OrderItemSnapshot
-Shop *-- Product
-Product *-- Review
-Shop *-- Review
-Product *-- OrderItemSnapshot
 
 @enduml

@@ -7,6 +7,12 @@ const GetReviewsInput = z.object({
   id: z.number(),
 })
 
+/**
+ * Get reviews by shopId or productId
+ *
+ * @returns All reviews for the specified shop or product
+ */
+
 const getReviews = resolver.pipe(
   resolver.zod(GetReviewsInput),
   async ({ id, by }) => {

@@ -6,6 +6,9 @@ const GetFavoriteInput = z.object({
   shopId: z.number(),
 })
 
+/**
+ * Get current user's favorite status for a shop
+ */
 const getFavoriteStatus = resolver.pipe(
   resolver.zod(GetFavoriteInput),
   async ({ shopId }, { session }) => {

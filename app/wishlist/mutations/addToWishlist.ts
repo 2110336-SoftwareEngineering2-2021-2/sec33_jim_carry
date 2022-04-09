@@ -6,6 +6,9 @@ const AddToWishlist = z.object({
   productId: z.number(),
 })
 
+/**
+ * Add a product to the current user's wishlist
+ */
 const addToWishlist = resolver.pipe(
   resolver.zod(AddToWishlist),
   resolver.authorize(),

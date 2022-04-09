@@ -6,6 +6,9 @@ const RemoveFromWishlist = z.object({
   productId: z.number(),
 })
 
+/**
+ * Remove a product from the current user's wishlist
+ */
 const removeFromWishlist = resolver.pipe(
   resolver.zod(RemoveFromWishlist),
   resolver.authorize(),

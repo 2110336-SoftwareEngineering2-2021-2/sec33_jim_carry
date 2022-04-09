@@ -6,6 +6,9 @@ const CountFavoritesInput = z.object({
   shopId: z.number(),
 })
 
+/**
+ * Count number of users that favorited the shop with the given id
+ */
 const countFavorites = resolver.pipe(
   resolver.zod(CountFavoritesInput),
   async ({ shopId }) => {

@@ -7,6 +7,15 @@ interface GetProductsInput
     'where' | 'orderBy' | 'skip' | 'take'
   > {}
 
+/**
+ * Get products with optional filters
+ * @param where - Optional where filter
+ * @param orderBy - Optional order by
+ * @param skip - Optional skip
+ * @param take - Optional take
+ * @returns The products with specified filter
+ */
+
 const getProducts = resolver.pipe(
   async ({ where, orderBy, skip = 0, take = 100 }: GetProductsInput) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant

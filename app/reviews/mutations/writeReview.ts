@@ -3,6 +3,12 @@ import db from 'db'
 
 import { WriteReview } from '../validations'
 
+/**
+ * Create reviews
+ *
+ * @returns The created reviews
+ */
+
 const writeReview = resolver.pipe(
   resolver.zod(WriteReview),
   resolver.authorize(),

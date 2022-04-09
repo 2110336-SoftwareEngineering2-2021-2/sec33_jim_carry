@@ -6,6 +6,12 @@ const DeleteProduct = z.object({
   id: z.number(),
 })
 
+/**
+ * Delete an existing product from the user's shop.
+ * @param input.id - product ID of product to delete.
+ * @returns The deleted product.
+ */
+
 const deleteProduct = resolver.pipe(
   resolver.zod(DeleteProduct),
   resolver.authorize(),

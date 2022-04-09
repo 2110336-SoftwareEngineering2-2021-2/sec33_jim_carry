@@ -10,6 +10,12 @@ const CreateUploadURL = z.object({
   path: z.string(),
 })
 
+/**
+ * Create a signed upload URL to be used for file upload to GCP Storage.
+ * @param path - the directory in GCP storage the file will be stored.
+ * @returns The upload url, fields for signed files, and the generated filename to be used in the access URL.
+ */
+
 const createUploadURL = resolver.pipe(
   resolver.zod(CreateUploadURL),
   resolver.authorize(),

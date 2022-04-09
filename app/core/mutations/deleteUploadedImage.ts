@@ -11,6 +11,11 @@ const DeleteUploadedImage = z.object({
   url: z.string().nonempty(),
 })
 
+/**
+ * Delete a file from GCP Storage.
+ * @param url - The access URL to the file to be deleted.
+ */
+
 const deleteUploadedImage = resolver.pipe(
   resolver.zod(DeleteUploadedImage),
   resolver.authorize(),

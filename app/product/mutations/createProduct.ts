@@ -19,6 +19,18 @@ const compileInputValues = (values: z.infer<typeof ProductFormValues>) => {
   return { ...values, price, stock, hidden, hashtags }
 }
 
+/**
+ * Create a new product in the user's shop from specified input values.
+ * @param input - the input values of the new product.
+ * @param input.name - product name, required.
+ * @param input.price - product price, required. The input string is parsed into a float.
+ * @param input.stock - number of products in stock, required. The input string is parsed into an integer.
+ * @param input.hashtags - hashtags associated with this product, separated by a comma e.g. in the format `hashtag1, hashtag2, hashtag3`. The input string is parsed into an array of strings. Optional.
+ * @param input.description - product description, optional.
+ * @param input.images - images of this product, in the format of an array of GCP Storage urls. At least 1 image is required.
+ * @returns The created product.
+ */
+
 const createProduct = resolver.pipe(
   resolver.zod(ProductFormValues),
   resolver.authorize(),

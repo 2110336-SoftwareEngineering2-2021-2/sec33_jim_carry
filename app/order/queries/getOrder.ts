@@ -6,6 +6,12 @@ const GetOrderInput = z.object({
   orderId: z.number(),
 })
 
+/**
+ * Get order by id
+ *
+ * @returns The order with the specified id along with shop and orderitemsnapshot
+ */
+
 const getOrder = resolver.pipe(
   resolver.zod(GetOrderInput),
   async ({ orderId }, { session }: Ctx) => {

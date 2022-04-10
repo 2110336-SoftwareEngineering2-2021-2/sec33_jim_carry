@@ -6,6 +6,13 @@ const UpdateIdImage = z.object({
   citizenIdImage: z.string().nonempty(),
 })
 
+/**
+ * Update citizen id image for the user's registered shop
+ *
+ * @param input.citizenIdImage Citizen Id
+ *
+ * @returns The User that has been updated with Shop included
+ */
 const updateIdImage = resolver.pipe(
   resolver.zod(UpdateIdImage),
   resolver.authorize(),

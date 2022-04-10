@@ -8,6 +8,15 @@ type PrismaDB = Omit<
   '$connect' | '$disconnect' | '$on' | '$transaction' | '$use'
 >
 
+/**
+ * Complete the order by transfering money to the seller and creating a transaction
+ *
+ * @param db the prisma's drafting database
+ *
+ * @param order the completing order
+ *
+ * @returns The created Transaction
+ */
 export async function transferOrder(db: PrismaDB, order: Order) {
   const shop = await db.shop.findFirst({
     where: { id: order.shopId },

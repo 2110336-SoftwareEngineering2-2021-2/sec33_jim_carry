@@ -17,6 +17,13 @@ namespace Order {
     + receiverPhoneNo: string
 
     + transaction: Transaction[]
+
+    + {static} findFirst()
+    + {static} findUnique()
+    + {static} findMany()
+    + {static} create()
+    + {static} update()
+    + {static} count()
   }
 
   class OrderItemSnapshot <<Entity>> {
@@ -57,6 +64,10 @@ namespace Review {
     + rating: float
     + title: string
     + comment: string
+
+    + {static} findMany()
+    + {static} createMany()
+    + {static} aggregate()
   }
 
   class ReviewQueries <<Controller>> {

@@ -1,19 +1,21 @@
 @startuml Deployment Diagram
 
 node Railway <<cloud>> {
-  node mayday <<project>> {
-    node app as appContainer <<container>> {
-      node "Node.js" <<execution environment>>{
-        artifact "mayday app server" as maydayApp <<artifact>>
-      }
+  node "mayday-app" as appContainer <<container>> {
+    node "Node.js" <<execution environment>>{
+      component "mayday app server" as maydayApp <<component>>
     }
-
-    node db <<container>> {
-      artifact PostgreSQL <<artifact>>
-    }
-
-    appContainer -- db
   }
+
+  node "mayday-db" as db <<container>> {
+    component PostgreSQL <<component>>
+  }
+
+  appContainer -- db
+}
+
+node "Google Cloud Platform" <<cloud>> {
+  node "Google Cloud Storage Bucket" as gcs <<storage>>
 }
 
 node "User's device" <<device>> as device {
@@ -22,6 +24,7 @@ node "User's device" <<device>> as device {
   }
 }
 
-appContainer -- device
+device -- appContainer
+appContainer -- gcs
 
 @enduml

@@ -1,7 +1,6 @@
 import { Message } from '@prisma/client'
 import {
   BlitzPage,
-  GetServerSideProps,
   invokeWithMiddleware,
   PromiseReturnType,
   Routes,
@@ -24,6 +23,7 @@ import { useChatMessages } from 'app/chat/realtime/client/useChatMessages'
 import { useTypingStatus } from 'app/chat/realtime/client/useTypingStatus'
 import { getMemberName, isSameGroup } from 'app/chat/utils'
 import { TopBar } from 'app/core/components/TopBar'
+import { wrapGetServerSideProps } from 'app/core/utils'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 
@@ -137,21 +137,21 @@ const ChatDetailPage: BlitzPage<ChatDetailProps> = ({
   )
 }
 
-export const getServerSideProps: GetServerSideProps<ChatDetailProps> = async (
-  context
-) => {
-  const chatId = parseInt((context.params?.chatId as string) ?? '')
-  const productId = parseInt((context.query?.productId as string) ?? '')
-  const props = await invokeWithMiddleware(
-    getChat,
-    { chatId, productId: !isNaN(productId) ? productId : undefined },
-    context
-  )
-  props.chat.messages.unshift(dummyMessage)
-  return {
-    props,
+export const getServerSideProps = wrapGetServerSideProps<ChatDetailProps>(
+  async (context) => {
+    const chatId = parseInt((context.params?.chatId as string) ?? '')
+    const productId = parseInt((context.query?.productId as string) ?? '')
+    const props = await invokeWithMiddleware(
+      getChat,
+      { chatId, productId: !isNaN(productId) ? productId : undefined },
+      context
+    )
+    props.chat.messages.unshift(dummyMessage)
+    return {
+      props,
+    }
   }
-}
+)
 
 setupAuthRedirect(ChatDetailPage)
 setupLayout(ChatDetailPage, {

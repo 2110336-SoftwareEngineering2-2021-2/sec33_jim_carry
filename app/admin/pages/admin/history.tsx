@@ -1,16 +1,11 @@
-import {
-  BlitzPage,
-  GetServerSideProps,
-  invokeWithMiddleware,
-  PromiseReturnType,
-} from 'blitz'
-import { Suspense, useMemo, useState } from 'react'
+import { BlitzPage, invokeWithMiddleware, PromiseReturnType } from 'blitz'
+import { useMemo, useState } from 'react'
 
 import { AdminHistoryView } from 'app/admin/components/AdminHistoryView'
 import { Dropdownlist } from 'app/admin/components/Dropdownlist'
 import getAdminTransactions from 'app/admin/queries/getAdminTransactions'
-import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
+import { wrapGetServerSideProps } from 'app/core/utils'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 
@@ -78,18 +73,17 @@ const AdminTransactionHistory: BlitzPage<AdminTransactionHistoryProps> = ({
   )
 }
 
-export const getServerSideProps: GetServerSideProps<
-  AdminTransactionHistoryProps
-> = async (context) => {
-  const transactions = await invokeWithMiddleware(
-    getAdminTransactions,
-    {},
-    context
-  )
-  return {
-    props: { transactions },
-  }
-}
+export const getServerSideProps =
+  wrapGetServerSideProps<AdminTransactionHistoryProps>(async (context) => {
+    const transactions = await invokeWithMiddleware(
+      getAdminTransactions,
+      {},
+      context
+    )
+    return {
+      props: { transactions },
+    }
+  })
 
 setupAuthRedirect(AdminTransactionHistory)
 setupLayout(AdminTransactionHistory)

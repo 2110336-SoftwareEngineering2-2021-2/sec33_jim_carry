@@ -1,6 +1,5 @@
 import {
   BlitzPage,
-  GetServerSideProps,
   invokeWithMiddleware,
   Link,
   PromiseReturnType,
@@ -13,6 +12,7 @@ import { FiPlus } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
 import { TopBar } from 'app/core/components/TopBar'
+import { wrapGetServerSideProps } from 'app/core/utils'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 import { CardList } from 'app/users/components/CardList'
@@ -53,14 +53,14 @@ export const CardsPage: BlitzPage<CardsPageProps> = ({ cards }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps<CardsPageProps> = async (
-  context
-) => {
-  const cards = await invokeWithMiddleware(getCards, {}, context)
-  return {
-    props: { cards },
+export const getServerSideProps = wrapGetServerSideProps<CardsPageProps>(
+  async (context) => {
+    const cards = await invokeWithMiddleware(getCards, {}, context)
+    return {
+      props: { cards },
+    }
   }
-}
+)
 
 setupAuthRedirect(CardsPage)
 setupLayout(CardsPage)

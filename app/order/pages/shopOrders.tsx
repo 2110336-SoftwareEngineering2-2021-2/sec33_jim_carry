@@ -14,6 +14,7 @@ import {
   SegmentedControlItem,
 } from 'app/core/components/SegmentedControl'
 import { TopBar } from 'app/core/components/TopBar'
+import { wrapGetServerSideProps } from 'app/core/utils'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 
@@ -75,14 +76,14 @@ const ShopOrderList = ({ shopOrders, value }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps<ShopOrderProps> = async (
-  context
-) => {
-  const shopOrders = await invokeWithMiddleware(getShopOrders, {}, context)
-  return {
-    props: { shopOrders },
+export const getServerSideProps = wrapGetServerSideProps<ShopOrderProps>(
+  async (context) => {
+    const shopOrders = await invokeWithMiddleware(getShopOrders, {}, context)
+    return {
+      props: { shopOrders },
+    }
   }
-}
+)
 
 setupAuthRedirect(ShopOrderPage)
 setupLayout(ShopOrderPage)

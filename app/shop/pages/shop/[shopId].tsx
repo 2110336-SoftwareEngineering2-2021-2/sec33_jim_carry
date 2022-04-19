@@ -1,14 +1,11 @@
 import {
   BlitzPage,
-  GetServerSideProps,
   invokeWithMiddleware,
   PromiseReturnType,
   useSession,
 } from 'blitz'
 import { Suspense, useState } from 'react'
-import { FiEdit2 } from 'react-icons/fi'
 
-import { Button } from 'app/core/components/Button'
 import { Divider } from 'app/core/components/Divider'
 import {
   SegmentedControl,
@@ -16,6 +13,7 @@ import {
 } from 'app/core/components/SegmentedControl'
 import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
+import { wrapGetServerSideProps } from 'app/core/utils'
 import { setupLayout } from 'app/core/utils/setupLayout'
 import ShowReviews from 'app/reviews/components/ShowReviews'
 import { ShopBio } from 'app/shop/components/shop/ShopBio'
@@ -80,7 +78,7 @@ const ShopProductsOrReview = ({ shop }: ShopProfilePageProps) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps = wrapGetServerSideProps(async (context) => {
   const shopId = parseInt(context.query.shopId as string)
   const shop = await invokeWithMiddleware(
     getShop,
@@ -92,7 +90,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: { shop },
   }
-}
+})
 
 setupLayout(ShopProfilePage)
 

@@ -1,6 +1,5 @@
 import {
   BlitzPage,
-  GetServerSideProps,
   invokeWithMiddleware,
   PromiseReturnType,
   Routes,
@@ -14,6 +13,7 @@ import { FiCreditCard } from 'react-icons/fi'
 import { Button } from 'app/core/components/Button'
 import { Divider } from 'app/core/components/Divider'
 import { TopBar } from 'app/core/components/TopBar'
+import { wrapGetServerSideProps } from 'app/core/utils'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 import { useShoppingCartStore } from 'app/shoppingCart/context/useShoppingCartStore'
@@ -128,14 +128,14 @@ function CardLabel({ card }: { card: Pick<Card, 'brand' | 'last_digits'> }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps<CheckoutProps> = async (
-  context
-) => {
-  const summary = await invokeWithMiddleware(getCheckoutSummary, {}, context)
-  return {
-    props: { summary },
+export const getServerSideProps = wrapGetServerSideProps<CheckoutProps>(
+  async (context) => {
+    const summary = await invokeWithMiddleware(getCheckoutSummary, {}, context)
+    return {
+      props: { summary },
+    }
   }
-}
+)
 
 setupAuthRedirect(CheckoutPage)
 setupLayout(CheckoutPage)

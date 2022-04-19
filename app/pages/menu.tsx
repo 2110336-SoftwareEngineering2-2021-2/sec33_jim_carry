@@ -1,10 +1,9 @@
 import {
+  AuthenticationError,
   BlitzPage,
-  GetServerSideProps,
   invokeWithMiddleware,
   Link,
   Routes,
-  useMutation,
 } from 'blitz'
 import { ShopStatus } from 'db'
 import { AiOutlineShop } from 'react-icons/ai'
@@ -19,21 +18,20 @@ import {
 } from 'react-icons/fi'
 import { RiFileList3Line } from 'react-icons/ri'
 
-import logout from 'app/auth/mutations/logout'
 import { Avatar } from 'app/core/components/Avatar'
 import { Divider } from 'app/core/components/Divider'
 import { MenuListItem } from 'app/core/components/MenuListItem'
 import { MainPageLayout } from 'app/core/layouts/MainPageLayout'
+import { wrapGetServerSideProps } from 'app/core/utils'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import getCurrentUser from 'app/users/queries/getCurrentUser'
 
 interface MenuProps {
-  user: Awaited<ReturnType<typeof getCurrentUser>>
+  user: NonNullable<Awaited<ReturnType<typeof getCurrentUser>>>
 }
 
 const Menu: BlitzPage<MenuProps> = ({ user }) => {
-  const { name, email, profileImage, shop } = user!
-  const [logoutMutation] = useMutation(logout)
+  const { name, email, profileImage, shop } = user
 
   return (
     <div className="py-6 flex flex-col gap-[10px]">
@@ -115,14 +113,17 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps<MenuProps> = async (
-  context
-) => {
-  const user = await invokeWithMiddleware(getCurrentUser, {}, context)
-  return {
-    props: { user },
+export const getServerSideProps = wrapGetServerSideProps<MenuProps>(
+  async (context) => {
+    const user = await invokeWithMiddleware(getCurrentUser, {}, context)
+    if (!user) {
+      throw new AuthenticationError()
+    }
+    return {
+      props: { user },
+    }
   }
-}
+)
 
 setupAuthRedirect(Menu)
 Menu.getLayout = (page) => <MainPageLayout title="Menu">{page}</MainPageLayout>

@@ -1,10 +1,5 @@
 import { OrderStatus } from '@prisma/client'
-import {
-  BlitzPage,
-  GetServerSideProps,
-  invokeWithMiddleware,
-  PromiseReturnType,
-} from 'blitz'
+import { BlitzPage, invokeWithMiddleware, PromiseReturnType } from 'blitz'
 import { useMemo, useState } from 'react'
 
 import {
@@ -12,6 +7,7 @@ import {
   SegmentedControlItem,
 } from 'app/core/components/SegmentedControl'
 import { TopBar } from 'app/core/components/TopBar'
+import { wrapGetServerSideProps } from 'app/core/utils'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 
@@ -71,14 +67,14 @@ const OrdersPage: BlitzPage<OrderPageProps> = ({ orders }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps<OrderPageProps> = async (
-  context
-) => {
-  const orders = await invokeWithMiddleware(getOrders, {}, context)
-  return {
-    props: { orders },
+export const getServerSideProps = wrapGetServerSideProps<OrderPageProps>(
+  async (context) => {
+    const orders = await invokeWithMiddleware(getOrders, {}, context)
+    return {
+      props: { orders },
+    }
   }
-}
+)
 
 setupAuthRedirect(OrdersPage)
 setupLayout(OrdersPage)

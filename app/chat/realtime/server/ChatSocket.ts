@@ -5,24 +5,21 @@ import { ChatManager } from './ChatManager'
 
 export class ChatSocket {
   private manager: ChatManager
-  private userId: number | null
+  private userId: number
   private socket: Socket<ClientEvents, ServerEvents>
   private observedIds: ChatId[] = []
 
   constructor(
     manager: ChatManager,
-    socket: Socket<ClientEvents, ServerEvents>
+    socket: Socket<ClientEvents, ServerEvents>,
+    userId: number
   ) {
     this.manager = manager
     this.socket = socket
+    this.userId = userId
 
-    this.socket.on('setUserId', this.onSetUserId)
     this.socket.on('observeChats', this.onObserveChats)
     this.socket.on('sendTyping', this.sendTyping)
-  }
-
-  private onSetUserId = (userId: number | null) => {
-    this.userId = userId
   }
 
   private onObserveChats = (chatIds: ChatId[]) => {

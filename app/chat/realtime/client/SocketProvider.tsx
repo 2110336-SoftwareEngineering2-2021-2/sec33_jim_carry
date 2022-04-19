@@ -63,11 +63,6 @@ export function SocketProvider({ children }: PropsWithChildren<{}>) {
     }
   }, [socket])
 
-  useEffect(() => {
-    if (!connected) return
-    socket.emit('setUserId', userId)
-  }, [userId, socket, connected])
-
   return (
     <SocketContext.Provider value={{ state, connected, socket }}>
       {children}

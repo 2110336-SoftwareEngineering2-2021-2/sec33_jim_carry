@@ -1,6 +1,5 @@
 import {
   BlitzPage,
-  GetServerSideProps,
   invokeWithMiddleware,
   PromiseReturnType,
   useMutation,
@@ -11,6 +10,7 @@ import { Button } from 'app/core/components/Button'
 import Form, { FORM_ERROR } from 'app/core/components/Form'
 import { TopBar } from 'app/core/components/TopBar'
 import { useGoBack } from 'app/core/hooks/useGoBack'
+import { wrapGetServerSideProps } from 'app/core/utils'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 import { OrderProduct } from 'app/order/components/OrderProduct'
@@ -74,28 +74,28 @@ const WriteReviewPage: BlitzPage<WriteReviewPageProps> = ({ order }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps<
-  WriteReviewPageProps
-> = async (context) => {
-  const redirectToHome = {
-    redirect: {
-      destination: '/',
-      permanent: false,
-    },
+export const getServerSideProps = wrapGetServerSideProps<WriteReviewPageProps>(
+  async (context) => {
+    const redirectToHome = {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+    const { params } = context
+    const { oid } = params!
+    const orderId = Number(oid)
+    if (!Number.isInteger(orderId)) {
+      return redirectToHome
+    }
+    try {
+      const order = await invokeWithMiddleware(getOrder, { orderId }, context)
+      return { props: { order } }
+    } catch {
+      return redirectToHome
+    }
   }
-  const { params } = context
-  const { oid } = params!
-  const orderId = Number(oid)
-  if (!Number.isInteger(orderId)) {
-    return redirectToHome
-  }
-  try {
-    const order = await invokeWithMiddleware(getOrder, { orderId }, context)
-    return { props: { order } }
-  } catch {
-    return redirectToHome
-  }
-}
+)
 
 setupAuthRedirect(WriteReviewPage)
 setupLayout(WriteReviewPage)

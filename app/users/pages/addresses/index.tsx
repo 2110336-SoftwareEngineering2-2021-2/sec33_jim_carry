@@ -1,6 +1,5 @@
 import {
   BlitzPage,
-  GetServerSideProps,
   invokeWithMiddleware,
   Link,
   PromiseReturnType,
@@ -14,6 +13,7 @@ import { FiPlus } from 'react-icons/fi'
 import { Button } from 'app/core/components/Button'
 import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
+import { wrapGetServerSideProps } from 'app/core/utils'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
 import { AddressList } from 'app/users/components/AddressList'
@@ -56,14 +56,14 @@ export const AddressesPage: BlitzPage<AddressesPageProps> = ({ addresses }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps<
-  AddressesPageProps
-> = async (context) => {
-  const addresses = await invokeWithMiddleware(getAddresses, {}, context)
-  return {
-    props: { addresses },
+export const getServerSideProps = wrapGetServerSideProps<AddressesPageProps>(
+  async (context) => {
+    const addresses = await invokeWithMiddleware(getAddresses, {}, context)
+    return {
+      props: { addresses },
+    }
   }
-}
+)
 
 setupAuthRedirect(AddressesPage)
 setupLayout(AddressesPage)

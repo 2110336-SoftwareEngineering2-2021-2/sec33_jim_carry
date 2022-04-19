@@ -2,6 +2,7 @@ import { Message } from '@prisma/client'
 import { Server as SocketIoServer, Socket } from 'socket.io'
 
 import { ClientEvents, ServerEvents } from '../types'
+import { authenticateSocket } from '../utils'
 import { ChatSocket } from './ChatSocket'
 
 export class ChatManager {
@@ -12,8 +13,13 @@ export class ChatManager {
     this.io.on('connection', this.handleConnection)
   }
 
-  private handleConnection = (socket: Socket) => {
-    new ChatSocket(this, socket)
+  private handleConnection = async (socket: Socket) => {
+    try {
+      const userId = await authenticateSocket(socket)
+      new ChatSocket(this, socket, userId)
+    } catch (e) {
+      socket.disconnect()
+    }
   }
 
   handleNewMessage = (message: Message) => {

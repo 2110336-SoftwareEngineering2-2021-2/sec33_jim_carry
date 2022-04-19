@@ -1,6 +1,5 @@
 import {
   BlitzPage,
-  GetServerSideProps,
   invokeWithMiddleware,
   Link,
   PromiseReturnType,
@@ -20,6 +19,7 @@ import {
 import { Spinner } from 'app/core/components/Spinner'
 import { TopBar } from 'app/core/components/TopBar'
 import { ProductWithShop } from 'app/core/types/Product'
+import { wrapGetServerSideProps } from 'app/core/utils'
 import { isProductSoldOut } from 'app/core/utils/isProductSoldOut'
 import { setupAuthRedirect } from 'app/core/utils/setupAuthRedirect'
 import { setupLayout } from 'app/core/utils/setupLayout'
@@ -130,7 +130,7 @@ const ProductList = ({
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps = wrapGetServerSideProps(async (context) => {
   const user = await invokeWithMiddleware(getCurrentUser, {}, context)
   const data = await invokeWithMiddleware(
     getProducts,
@@ -142,7 +142,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: { data },
   }
-}
+})
 
 setupAuthRedirect(ManageProductsPage)
 setupLayout(ManageProductsPage)

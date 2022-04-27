@@ -52,6 +52,7 @@ const searchProducts = resolver.pipe(
           mode: 'insensitive',
         },
         hidden: false,
+        stock: { gt: 0 },
       },
       include: {
         shop: true,
@@ -71,6 +72,7 @@ const searchProducts = resolver.pipe(
         hashtags: {
           has: input.tag,
         },
+        stock: { gt: 0 },
       },
       include: {
         shop: true,

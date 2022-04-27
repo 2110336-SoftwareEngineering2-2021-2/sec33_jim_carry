@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile_app
     environment:
       - DATABASE_URL=postgresql://mayday:mayday@db:5432/mayday
+      - SESSION_SECRET_KEY=ZyGY57QltLWD7QMuYz3LADwGjzgsjwCl
     ports:
       - '3000:3000'
   db:

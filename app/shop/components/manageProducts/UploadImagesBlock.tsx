@@ -1,6 +1,5 @@
 import { Image, useMutation, useQuery } from 'blitz'
-import { forwardRef, PropsWithoutRef, useState } from 'react'
-import { useFormContext } from 'react-hook-form'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 import { FiPlus, FiTrash2 } from 'react-icons/fi'
 
 import { Button } from 'app/core/components/Button'
@@ -20,20 +19,18 @@ export const UploadImagesBlock = ({ initialValue }: UploadImagesBlockProps) => {
   const {
     register,
     watch,
-    setValue,
     formState: { isSubmitting, errors },
   } = useFormContext()
+  const { fields, append, remove } = useFieldArray({ name: 'images' })
   const watchImages: [] = watch('images', initialValue)
   const error = errors['images']?.message || errors['images']
 
   const handleImageAdd = (newImage: string) => {
-    setValue('images', [...watchImages, newImage])
+    append(newImage)
   }
 
   const handleImageDelete = (index: number) => {
-    const newImages = [...watchImages]
-    newImages.splice(index, 1)
-    setValue('images', [...newImages])
+    remove(index)
   }
 
   const uploadImage = async (e) => {
@@ -61,7 +58,15 @@ export const UploadImagesBlock = ({ initialValue }: UploadImagesBlockProps) => {
 
   return (
     <div>
-      <input {...register('images')} type="hidden" value={watchImages} />
+      <div>
+        {fields.map((field, index) => (
+          <input
+            key={field.id}
+            type="hidden"
+            {...register(`images.${index}` as const)}
+          />
+        ))}
+      </div>
       <div className="border border-sky-light rounded-lg p-4 grid grid-cols-2 gap-4">
         {watchImages &&
           watchImages.map((img, index) => {

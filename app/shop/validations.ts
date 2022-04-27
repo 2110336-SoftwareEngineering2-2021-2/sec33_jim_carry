@@ -16,7 +16,7 @@ export const CreateShop = z.object({
 
 function checkCitizenId(id: string) {
   let sum = 0
-  for (let i = 0, sum = 0; i < 12; i++) {
+  for (let i = 0; i < 12; i++) {
     sum += parseInt(id.charAt(i)) * (13 - i)
   }
   const mod = sum % 11

@@ -51,11 +51,6 @@ export const MainPageLayout: BlitzLayout<MainPageLayoutProps> = ({
               title="Chats"
               icon={<FiMessageCircle />}
             />
-            <NavBarTarget
-              to={Routes.Notifications()}
-              title="Notifications"
-              icon={<FiBell />}
-            />
             <NavBarTarget to={Routes.Menu()} title="Menu" icon={<FiMenu />} />
           </div>
         </Container>

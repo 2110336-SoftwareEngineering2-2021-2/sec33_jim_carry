@@ -39,7 +39,11 @@ const RegisterPage: BlitzPage = () => {
             asTextArea
             style={{ height: 112 }}
           />
-          <LabeledTextField name="citizenId" label="Citizen ID" />
+          <LabeledTextField
+            name="citizenId"
+            label="Citizen ID"
+            maxLength={13}
+          />
           <LabeledTextField name="phoneNo" label="Phone number" />
         </Form>
       </div>

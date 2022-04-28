@@ -21,6 +21,15 @@ services:
       - mayday-db:/var/lib/postgresql/data
     ports:
       - '7064:5432'
+  test_db:
+    profiles: ['test']
+    image: postgres:14.1
+    environment:
+      - POSTGRES_USER=mayday_test
+      - POSTGRES_PASSWORD=mayday_test
+      - POSTGRES_DB=mayday_test
+    ports:
+      - '7065:5432'
 
 volumes:
   mayday-db:

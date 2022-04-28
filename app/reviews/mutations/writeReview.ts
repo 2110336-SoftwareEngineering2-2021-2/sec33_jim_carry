@@ -27,7 +27,7 @@ const writeReview = resolver.pipe(
       throw new Error('Order must be completed to write a review')
     }
 
-    reviews.forEach(({ productId, rating, title, comment }) => {
+    reviews.forEach(({ productId }) => {
       const product = order.items.find((item) => item.productId === productId)
       if (!product) throw new Error('Product not found')
     })

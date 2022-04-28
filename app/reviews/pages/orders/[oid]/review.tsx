@@ -17,7 +17,6 @@ import { OrderProduct } from 'app/order/components/OrderProduct'
 import getOrder from 'app/order/queries/getOrder'
 import { ReviewStarInput } from 'app/reviews/components/ReviewStarInput'
 import writeReview from 'app/reviews/mutations/writeReview'
-import { WriteReview } from 'app/reviews/validations'
 
 interface WriteReviewPageProps {
   order: PromiseReturnType<typeof getOrder>

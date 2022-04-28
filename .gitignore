@@ -63,3 +63,6 @@ api-docs
 
 # Google Cloud Storage
 mayday-339613-20ff5559dea8.json
+
+# Jest Coverage Docs
+coverage

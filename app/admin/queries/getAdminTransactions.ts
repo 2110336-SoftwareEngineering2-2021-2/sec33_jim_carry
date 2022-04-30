@@ -19,6 +19,7 @@ const getAdminTransactions = resolver.pipe(
           },
         },
         user: true,
+        bankAccount: true,
       },
       orderBy: {
         createdAt: 'desc',

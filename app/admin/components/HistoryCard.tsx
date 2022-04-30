@@ -1,11 +1,10 @@
-import { Order, Shop, Transaction, User } from '@prisma/client'
+import { PromiseReturnType } from 'blitz'
 import { format } from 'date-fns'
 
+import getAdminTransactions from '../queries/getAdminTransactions'
+
 export interface HistoryCardProps {
-  transaction: Transaction & {
-    Order: (Order & { shop: Shop }) | null
-    user: User
-  }
+  transaction: PromiseReturnType<typeof getAdminTransactions>[number]
 }
 
 export function HistoryCard({ transaction }: HistoryCardProps) {
@@ -25,7 +24,7 @@ export function HistoryCard({ transaction }: HistoryCardProps) {
       <p>
         {transaction.type == 'ORDER'
           ? `Order: ${transaction.orderId}`
-          : `Account: xxx-x-x${transaction.bankAccount!.slice(5, 9)}-x`}
+          : `Account: xxx-x-x${transaction.bankAccount?.number!.slice(5, 9)}-x`}
       </p>
       <p className="text-primary-base text-large font-medium">
         ฿{transaction.amount}

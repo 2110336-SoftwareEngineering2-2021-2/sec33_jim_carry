@@ -1,15 +1,13 @@
-import { Order, Shop, Transaction, User } from '@prisma/client'
-import { FiSearch, FiTruck } from 'react-icons/fi'
+import { PromiseReturnType } from 'blitz'
+import { FiSearch } from 'react-icons/fi'
 
 import { EmptyState } from 'app/core/components/EmptyState'
 
+import getAdminTransactions from '../queries/getAdminTransactions'
 import { HistoryCard } from './HistoryCard'
 
 export interface AdminHistoryViewProps {
-  transactions: (Transaction & {
-    Order: (Order & { shop: Shop }) | null
-    user: User
-  })[]
+  transactions: PromiseReturnType<typeof getAdminTransactions>
 }
 
 export function AdminHistoryView({ transactions }: AdminHistoryViewProps) {

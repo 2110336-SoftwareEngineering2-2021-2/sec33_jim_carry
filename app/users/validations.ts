@@ -38,7 +38,7 @@ export const AddCard = z.object({
     .string()
     .transform((value) => ({ value, validation: cardValidator.cvv(value) }))
     .refine((cvv) => cvv.validation.isValid, {
-      message: 'Invalid security code',
+      message: 'Invalid CVV',
     }),
 })
 

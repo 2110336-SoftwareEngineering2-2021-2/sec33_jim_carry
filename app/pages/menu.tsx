@@ -5,12 +5,11 @@ import {
   Link,
   Routes,
 } from 'blitz'
-import { ShopStatus } from 'db'
+import { ShopStatus, Role } from 'db'
 import { AiOutlineShop } from 'react-icons/ai'
 import {
   FiCreditCard,
   FiGrid,
-  FiHelpCircle,
   FiMapPin,
   FiTruck,
   FiLayout,
@@ -102,6 +101,23 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
           </Link>
         )}
       </div>
+      {user.role === Role.ADMIN && (
+        <>
+          <Divider padded />
+          <div>
+            <Link href={Routes.AdminTransactionHistory().pathname} passHref>
+              <MenuListItem
+                as="a"
+                icon={<FiLayout />}
+                title="Transaction History"
+              />
+            </Link>
+            <Link href={Routes.ApproveShop().pathname} passHref>
+              <MenuListItem as="a" icon={<FiLayout />} title="Approve Shop" />
+            </Link>
+          </div>
+        </>
+      )}
       <Divider padded />
       <div>
         <Link href={Routes.LogoutPage().pathname} passHref>

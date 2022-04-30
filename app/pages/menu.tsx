@@ -104,7 +104,6 @@ const Menu: BlitzPage<MenuProps> = ({ user }) => {
       </div>
       <Divider padded />
       <div>
-        <MenuListItem icon={<FiHelpCircle />} title="Help" />
         <Link href={Routes.LogoutPage().pathname} passHref>
           <MenuListItem as="a" title="Logout" />
         </Link>

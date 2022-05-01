@@ -64,7 +64,8 @@ const AddCardPage: BlitzPage = () => {
           <LabeledTextField
             className="font-mono"
             name="cvv"
-            label="Security code"
+            label="CVV"
+            type="password"
           />
         </div>
       </Form>

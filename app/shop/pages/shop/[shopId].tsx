@@ -1,11 +1,15 @@
 import {
   BlitzPage,
   invokeWithMiddleware,
+  Link,
   PromiseReturnType,
+  Routes,
   useSession,
 } from 'blitz'
 import { Suspense, useState } from 'react'
+import { FiEdit2 } from 'react-icons/fi'
 
+import { Button } from 'app/core/components/Button'
 import { Divider } from 'app/core/components/Divider'
 import {
   SegmentedControl,
@@ -39,7 +43,21 @@ const ShopProfilePage: BlitzPage<ShopProfilePageProps> = ({ shop }) => {
 }
 
 const ShopTopBar = ({ shop }: ShopProfilePageProps) => {
-  return <TopBar title={shop.name} />
+  const { userId } = useSession()
+  return (
+    <TopBar
+      title={shop.name}
+      actions={
+        shop.userId === userId ? (
+          <Link href={Routes.EditProfilePicture({ shopId: shop.id })} passHref>
+            <Button as="a" iconOnly buttonType="transparent">
+              <FiEdit2 />
+            </Button>
+          </Link>
+        ) : null
+      }
+    />
+  )
 }
 
 const ShopContainer = ({ shop }: ShopProfilePageProps) => {

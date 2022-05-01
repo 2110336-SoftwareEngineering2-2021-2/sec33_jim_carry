@@ -59,7 +59,10 @@ const TransactionList = () => {
             <span className="font-regular text-small text-ink-dark">
               {transaction.type === TransactionType.ORDER
                 ? `Order: ${transaction.orderId}`
-                : `Account: xxx-x-x${transaction.bankAccount!.slice(5, 9)}-x`}
+                : `Account: xxx-x-x${transaction.bankAccount?.number.slice(
+                    5,
+                    9
+                  )}-x`}
             </span>
             <span className="font-medium text-large text-primary-dark">
               {transaction.type === TransactionType.ORDER

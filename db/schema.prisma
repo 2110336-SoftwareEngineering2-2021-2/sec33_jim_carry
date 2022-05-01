@@ -39,6 +39,7 @@ model User {
   messages     Message[]
   Transaction  Transaction[]
   reviews      Review[]
+  bankAccounts BankAccount[]
 }
 
 model Shop {
@@ -72,6 +73,16 @@ model Address {
   address      String
   phoneNo      String
   note         String?
+}
+
+model BankAccount {
+  id          Int           @id @default(autoincrement())
+  bank        String
+  name        String
+  number      String
+  User        User?         @relation(fields: [userId], references: [id])
+  userId      Int?
+  Transaction Transaction[]
 }
 
 model Product {
@@ -239,12 +250,12 @@ model Transaction {
   amount    Float
   type      TransactionType
 
-  user        User    @relation(fields: [userId], references: [id])
-  userId      Int
-  Order       Order?  @relation(fields: [orderId], references: [id])
-  orderId     Int?
-  bank        String?
-  bankAccount String?
+  user          User         @relation(fields: [userId], references: [id])
+  userId        Int
+  Order         Order?       @relation(fields: [orderId], references: [id])
+  orderId       Int?
+  bankAccount   BankAccount? @relation(fields: [bankAccountId], references: [id])
+  bankAccountId Int?
 }
 
 enum TokenType {

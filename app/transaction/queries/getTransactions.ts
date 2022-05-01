@@ -18,6 +18,7 @@ const getTransactions = resolver.pipe(
             shop: true,
           },
         },
+        bankAccount: true,
       },
       orderBy: {
         createdAt: 'desc',

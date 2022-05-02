@@ -2,6 +2,8 @@ import { resolver } from 'blitz'
 import db from 'db'
 import { z } from 'zod'
 
+import { RedirectableErorr } from 'app/core/utils/RedirectableError'
+
 /**
  * Get the id of the chat between the user and a shop. If such chat doesn't exist, a new one is created.
  *
@@ -22,6 +24,13 @@ const createChat = resolver.pipe(
       },
       rejectOnNotFound: true,
     })
+
+    if (currentUserId === shopOwnerId) {
+      throw new RedirectableErorr('Cannot chat with yourself', {
+        destination: 'https://c.tenor.com/sepFV6AhBQUAAAAd/wall-talk.gif',
+        permanent: false,
+      })
+    }
 
     const chat = await db.chat.findFirst({
       where: {

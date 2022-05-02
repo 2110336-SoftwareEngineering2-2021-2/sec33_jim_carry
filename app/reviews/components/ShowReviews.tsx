@@ -1,4 +1,4 @@
-import { useQuery } from 'blitz'
+import { Link, Routes, useQuery } from 'blitz'
 
 import { Spinner } from 'app/core/components/Spinner'
 import { Star } from 'app/core/components/Star'
@@ -62,9 +62,14 @@ export default function ShowReviews({ productId, shopId }: ShowReviewsProps) {
                   <p className="text-tiny leading-normal font-regular text-ink-lighter">
                     on
                   </p>
-                  <p className="text-tiny leading-normal font-bold text-ink-lighter">
-                    {review.product.name}
-                  </p>
+                  <Link
+                    href={Routes.ProductDetail({ pid: review.product.id })}
+                    passHref
+                  >
+                    <a className="text-tiny leading-normal font-bold text-ink-lighter">
+                      {review.product.name}
+                    </a>
+                  </Link>
                 </div>
               ) : null}
             </div>

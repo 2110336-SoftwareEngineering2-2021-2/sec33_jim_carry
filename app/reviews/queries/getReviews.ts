@@ -29,7 +29,7 @@ const getReviews = resolver.pipe(
         orderBy: { createdAt: 'desc' },
         include: {
           user: { select: { name: true } },
-          product: { select: { name: true } },
+          product: { select: { id: true, name: true } },
         },
       })
     }

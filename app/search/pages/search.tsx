@@ -35,7 +35,11 @@ function SearchComp({
     tag: tag,
   })
 
-  return <>{text && <SearchWithQuery products={products} />}</>
+  if (!(text || tag)) {
+    return <SearchWithoutQuery />
+  }
+
+  return <SearchWithQuery products={products} />
 }
 
 export const Search: BlitzPage = () => {
@@ -49,27 +53,27 @@ export const Search: BlitzPage = () => {
   const tags = [
     {
       key: 1,
-      name: 'Adidas',
+      name: 'premium',
     },
     {
       key: 2,
-      name: 'Shoes',
+      name: 'digital',
     },
     {
       key: 3,
-      name: 'Watches',
+      name: 'watch',
     },
     {
       key: 4,
-      name: 'Nike',
+      name: 'adidas',
     },
     {
       key: 5,
-      name: 'Bags',
+      name: 'bags',
     },
     {
       key: 6,
-      name: 'Cameras',
+      name: 'clothes',
     },
   ]
 
@@ -91,7 +95,6 @@ export const Search: BlitzPage = () => {
         />
       </div>
       <SearchWithTag tags={tags} tag={tag} setTag={setTag} />
-      {!text && <SearchWithoutQuery />}
       <Suspense fallback={<Spinner />}>
         <SearchComp text={text} order={order} sortBy={sortBy} tag={tag} />
       </Suspense>

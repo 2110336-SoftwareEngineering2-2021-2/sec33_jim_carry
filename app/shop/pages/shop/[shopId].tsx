@@ -43,7 +43,7 @@ const ShopProfilePage: BlitzPage<ShopProfilePageProps> = ({ shop }) => {
 }
 
 const ShopTopBar = ({ shop }: ShopProfilePageProps) => {
-  const { userId } = useSession()
+  const { userId } = useSession({ suspense: false })
   return (
     <TopBar
       title={shop.name}

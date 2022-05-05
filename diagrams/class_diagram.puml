@@ -1,45 +1,6 @@
 @startuml Class Diagram
 
 namespace Order {
-  class Order <<Entity>> {
-    + id: number
-    + owner: User
-    + shop: Shop
-
-    + status: OrderStatus
-    + totalPrice: number
-    + chargeId: string
-    + items: OrderItemSnapshot
-
-    + address: string
-    + addressNote: string
-    + receiverName: string
-    + receiverPhoneNo: string
-
-    + transaction: Transaction[]
-
-    + {static} findFirst()
-    + {static} findUnique()
-    + {static} findMany()
-    + {static} create()
-    + {static} update()
-    + {static} count()
-  }
-
-  class OrderItemSnapshot <<Entity>> {
-    + id: number
-    + order: Order
-    + product: Product
-
-    + name: string
-    + description: string
-    + price: float
-    + soldPrice: float
-    + images: string[]
-  }
-
-  Order "1..1" -- "0..*" OrderItemSnapshot: contains >
-
   class OrderQueries <<Controller>> {
     + int countSoldOrders()
     + Order getOrder()
@@ -50,25 +11,9 @@ namespace Order {
   class OrderMutations <<Controller>> {
     + Order updateOrderStatus()
   }
-
-  OrderQueries "1..1" -- "0..*" Order: queries >
-  OrderMutations "1..1" -- "1..*" Order: mutates >
 }
 
 namespace Review {
-  class Review <<Entity>> {
-    + id: number
-    + shop: Shop
-    + user: User
-    + product: Product
-    + rating: float
-    + title: string
-    + comment: string
-
-    + {static} findMany()
-    + {static} createMany()
-    + {static} aggregate()
-  }
 
   class ReviewQueries <<Controller>> {
     + (double, int) getRating()
@@ -79,9 +24,29 @@ namespace Review {
     + Review writeReview()
   }
 
-  ReviewQueries "1..1" -- "0..*" Review: queries >
-  ReviewMutations "1..1" -- "1..*" Review: mutates >
-  ReviewMutations "1..1" -- "1..*" Order.Order: queries and mutates >
+}
+
+namespace Prisma {
+  class Order <<Repository>> {
+    + {static} findFirst()
+    + {static} findUnique()
+    + {static} findMany()
+    + {static} create()
+    + {static} update()
+    + {static} count()
+  }
+
+  class Review <<Repository>> {
+    + {static} findMany()
+    + {static} createMany()
+    + {static} aggregate()
+  }
+
+  Order.OrderQueries "1..1" -- "1..1" Order: call >
+  Order.OrderMutations "1..1" -- "1..1" Order: call >
+  Review.ReviewQueries "1..1" -- "1..1" Review: call >
+  Review.ReviewMutations "1..1" -- "1..1" Review: call >
+  Review.ReviewMutations "1..1" -- "1..1" Order: call >
 }
 
 
